@@ -35,7 +35,7 @@ namespace Gra
 
         public QuestManager ActiveQuests;
         public List<Quest> Quests;
-        public List<Quest> QuestsDone;
+       // public List<Quest> QuestsDone;
 
         // Rozkazy
         public bool PickItemOrder;
@@ -152,7 +152,7 @@ namespace Gra
 
             ActiveQuests = new QuestManager();
             Quests = new List<Quest>();
-            QuestsDone = new List<Quest>();
+            //QuestsDone = new List<Quest>();
 
             Statistics = new Statistics();
         }

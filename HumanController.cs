@@ -108,8 +108,23 @@ namespace Gra
                     HUDInventory.IsVisible = true;
                 if (newState == HumanControllerState.CONTAINER)
                 {
+
                     HUDContainer.IsVisible = true;
-                    HUDContainer.SelectIndex1 = -1;
+                    if (HUDContainer.Container.Contains.Count > 0)
+                    {
+                        HUDContainer.ActiveEq = 1;
+                        HUDContainer.SelectIndex2 = 0;
+                        HUDContainer.SelectIndex1 = -1;
+                    }
+                    else
+                    {
+                        HUDContainer.ActiveEq = 0;
+                        HUDContainer.SelectIndex1 = 0;
+                        HUDContainer.SelectIndex2 = -1;
+                    }
+                    
+                    
+                    
                     HUDContainer.UpdateViewAll();
                     
                     
@@ -124,7 +139,10 @@ namespace Gra
             {
                 if (newState == HumanControllerState.FREE)
                 {
+                   
+
                     HUDContainer.IsVisible = false;
+                    
                 }
             }
 

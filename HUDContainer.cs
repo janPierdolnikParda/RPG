@@ -82,6 +82,8 @@ namespace Gra
 
         public HUDContainer()
         {
+
+
             ActiveEq = 1;
 
             InventorySlot.Width = InventorySlot.Size / Engine.Singleton.Camera.AspectRatio;
@@ -119,6 +121,7 @@ namespace Gra
             
 
             IsVisible = false;
+
         }
 
         public Character Character
