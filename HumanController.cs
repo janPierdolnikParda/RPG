@@ -43,7 +43,8 @@ namespace Gra
         TalkNode CurrentNode;
 
         HUDInventory HUDInventory;
-        HUDContainer HUDContainer; 
+        HUDContainer HUDContainer;
+        HUD HUD;
 
         int FocusObjectId = 0;
 
@@ -65,6 +66,7 @@ namespace Gra
 
             HUDInventory = new HUDInventory();
             HUDContainer = new HUDContainer();
+            HUD = new HUD();
         }
 
 
@@ -337,8 +339,13 @@ namespace Gra
         {
             if (Character != null)
             {
+                HUD.IsVisible = false;
+
                 if (State == HumanControllerState.FREE)
+                {
                     HandleMovement();
+                    HUD.IsVisible = true;
+                }
                 else if (State == HumanControllerState.TALK)
                     HandleConversation();
                 else if (State == HumanControllerState.INVENTORY)
@@ -552,6 +559,11 @@ namespace Gra
                 Engine.Singleton.GameCamera.Angle = angle - new Degree(1);
             }
 
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_H))             // wyświetlanie i chowanie HUD'a
+            {
+                HUD.ToggleVisibility();
+            }
+
             if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_E))                 // @@@ Wyciąganie i chowanie miecza.
             {
                 if (Character.Sword != null && !Character.Sword.InUse)
@@ -604,6 +616,11 @@ namespace Gra
                 FocusObject = null;
                 TargetLabel.IsVisible = false;
             }
+        }
+
+        public void ToggleHud()
+        {
+            HUD.ToggleVisibility();
         }
     }
 }

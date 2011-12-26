@@ -75,8 +75,8 @@ namespace Gra
         TextLabel GoldLabel;
         SimpleQuad InventoryBg;
 
-        SimpleQuad ActiveBg;
-        TextLabel ActiveLabel;
+        SimpleQuad FreeSlotsBg;
+        TextLabel FreeSlotsLabel;
 
         public Container Container = new Container();
 
@@ -113,9 +113,9 @@ namespace Gra
             GoldLabel = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
             GoldLabel.SetPosition(0.51f, 0.13f);
 
-            ActiveBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0.5f, 0.3f, 0.2f, 0.1f, new ColourValue(1, 1, 1), 1);
-            ActiveLabel = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
-            ActiveLabel.SetPosition(0.51f, 0.33f);
+            FreeSlotsBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0.45f, 0.3f, 0.3f, 0.1f, new ColourValue(1, 1, 1), 1);
+            FreeSlotsLabel = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
+            FreeSlotsLabel.SetPosition(0.46f, 0.33f);
 
             InventoryBg = Engine.Singleton.Labeler.NewSimpleQuad("InventoryBgMaterial", 0.01f, 0.01f, 0.98f, 0.98f, new ColourValue(1, 1, 1), 0);
             
@@ -156,13 +156,12 @@ namespace Gra
             }
             
             GoldLabel.Caption = "Zloto: " + Character.Profile.Gold;
-            ActiveLabel.Caption = ActiveEq.ToString();
+            FreeSlotsLabel.Caption = "Zajete: " + Container.Contains.Count.ToString() + "/" + Container.MaxItems.ToString(); 
         }
 
         public void UpdateViewAll()
         {
-            
-                for (int i = ViewIndex2; i < ViewIndex2 + SlotsCount; i++)
+            for (int i = ViewIndex2; i < ViewIndex2 + SlotsCount; i++)
                     if (i < Container.Contains.Count)
                         Slots2[i - ViewIndex2].SetItem(Container.Contains[i]);
                     else
@@ -178,7 +177,7 @@ namespace Gra
             
 
             GoldLabel.Caption = "Zloto: " + Character.Profile.Gold;
-            ActiveLabel.Caption = ActiveEq.ToString();
+            FreeSlotsLabel.Caption = "Zajete: " + Container.Contains.Count.ToString() + "/" + Container.MaxItems.ToString(); 
         }
 
         public void UpdateItem(int i)
@@ -335,8 +334,8 @@ namespace Gra
                 GoldLabel.IsVisible = value;
                 InventoryBg.IsVisible = value;
 
-                ActiveBg.IsVisible = value;
-                ActiveLabel.IsVisible = value;
+                FreeSlotsBg.IsVisible = value;
+                FreeSlotsLabel.IsVisible = value;
 
 
 

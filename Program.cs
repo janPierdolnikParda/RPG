@@ -83,9 +83,9 @@ namespace Gra
             Engine.Singleton.SceneManager.ShadowTechnique = ShadowTechnique.SHADOWTYPE_STENCIL_MODULATIVE;
 
             Engine.Singleton.HumanController.Character = player;
-
+            
             Engine.Singleton.HumanController.Character.Inventory.Add(Items.kufelProfile);
-
+            Engine.Singleton.HumanController.ToggleHud();
 
             while (true)
             {

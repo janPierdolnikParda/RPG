@@ -134,7 +134,7 @@ namespace Gra
                 GameCamera.Update();
                 TimeAccumulator -= FixedTimeStep;
 
-                        //// mjuzik status
+                        //// mjuzik status i ogarnięcie żeby przełączało na następną piosenkę z plejlisty po zakończeniu poprzedniej
 
 
             }
