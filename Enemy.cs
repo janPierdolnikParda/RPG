@@ -146,7 +146,7 @@ namespace Gra
             //ObjectSensor.UserData = this;
             //ObjectSensor.MaterialGroupID = Engine.Singleton.MaterialManager.EnemyOrNpcSensorMaterialID;
 
-            Contacts = new List<GameObject>();
+            //Contacts = new List<GameObject>();
 
             AnimBlender = new CharacterAnimBlender();
             AnimBlender.SetEntity(Entity);
@@ -202,7 +202,7 @@ namespace Gra
 
                 PredicateRaycast raycast = new PredicateRaycast((b => !(b.UserData is TriggerVolume)));
                 raycast.Go(Engine.Singleton.NewtonWorld, Position + Profile.HeadOffset, Engine.Singleton.HumanController.Character.Position);
-                System.Console.WriteLine(raycast.Contacts.Count);
+                //System.Console.WriteLine(raycast.Contacts.Count);
                 if (raycast.Contacts.Count <= 1)
                 {
                     isSeen = true;
@@ -240,7 +240,7 @@ namespace Gra
             }
 
 
-            Contacts.Clear();
+           
         }
 
         public void TryPick(Described target)

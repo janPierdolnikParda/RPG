@@ -16,6 +16,7 @@ namespace Gra
         static public DescribedProfile krzesloProfile;
         static public DescribedProfile skrzyniaProfile;
         static public DescribedProfile kufelProfile;
+		static public DescribedProfile paleniskoProfile;
 
         public Items()
         {
@@ -87,6 +88,15 @@ namespace Gra
             kufelProfile.IsPickable = true;
             kufelProfile.Mass = 20;
             kufelProfile.InventoryPictureMaterial = "SpriteKufel";
+
+			paleniskoProfile = new DescribedProfile();
+			paleniskoProfile.BodyScaleFactor = new Vector3(1, 1, 1);
+			paleniskoProfile.MeshName = "Palenisko.mesh";
+			paleniskoProfile.DisplayName = "Palenisko";
+			paleniskoProfile.Description = "";
+			paleniskoProfile.DisplayNameOffset = new Vector3(0, 1, 0);
+			paleniskoProfile.IsPickable = false;
+			paleniskoProfile.Mass = 0;
 
         }
     }

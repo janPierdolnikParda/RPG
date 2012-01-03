@@ -63,6 +63,10 @@ namespace Gra
             vase1.Position = new Vector3(5.5f, 1.55f, -3.5f);
             Engine.Singleton.ObjectManager.Add(vase1);
 
+			Described palenisko = new Described(Items.paleniskoProfile);
+			palenisko.Position = new Vector3(-2.5f, 0, -4.0f);
+			Engine.Singleton.ObjectManager.Add(palenisko);
+
             Described sword = new Described(Items.swordProfile);
             sword.Position = new Vector3(7.5f, 2.0f, 3.0f);
             Engine.Singleton.ObjectManager.Add(sword);

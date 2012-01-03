@@ -600,11 +600,12 @@ namespace Gra
                 FocusObject = contact;
                 string lol = null;
 
-                if (contact is Enemy)
-                    lol = "\nHp: " + (contact as Enemy).Statistics.Hp + "\\" + (contact as Enemy).Statistics.MaxHp;
-               
-                if (contact.IsContainer == true)            // dodawanie Otwórz do nazwy obiektu, jeśli jest kontenerem
-                   lol = "\n(Otworz)";
+				if (contact is Enemy)
+				{
+					lol = "\nHp: " + (contact as Enemy).Statistics.Hp + "\\" + (contact as Enemy).Statistics.MaxHp;
+				}
+                else if (contact.IsContainer == true)            // dodawanie Otwórz do nazwy obiektu, jeśli jest kontenerem
+					lol = "\n(Otworz)";
 
                 TargetLabel.Caption = contact.DisplayName + lol;
                 TargetLabel.Position3D = contact.Position + contact.DisplayNameOffset;

@@ -23,6 +23,7 @@ namespace Gra
         MaterialPair SensorTriggerVolumePair;
         MaterialPair DescribedTriggerVolumePair;
         MaterialPair EnemyTriggerVolumePair;
+		MaterialPair EnemySensorPair;
 
 
         public void Initialise()
@@ -68,6 +69,11 @@ namespace Gra
                 Engine.Singleton.NewtonWorld,
                 EnemyMaterialID, TriggerVolumeMaterialID);
             EnemyTriggerVolumePair.SetContactCallback(new IgnoreCollisionCallback());
+
+			EnemySensorPair = new MaterialPair(
+				Engine.Singleton.NewtonWorld,
+				EnemyMaterialID, CharacterSensorMaterialID);
+			EnemySensorPair.SetContactCallback(new SensorGameObjectCallback());
 
         }
 
