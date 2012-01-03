@@ -34,7 +34,7 @@ namespace Gra
         {
             Quests[Quests.IndexOf(quest)].IsFinished = true;
             Quests[Quests.IndexOf(quest)].GivePrize();
-            
+            Quests[Quests.IndexOf(quest)].RemoveItems();
         }
     }
 }

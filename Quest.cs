@@ -17,7 +17,7 @@ namespace Gra
         }
 
         public string Name;
-        QuestTypes QuestType;
+        public QuestTypes QuestType;
         Prize QuestPrize;
 
         int killAmount;
@@ -103,6 +103,31 @@ namespace Gra
 
             foreach (DescribedProfile I in QuestPrize.ItemsList)
                 Engine.Singleton.HumanController.Character.Inventory.Add(I);
+        }
+
+        public void RemoveItems()
+        {
+            int Licznik = 0;
+
+            List<DescribedProfile> Ajtemy = new List<DescribedProfile>();
+
+            if (QuestType == QuestTypes.BRING)
+            {
+                foreach (DescribedProfile Item in Engine.Singleton.HumanController.Character.Inventory)
+                {
+                    if (Licznik == bringAmount)
+                        break;
+
+                    if (Item.DisplayName == bringWhat.DisplayName)
+                    {
+                        Ajtemy.Add(Item);
+                        Licznik++;
+                    }
+                }
+            }
+
+            foreach (DescribedProfile Ajtem in Ajtemy)
+                Engine.Singleton.HumanController.Character.Inventory.Remove(Ajtem);
         }
 
     }
