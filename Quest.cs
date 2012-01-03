@@ -23,7 +23,7 @@ namespace Gra
         int killAmount;
         //Enemy killWhat;
 
-        int bringAmount;
+        public int bringAmount;
         DescribedProfile bringWhat;
 
         int visitsAmount;
@@ -57,14 +57,19 @@ namespace Gra
 
         public void MakeDone()
         {
+            int Licznik = 0;
+
             if (QuestType == QuestTypes.BRING)
             {
                 foreach (DescribedProfile Item in Engine.Singleton.HumanController.Character.Inventory)
                 {
                     if (Item.DisplayName == bringWhat.DisplayName)
                     {
-                        isDone = true;
+                        Licznik++;
                     }
+
+                    if (Licznik == bringAmount)
+                        isDone = true;
                 }
             }
         }
@@ -80,6 +85,9 @@ namespace Gra
         public void Check()
         {
             bool Flaga = false;
+
+            int Licznik = 0;
+
             if (QuestType == QuestTypes.BRING)
             {
                 foreach (DescribedProfile Item in Engine.Singleton.HumanController.Character.Inventory)
@@ -87,8 +95,11 @@ namespace Gra
                     if (Item.DisplayName == bringWhat.DisplayName)
                     {
                         //Console.WriteLine(Item.DisplayName);
-                        Flaga = true;
+                        Licznik++;
                     }
+
+                    if (Licznik == bringAmount)
+                        Flaga = true;
                 }
 
                 if (!Flaga)
