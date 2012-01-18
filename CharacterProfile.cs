@@ -8,6 +8,7 @@ namespace Gra
 {
     public class CharacterProfile
     {
+        public String ProfileName;
         // Nazwa pliku siatki postaci
         public String MeshName;
         // Masa ciała potrzebna Newtonowi
