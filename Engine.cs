@@ -84,7 +84,7 @@ namespace Gra
             Keyboard = (MOIS.Keyboard)InputManager.CreateInputObject(MOIS.Type.OISKeyboard, false);
             Mouse = (MOIS.Mouse)InputManager.CreateInputObject(MOIS.Type.OISMouse, false);
 
-            NewtonWorld = new World();
+			NewtonWorld = new World();
             NewtonDebugger = new Debugger(NewtonWorld);
             NewtonDebugger.Init(SceneManager);
 
