@@ -13,7 +13,7 @@ namespace Gra
         public string DisplayName;
         public Vector3 DisplayNameOffset;
         public Vector3 BodyScaleFactor;
-        public Single Mass;
+        public float Mass;
         public Boolean IsPickable;
         public string InventoryPictureMaterial;
         public bool IsEquipment;
