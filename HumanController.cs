@@ -275,13 +275,13 @@ namespace Gra
             }
             else if (TalkState == HumanTalkState.CHOOSING_REPLY)
             {
-                if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_DOWN))
+                if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_S))
                 {
                     SelectedReply++;
                     if (SelectedReply == ValidReplies.Count)
                         SelectedReply = 0;
                 }
-                if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_UP))
+                if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_W))
                 {
                     SelectedReply--;
                     if (SelectedReply == -1)
@@ -299,12 +299,12 @@ namespace Gra
 
         private void HandleInventory()                               // @@ funkcja odpowiedzialna za obsługę ekwipunku
         {
-            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_DOWN))      // następny przedmiot z listy
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_S))      // następny przedmiot z listy
                 HUDInventory.SelectIndex++;
-            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_UP))        // poprzedni przedmiot z listy
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_W))        // poprzedni przedmiot z listy
                 HUDInventory.SelectIndex--;
 
-            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_LMENU))     // wyrzucenie wybranego przedmiotu
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_Q))     // wyrzucenie wybranego przedmiotu
             {
                 if (HUDInventory.SelectIndex != -1)
                 {
@@ -316,7 +316,7 @@ namespace Gra
                 }
             }
 
-            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_RCONTROL))              // założenie / zdjęcie wybranego przedmiotu
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F))              // założenie / zdjęcie wybranego przedmiotu
             {
                 if (HUDInventory.SelectIndex != -1)
                 {
@@ -357,7 +357,7 @@ namespace Gra
 
         private void HandleContainer()      // @@ funkcja odpowiedzialna za obsługę kontenerów
         {
-            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_DOWN))      // następny przedmiot z listy
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_S))      // następny przedmiot z listy
             {
                 if (HUDContainer.ActiveEq == 1)
                     HUDContainer.SelectIndex2++;
@@ -366,7 +366,7 @@ namespace Gra
 
                 HUDContainer.UpdateView();
             }
-            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_UP))        // poprzedni przedmiot z listy
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_W))        // poprzedni przedmiot z listy
             {
                 if (HUDContainer.ActiveEq == 1)
                     HUDContainer.SelectIndex2--;
@@ -375,7 +375,7 @@ namespace Gra
 
                 HUDContainer.UpdateView();
             }
-            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_LEFT))  // zmiana aktualnego ekwipunku
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_A))  // zmiana aktualnego ekwipunku
             {
                 if (HUDContainer.ActiveEq == 1)
                 {
@@ -384,7 +384,7 @@ namespace Gra
                     HUDContainer.SelectIndex1 = 0;
                 }
             }
-            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_RIGHT)) // zmiana aktualnego ekwipunku
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_D)) // zmiana aktualnego ekwipunku
             {
                 if (HUDContainer.ActiveEq == 0)
                 {
@@ -396,7 +396,7 @@ namespace Gra
                 HUDContainer.UpdateView();
             }
             
-            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_RCONTROL))              // przerzucenie przedmiotu między ekwipunkami
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F))              // przerzucenie przedmiotu między ekwipunkami
             {
                 if (HUDContainer.ActiveEq == 1 && HUDContainer.SelectIndex2 != -1)
                 {
@@ -429,7 +429,7 @@ namespace Gra
             Quaternion rotation = new Quaternion();
             rotation.FromAngleAxis(new Degree(2), Vector3.UNIT_Y);
 
-            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_RCONTROL))     // podnoszenie, otwieranie, itp. 
+            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_F))     // podnoszenie, otwieranie, itp. 
             {
                 if (FocusObject != null)
                 {
@@ -468,7 +468,7 @@ namespace Gra
                 Console.WriteLine(Character.Position.z);
             }
 
-            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_F))           // wypisanie w konsoli aktywnych kłestów
+            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_B))           // wypisanie w konsoli aktywnych kłestów
             {
                 Console.WriteLine("Aktywne Questy: ");
                 foreach (Quest Q in Engine.Singleton.HumanController.Character.ActiveQuests.Quests)
