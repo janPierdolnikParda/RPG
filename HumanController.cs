@@ -435,13 +435,17 @@ namespace Gra
                 {
                     if (FocusObject is Described)
                     {
-                        if ((FocusObject as Described).IsPickable)
-                            Character.TryPick(FocusObject as Described);
-                        if ((FocusObject as Described).IsContainer)             // czy jest kontenerem
-                        {
-                            HUDContainer.Container = (FocusObject as Described).Container;
-                            SwitchState(HumanControllerState.CONTAINER);
-                        }
+						if ((FocusObject as Described).IsPickable)
+							Character.TryPick(FocusObject as Described);
+						else if ((FocusObject as Described).IsContainer)             // czy jest kontenerem
+						{
+							HUDContainer.Container = (FocusObject as Described).Container;
+							SwitchState(HumanControllerState.CONTAINER);
+						}
+						else														// AKTYWATOR!!!!!! WOLOLO!
+						{
+							(FocusObject as Described).PerformAkt = true;
+						}
                     }
                     if (FocusObject is Character)
                     {

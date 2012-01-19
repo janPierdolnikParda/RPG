@@ -25,7 +25,7 @@ namespace Gra
            // Engine.Singleton.CurrentLevel.SetGraphicsMesh("World.mesh");
            // Engine.Singleton.CurrentLevel.SetCollisionMesh("World.mesh");
 
-            Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "NavMesh", true);
+            Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "NavMesh", false);
             Engine.Singleton.Load();
 
             TriggerVolume triggerVolume = new TriggerVolume();

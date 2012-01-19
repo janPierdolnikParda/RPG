@@ -17,10 +17,12 @@ namespace Gra
 
         // czanele
         FMOD.Channel ChannelBGM = null;
+		FMOD.Channel ChannelDialog = null;
 
 
         // aktualnie wybrane do odtwarzania dźwięki
         FMOD.Sound SoundBGM = null;
+		FMOD.Sound SoundDialog = null;
 
 
         // czy dany dźwięk jest odtwarzany
@@ -106,10 +108,21 @@ namespace Gra
                 _volume = value;
 
                 ChannelBGM.setVolume(value);
-                
+				ChannelDialog.setVolume(value);
                 //...
             }
         }
+
+		public void PlayDialog(string path)
+		{
+			string play;
+
+			play = "Media/Sounds/Dialogs/" + path;
+
+			Result = System.createStream(play, FMOD.MODE.DEFAULT, ref SoundDialog);
+
+			Result = System.playSound(FMOD.CHANNELINDEX.REUSE, SoundDialog, false, ref ChannelDialog);
+		}
 
 
     }

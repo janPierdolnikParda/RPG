@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Mogre;
 using MogreNewt;
+using System.Reflection;
 
 namespace Gra
 {
@@ -16,6 +17,16 @@ namespace Gra
         Body Body;
 
         public Container Container = new Container();
+
+
+		//public delegate void Akt();
+		//public event Akt Aktywator;
+
+		public bool PerformAkt = false;
+
+		Type Type;
+		MethodInfo Method;
+		object Instance;
 
 
 
@@ -31,8 +42,15 @@ namespace Gra
 
             Vector3 scaledSize = Entity.BoundingBox.Size * Profile.BodyScaleFactor;
 
-        
-           
+			string a = "soundOddawajPiec"; // tymczasowe
+			
+			Type = Type.GetType("Gra.Activators");
+            Instance = Activator.CreateInstance(Type);
+
+			Method = Type.GetMethod(a);
+			//Method = Type.GetMember(profile.Activator);    // <--- zamienić potem na to jak już będzie wczytywał Activator z xmla
+
+
 
             ConvexCollision coll = new MogreNewt.CollisionPrimitives.ConvexHull(Engine.Singleton.NewtonWorld, 
                 Node, 
@@ -61,6 +79,7 @@ namespace Gra
             get { return Profile.IsPickable; }
         }
 
+		
         
 
         public void TurnTo(Vector3 point)
@@ -77,6 +96,12 @@ namespace Gra
 
         public override void Update()
         {
+			if (PerformAkt)
+			{
+				Method.Invoke(Instance, null);
+				PerformAkt = false;
+			}
+
         }
         public override Vector3 Position
         {
