@@ -458,7 +458,7 @@ namespace Gra
             if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_Z))         // tzw. skok
                 Character.Position = new Vector3(Character.Position.x, Character.Position.y + 1, Character.Position.z);
 
-            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_S))          // wypisanie w konsoli aktualnej pozycji postaci
+            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_X))          // wypisanie w konsoli aktualnej pozycji postaci
             {
                 Console.Write("Pozycja: ");
                 Console.Write(Character.Position.x);
@@ -508,12 +508,12 @@ namespace Gra
             }
 
 
-            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_LEFT))          // obrót postaci
+            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_A))          // obrót postaci
                 Character.TurnDelta = 2;
-            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_RIGHT))
+            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_D))
                 Character.TurnDelta = -2;
 
-            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_UP))            // chodzenie do przodu +bieganie
+            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_W))            // chodzenie do przodu +bieganie
             {
                 Character.MoveOrder = true;
                 Character.MoveOrderBack = false;
@@ -530,8 +530,8 @@ namespace Gra
                 Character.MoveOrder = false;
                 Character.RunOrder = false;
             }
-
-            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_DOWN))          // "chodzenie" do tyłu. W aktualnej wersji 
+				
+            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_S))			    // "chodzenie" do tyłu. W aktualnej wersji 
             {                                                                       // przesuwanie o wektor przeciwny w osiach 
                 Character.MoveOrder = false;                                        // x i z do wektora skierowanego do przodu
                 Character.MoveOrderBack = true;                                     // postaci

@@ -32,7 +32,7 @@ namespace Gra
 
 
             XmlDocument File = new XmlDocument();
-            File.Load("Media\\items.xml");
+			File.Load("Media\\Profiles\\Items.xml");
 
             XmlElement root = File.DocumentElement;
             XmlNodeList Items = root.SelectNodes("//items/item");
