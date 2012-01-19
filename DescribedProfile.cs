@@ -17,6 +17,7 @@ namespace Gra
         public Boolean IsPickable;
         public String InventoryPictureMaterial;
         public bool IsEquipment;
+        public String ProfileName;
 
 
 

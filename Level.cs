@@ -17,6 +17,8 @@ namespace Gra
 
         Body Body;
 
+        public String Name;
+
         public NavMesh navMesh = new NavMesh();
 
         void SetGraphicsMesh(String meshFile)
@@ -47,7 +49,9 @@ namespace Gra
         }
 
         public void LoadLevel(String LevelName, String NavMeshName, bool isTheSame = false)  //////////@@@@@@@@@@@@@@@@@@ tu pewnie jeszcze navmesza
-        {                                                               // trza będzie walnąć, żeby wszystko ładnie się razem ładowało
+        {
+                                                               // trza będzie walnąć, żeby wszystko ładnie się razem ładowało
+            this.Name = LevelName;
             String Name = LevelName + ".mesh";
             NavMeshName = "Media/nav/" + NavMeshName + ".obj";
             SetGraphicsMesh(Name);
