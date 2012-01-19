@@ -7,6 +7,7 @@ namespace Gra
 {
     public class Prize
     {
+        public String PrizeID;
         public int AmountExp;
         public int AmountGold;
         public List<DescribedProfile> ItemsList;
@@ -17,6 +18,11 @@ namespace Gra
             AmountGold = Gold;
             ItemsList = new List<DescribedProfile>();
             ItemsList = List;
+        }
+
+        public Prize()
+        {
+            ItemsList = new List<DescribedProfile>();
         }
 
         public Prize(int Exp, int Gold, DescribedProfile Item)

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Mogre;
 using MogreNewt;
+using System.IO;
+using System.Xml;
 
 namespace Gra
 {
@@ -139,6 +141,127 @@ namespace Gra
 
             }
             WindowEventUtilities.MessagePump();
+        }
+
+        public void Load()
+        {
+            while (Engine.Singleton.ObjectManager.Objects.Count > 0)
+                Engine.Singleton.ObjectManager.Destroy(Engine.Singleton.ObjectManager.Objects[0]);
+
+            //*************************************************************//
+            //                                                             //
+            //                            ITEMY                            //
+            //                                                             //
+            //*************************************************************//
+
+            if (System.IO.File.Exists("Media\\Maps\\" + CurrentLevel.Name + "\\Items.xml"))
+            {
+                XmlDocument File = new XmlDocument();
+                File.Load("Media\\Maps\\" + CurrentLevel.Name + "\\Items.xml");
+
+                XmlElement root = File.DocumentElement;
+                XmlNodeList Items = root.SelectNodes("//items/item");
+
+                foreach (XmlNode item in Items)
+                {
+                    if (item["DescribedProfile"].InnerText != "")
+                    {
+                        Described newDescribed = new Described(Gra.Items.I[item["DescribedProfile"].InnerText]);
+                        Vector3 Position = new Vector3();
+
+                        Quaternion Orientation = new Quaternion(float.Parse(item["Orientation_w"].InnerText), float.Parse(item["Orientation_x"].InnerText), float.Parse(item["Orientation_y"].InnerText), float.Parse(item["Orientation_z"].InnerText));
+                        newDescribed.Orientation = Orientation;
+
+                        Position.x = float.Parse(item["Position_x"].InnerText);
+                        Position.y = float.Parse(item["Position_y"].InnerText);
+                        Position.z = float.Parse(item["Position_z"].InnerText);
+                        newDescribed.Position = Position;
+
+                        Engine.Singleton.ObjectManager.Add(newDescribed);
+                    }
+
+                    if (item["ItemSword"].InnerText != "")
+                    {
+                        Described newDescribed = new Described(Gra.Items.I[item["ItemSword"].InnerText]);
+                        Vector3 Position = new Vector3();
+
+                        Quaternion Orientation = new Quaternion(float.Parse(item["Orientation_w"].InnerText), float.Parse(item["Orientation_x"].InnerText), float.Parse(item["Orientation_y"].InnerText), float.Parse(item["Orientation_z"].InnerText));
+                        newDescribed.Orientation = Orientation;
+
+                        Position.x = float.Parse(item["Position_x"].InnerText);
+                        Position.y = float.Parse(item["Position_y"].InnerText);
+                        Position.z = float.Parse(item["Position_z"].InnerText);
+                        newDescribed.Position = Position;
+
+                        Engine.Singleton.ObjectManager.Add(newDescribed);
+                    }
+                }
+            }
+
+            //*************************************************************//
+            //                                                             //
+            //                            NPCs                             //
+            //                                                             //
+            //*************************************************************//
+
+            if (System.IO.File.Exists("Media\\Maps\\" + CurrentLevel.Name + "\\NPCs.xml"))
+            {
+                XmlDocument File = new XmlDocument();
+                File.Load("Media\\Maps\\" + CurrentLevel.Name + "\\NPCs.xml");
+
+                XmlElement root = File.DocumentElement;
+                XmlNodeList Items = root.SelectNodes("//npcs//npc");
+
+                foreach (XmlNode item in Items)
+                {
+                    Console.WriteLine(item["ProfileName"].InnerText);
+                    Character newCharacter = new Character(CharacterProfileManager.C[item["ProfileName"].InnerText]);
+                    Vector3 Position = new Vector3();
+
+                    Quaternion Orientation = new Quaternion(float.Parse(item["Orientation_w"].InnerText), float.Parse(item["Orientation_x"].InnerText), float.Parse(item["Orientation_y"].InnerText), float.Parse(item["Orientation_z"].InnerText));
+                    newCharacter.Orientation = Orientation;
+
+                    Position.x = float.Parse(item["Position_x"].InnerText);
+                    Position.y = float.Parse(item["Position_y"].InnerText);
+                    Position.z = float.Parse(item["Position_z"].InnerText);
+                    newCharacter.Position = Position;
+
+                    Engine.Singleton.ObjectManager.Add(newCharacter);
+                }
+            }
+
+            //*************************************************************//
+            //                                                             //
+            //                           ENEMIES                           //
+            //                                                             //
+            //*************************************************************//
+
+            if (System.IO.File.Exists("Media\\Maps\\" + CurrentLevel.Name + "\\Enemies.xml"))
+            {
+                XmlDocument File = new XmlDocument();
+                File.Load("Media\\Maps\\" + CurrentLevel.Name + "\\Enemies.xml");
+
+                XmlElement root = File.DocumentElement;
+                XmlNodeList Items = root.SelectNodes("//enemies//enemy");
+
+                foreach (XmlNode item in Items)
+                {
+                    Enemy newCharacter = new Enemy(Gra.CharacterProfileManager.E[item["ProfileName"].InnerText], false, 10, 5);
+                    Vector3 Position = new Vector3();
+
+                    Quaternion Orientation = new Quaternion(float.Parse(item["Orientation_w"].InnerText), float.Parse(item["Orientation_x"].InnerText), float.Parse(item["Orientation_y"].InnerText), float.Parse(item["Orientation_z"].InnerText));
+                    newCharacter.Orientation = Orientation;
+
+                    Position.x = float.Parse(item["Position_x"].InnerText);
+                    Position.y = float.Parse(item["Position_y"].InnerText);
+                    Position.z = float.Parse(item["Position_z"].InnerText);
+                    newCharacter.Position = Position;
+
+                    newCharacter.Statistics = new Statistics(20, 0);
+
+                    Engine.Singleton.ObjectManager.Add(newCharacter);
+                }
+            }
         }
 
         public bool IsKeyTyped(MOIS.KeyCode code)

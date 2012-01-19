@@ -12,7 +12,7 @@ namespace Gra
         public Quests()
         {
             Quest1 = new Quest("Pierwszy", Quest.QuestTypes.BRING, 1, PrizeManager.Prize1);
-            Quest1.AddItem(Items.butelkaProfile);
+            Quest1.AddItem(Items.I["iButelka"]);
         }
     }
 }
