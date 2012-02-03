@@ -261,9 +261,43 @@ namespace Gra
                 new DecTree.FirstSucc(HideSwordSeq, cleanUpHideSword),
                 cleanUpHideSword);
 
+			////////////////////////////////////////////////////////////////////////////////////////////////
+			// go left
+			DecTree.FirstFail go_left = new DecTree.FirstFail(
+			   new DecTree.Assert(ch => ch.MoveLeftOrder),
+			   new DecTree.Job(ch =>
+			   {
+				    Quaternion orient = Quaternion.IDENTITY;
+				    orient.FromAngleAxis(new Degree(90), Vector3.UNIT_Y);
+				    ch.Velocity = ch.Orientation * orient * Vector3.UNIT_Z * ch.Profile.WalkSpeed;
+					ch.AnimBlender.SetAnimSet("Idle");  // ### ANIMACJA CHODZENIA!
+
+				   return true;
+			   }),
+			   TurnJob);
+
+			DecTree.FirstFail go_right = new DecTree.FirstFail(
+			   new DecTree.Assert(ch => ch.MoveRightOrder),
+			   new DecTree.Job(ch =>
+			   {
+				   Quaternion orient = Quaternion.IDENTITY;
+				   orient.FromAngleAxis(new Degree(-90), Vector3.UNIT_Y);
+				   ch.Velocity = ch.Orientation * orient * Vector3.UNIT_Z * ch.Profile.WalkSpeed;
+				   ch.AnimBlender.SetAnimSet("Idle");  // ### ANIMACJA CHODZENIA!
+
+				   return true;
+			   }),
+			   TurnJob);
+
+
+
+
+
             Children.Add(getSwordNode);
             Children.Add(hideSwordNode);
             Children.Add(walkNodeBack);
+			Children.Add(go_left);
+			Children.Add(go_right);
 
             Children.Add(pickItemNode);
             Children.Add(followPathNode);

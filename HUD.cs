@@ -10,6 +10,7 @@ namespace Gra
     {
         SimpleQuad CompassBg;
         TextLabel CompassLabel;
+		SimpleQuad Crosshair;
 
         bool _isVisible;
 
@@ -20,8 +21,9 @@ namespace Gra
             CompassLabel = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
             CompassLabel.SetPosition(0.11f, 0.13f);
 
+			Crosshair = Engine.Singleton.Labeler.NewSimpleQuad("CrosshairMat", Engine.Singleton.GetFloatFromPxWidth(((int)Engine.Singleton.Root.AutoCreatedWindow.Width / 2) - 10), Engine.Singleton.GetFloatFromPxHeight(((int)Engine.Singleton.Root.AutoCreatedWindow.Height / 2) - 10), Engine.Singleton.GetFloatFromPxWidth(20), Engine.Singleton.GetFloatFromPxHeight(20), new ColourValue(1, 1, 1), 2);
 
-            IsVisible = false;
+			IsVisible = false;
         }
 
         public Character Character
@@ -32,14 +34,20 @@ namespace Gra
             }
         }
 
+		public Radian getRotationY()
+		{
+			Matrix3 orientMatrix;
+			orientMatrix = Character.Orientation.ToRotationMatrix();
+
+			Radian yRad, pRad, rRad;
+			orientMatrix.ToEulerAnglesYXZ(out yRad, out pRad, out rRad);
+
+			return yRad;
+		}
+
         public void UpdateView()
         {
-            
-            Degree deg;
-            Vector3 v;
-            Character.Orientation.ToAngleAxis(out deg, out v);
-            
-            CompassLabel.Caption = deg.ValueAngleUnits.ToString();  
+			CompassLabel.Caption = getRotationY().ValueDegrees.ToString(); 
         }
 
         public bool IsVisible
@@ -49,6 +57,7 @@ namespace Gra
 
                 CompassBg.IsVisible = value;
                 CompassLabel.IsVisible = value;
+				Crosshair.IsVisible = value;
 
                 if (value)
                 {

@@ -25,7 +25,7 @@ namespace Gra
            // Engine.Singleton.CurrentLevel.SetGraphicsMesh("World.mesh");
            // Engine.Singleton.CurrentLevel.SetCollisionMesh("World.mesh");
 
-            Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "NavMesh", false);
+            Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "NavMesh");
             Engine.Singleton.Load();
 
             TriggerVolume triggerVolume = new TriggerVolume();
@@ -40,8 +40,14 @@ namespace Gra
             player.Position = new Vector3(7.4251f, 0.2231f, -1.0019f);
             Engine.Singleton.ObjectManager.Add(player);
 
+            Character enpec = new Character(CharacterProfileManager.character);
+            enpec.Position = new Vector3(0.0f, 0.0f, 0.0f);
+            enpec.TalkRoot = Engine.Singleton.Dialog.Reactions.Values.ElementAt(0);
+            enpec.DisplayName = "Endrju";
+            Engine.Singleton.ObjectManager.Add(enpec);
+
             Engine.Singleton.GameCamera.Character = player;
-            Engine.Singleton.GameCamera.Distance = 4;
+            Engine.Singleton.GameCamera.Distance = 3;
             Engine.Singleton.GameCamera.Angle = new Degree(20);
 
             Light light = Engine.Singleton.SceneManager.CreateLight();
@@ -55,6 +61,8 @@ namespace Gra
             
             Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["iKufel"]);
             Engine.Singleton.HumanController.ToggleHud();
+
+
 
             while (true)
             {

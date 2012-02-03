@@ -22,7 +22,7 @@ namespace Gra
             character = new CharacterProfile();
             character.BodyMass = 70;
             character.BodyScaleFactor = new Vector3(1.5f, 1, 1.5f);
-            character.HeadOffset = new Vector3(0, 0.8f, 0);
+            character.HeadOffset = new Vector3(0, 1.4f, 0);
             character.MeshName = "Man.mesh";
             character.WalkSpeed = 1.85f;
             character.PictureMaterial = "AdamMaterial";
@@ -52,6 +52,8 @@ namespace Gra
                     Kriper.HeadOffset.y = float.Parse(item["HeadOffset_y"].InnerText);
                     Kriper.HeadOffset.z = float.Parse(item["HeadOffset_z"].InnerText);
                     Kriper.ProfileName = item["ProfileName"].InnerText;
+                    Kriper.FriendlyType = (Character.FriendType)int.Parse(item["FriendlyType"].InnerText);
+                    Kriper.Statistics = new Statistics(int.Parse(item["WalkaWrecz"].InnerText), int.Parse(item["Sila"].InnerText), int.Parse(item["Opanowanie"].InnerText), int.Parse(item["Wytrzymalosc"].InnerText), int.Parse(item["Zrecznosc"].InnerText), int.Parse(item["Charyzma"].InnerText), int.Parse(item["Zywotnosc"].InnerText));
 
                     C.Add(Kriper.ProfileName, Kriper);
                 }
@@ -83,6 +85,10 @@ namespace Gra
                     Kriper.HeadOffset.y = float.Parse(item["HeadOffset_y"].InnerText);
                     Kriper.HeadOffset.z = float.Parse(item["HeadOffset_z"].InnerText);
                     Kriper.ProfileName = item["ProfileName"].InnerText;
+                    Kriper.FriendlyType = (Character.FriendType)int.Parse(item["FriendlyType"].InnerText);
+                    Kriper.Statistics = new Statistics(int.Parse(item["WalkaWrecz"].InnerText), int.Parse(item["Sila"].InnerText), int.Parse(item["Opanowanie"].InnerText), int.Parse(item["Wytrzymalosc"].InnerText), int.Parse(item["Zrecznosc"].InnerText), int.Parse(item["Charyzma"].InnerText), int.Parse(item["Zywotnosc"].InnerText));
+                    Kriper.ZasiegOgolny = int.Parse(item["ZasiegOgolny"].InnerText);
+                    Kriper.ZasiegWzroku = int.Parse(item["ZasiegWzroku"].InnerText);
 
                     E.Add(item["ProfileName"].InnerText, Kriper);
                 }

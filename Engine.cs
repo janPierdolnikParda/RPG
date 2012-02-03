@@ -47,6 +47,8 @@ namespace Gra
 
         public SoundManager SoundManager;
 
+        public Dialog Dialog;
+
         public void Initialise()
         {
             Root = new Root();
@@ -110,7 +112,7 @@ namespace Gra
 
             SoundManager = new SoundManager();
 
-           
+            Dialog = new Dialog();
         }
 
         public void Update()
@@ -214,7 +216,6 @@ namespace Gra
 
                 foreach (XmlNode item in Items)
                 {
-                    Console.WriteLine(item["ProfileName"].InnerText);
                     Character newCharacter = new Character(CharacterProfileManager.C[item["ProfileName"].InnerText]);
                     Vector3 Position = new Vector3();
 
@@ -246,7 +247,7 @@ namespace Gra
 
                 foreach (XmlNode item in Items)
                 {
-                    Enemy newCharacter = new Enemy(Gra.CharacterProfileManager.E[item["ProfileName"].InnerText], false, 10, 5);
+                    Enemy newCharacter = new Enemy(Gra.CharacterProfileManager.E[item["ProfileName"].InnerText], false, Gra.CharacterProfileManager.E[item["ProfileName"].InnerText].ZasiegWzroku, Gra.CharacterProfileManager.E[item["ProfileName"].InnerText].ZasiegOgolny);
                     Vector3 Position = new Vector3();
 
                     Quaternion Orientation = new Quaternion(float.Parse(item["Orientation_w"].InnerText), float.Parse(item["Orientation_x"].InnerText), float.Parse(item["Orientation_y"].InnerText), float.Parse(item["Orientation_z"].InnerText));
@@ -256,8 +257,6 @@ namespace Gra
                     Position.y = float.Parse(item["Position_y"].InnerText);
                     Position.z = float.Parse(item["Position_z"].InnerText);
                     newCharacter.Position = Position;
-
-                    newCharacter.Statistics = new Statistics(20, 0);
 
                     Engine.Singleton.ObjectManager.Add(newCharacter);
                 }
@@ -305,5 +304,23 @@ namespace Gra
                )
             );
         }
+
+		public float GetFloatFromPxHeight(int px)
+		{
+			float ret;
+
+			ret = ((float)px / (float)Root.AutoCreatedWindow.Height);
+
+			return ret;
+		}
+
+		public float GetFloatFromPxWidth(int px)
+		{
+			float ret;
+
+			ret = ((float)px / (float)Root.AutoCreatedWindow.Width);
+
+			return ret;
+		}
     }
 }

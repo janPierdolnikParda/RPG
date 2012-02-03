@@ -7,21 +7,37 @@ namespace Gra
 {
     public class Statistics
     {
-        public int Hp;
-        public int MaxHp;
-        public int Mp;
-        public int MaxMp;
+        public int WalkaWrecz;
+        public int Sila;
+        public int Opanowanie;
+        public int Wytrzymalosc;
+        public int Zrecznosc;
+        public int Charyzma;
+        public int Zywotnosc;
+        public int aktualnaZywotnosc;
 
-        public Statistics(int hp, int mp)
+        public Statistics(int ww, int si, int op, int wy, int zr, int ch, int zy)
         {
-            Hp = hp;
-            Mp = mp;
-            MaxHp = hp;
-            MaxMp = mp;
+            WalkaWrecz = ww;
+            Sila = si;
+            Opanowanie = op;
+            Wytrzymalosc = wy;
+            Zrecznosc = zr;
+            Charyzma = ch;
+            Zywotnosc = zy;
+            aktualnaZywotnosc = zy;
         }
 
         public Statistics()
         {
+            WalkaWrecz = 30;
+            Sila = 2;
+            Opanowanie = 30;
+            Wytrzymalosc = 2;
+            Zywotnosc = 4;
+            Charyzma = 30;
+            Zrecznosc = 30;
+            aktualnaZywotnosc = 4;
         }
     }
 }

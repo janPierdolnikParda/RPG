@@ -8,11 +8,8 @@ namespace Gra
 {
     class GameCamera
     {
-        // Postać, do której przywiązana jest kamera
         public Character Character;
-        // Odległość w jakiej kamera trzyma się od głowy postaci
         public float Distance;
-        // Kąt, pod jakim kamera spogląda na głowę postaci
         public Degree Angle;
 
         public Vector3 InterPosition;

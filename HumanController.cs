@@ -24,6 +24,10 @@ namespace Gra
             LISTENING
         }
 
+		// config
+		public bool InvertMouse = false;
+		public float MouseSpeed = 1.0f;
+
         public Character Character;
         SelectableObject FocusObject;
         TextLabel3D TargetLabel;
@@ -426,10 +430,20 @@ namespace Gra
 
         private void HandleMovement()                             // @@ funkcja odpowiedzialna za całokształt poruszania się
         {
-            Quaternion rotation = new Quaternion();
-            rotation.FromAngleAxis(new Degree(2), Vector3.UNIT_Y);
+			Character.TurnDelta = -Engine.Singleton.Mouse.MouseState.X.rel * 0.1f * MouseSpeed;			// obracanie postaci
 
-            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_F))     // podnoszenie, otwieranie, itp. 
+			Degree akt = Engine.Singleton.GameCamera.Angle;
+			Degree zmiana;
+	
+			if (!InvertMouse)																	// ruszanie kamerą (góra i dół)
+				zmiana = new Degree(Engine.Singleton.Mouse.MouseState.Y.rel * 0.1f * MouseSpeed);
+			else
+				zmiana = new Degree(-Engine.Singleton.Mouse.MouseState.Y.rel * 0.1f * MouseSpeed);
+			
+			if (zmiana + akt < new Degree(70) && zmiana + akt > new Degree(-45))
+				Engine.Singleton.GameCamera.Angle += zmiana;
+			
+			if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_F))     // podnoszenie, otwieranie, itp. 
             {
                 if (FocusObject != null)
                 {
@@ -486,6 +500,13 @@ namespace Gra
                 }
             }
 
+            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_C))
+            {
+                Console.WriteLine("q: ");
+                Console.Write("- ");
+                Console.Write(Engine.Singleton.Dialog.Nodes.ElementAt(0).Value.Quest + "\n");
+            }
+
             if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_SPACE))       // @@ rozpoczęcie rozmowy
             {
                 if (FocusObject != null)
@@ -512,15 +533,34 @@ namespace Gra
             }
 
 
-            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_A))          // obrót postaci
-                Character.TurnDelta = 2;
-            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_D))
-                Character.TurnDelta = -2;
+			if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_A))          // obrót postaci
+			{
+				Character.MoveRightOrder = false;
+				Character.MoveLeftOrder = true;
+				Character.MoveOrder = false;
+				Character.RunOrder = false;
+				Character.MoveOrderBack = false;
+			}
+			else
+				Character.MoveLeftOrder = false;
+
+			if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_D))
+			{
+				Character.MoveRightOrder = true;
+				Character.MoveLeftOrder = false;
+				Character.MoveOrder = false;
+				Character.RunOrder = false;
+				Character.MoveOrderBack = false;
+			}
+			else
+				Character.MoveRightOrder = false;
 
             if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_W))            // chodzenie do przodu +bieganie
             {
                 Character.MoveOrder = true;
                 Character.MoveOrderBack = false;
+				Character.MoveRightOrder = false;
+				Character.MoveLeftOrder = false;
                 if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_LSHIFT))
                 {
                     if (!Character.RunOrder)
@@ -538,7 +578,9 @@ namespace Gra
             if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_S))			    // "chodzenie" do tyłu. W aktualnej wersji 
             {                                                                       // przesuwanie o wektor przeciwny w osiach 
                 Character.MoveOrder = false;                                        // x i z do wektora skierowanego do przodu
-                Character.MoveOrderBack = true;                                     // postaci
+                Character.MoveOrderBack = true;                                     // postaci (zwyczajny brak odpowiedniej animacji)
+				Character.MoveRightOrder = false;
+				Character.MoveLeftOrder = false;
             }
             else
                 Character.MoveOrderBack = false;
@@ -550,18 +592,6 @@ namespace Gra
 
             if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_SLASH))
                 Engine.Singleton.SoundManager.TogglePauseBGM();
-
-            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_O))     // zmiana pozycji kamery w pionie
-            {
-                Degree angle = Engine.Singleton.GameCamera.Angle;
-                Engine.Singleton.GameCamera.Angle = angle + new Degree(1);
-            }
-
-            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_K))     // j.w.
-            {
-                Degree angle = Engine.Singleton.GameCamera.Angle;
-                Engine.Singleton.GameCamera.Angle = angle - new Degree(1);
-            }
 
             if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_H))             // wyświetlanie i chowanie HUD'a
             {
@@ -587,10 +617,11 @@ namespace Gra
             }
 
 
-            if (Character.Contacts.Count > 0)
+            //if (Character.Contacts.Count > 0)
+            if (Character.Contact != null)
             {
                 
-                if (FocusObjectId < 0)                                  // przełączanie między kilkoma obiektami znajdującymi
+                /*if (FocusObjectId < 0)                                  // przełączanie między kilkoma obiektami znajdującymi
                 {                                                       // się w sensorze
                     FocusObjectId = Character.Contacts.Count - 1;
                 }
@@ -606,15 +637,28 @@ namespace Gra
 
 				if (contact is Enemy)
 				{
-					lol = "\nHp: " + (contact as Enemy).Statistics.Hp + "\\" + (contact as Enemy).Statistics.MaxHp;
+					//lol = "\nHp: " + (contact as Enemy).Statistics.Hp + "\\" + (contact as Enemy).Statistics.MaxHp;
 				}
                 else if (contact.IsContainer == true)            // dodawanie Otwórz do nazwy obiektu, jeśli jest kontenerem
 					lol = "\n(Otworz)";
 
                 TargetLabel.Caption = contact.DisplayName + lol;
                 TargetLabel.Position3D = contact.Position + contact.DisplayNameOffset;
-                TargetLabel.IsVisible = true;
+                TargetLabel.IsVisible = true;*/
 
+                FocusObject = Character.Contact as SelectableObject;
+                string lol = null;
+
+                if (FocusObject is ISomethingMoving)
+                {
+                }
+
+                if (FocusObject.IsContainer == true)
+                    lol = "\n(Otworz)";
+
+                TargetLabel.Caption = FocusObject.DisplayName + lol;
+                TargetLabel.Position3D = FocusObject.Position + FocusObject.DisplayNameOffset;
+                TargetLabel.IsVisible = true;
             }
             else
             {

@@ -22,10 +22,14 @@ namespace Gra
         static TalkNode QuestIsNotDone;
         static TalkReaction Lol;
 
+        public static Dictionary<String, Dialog> D;
+
         public static bool FirstTalk = true;
 
         static Conversations()
         {
+            D = new Dictionary<String, Dialog>();
+
             ConversationRoot = new TalkReaction();
 
             FirstGreeting = new TalkNode();

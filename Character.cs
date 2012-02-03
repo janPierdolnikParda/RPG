@@ -7,8 +7,15 @@ using MogreNewt;
 
 namespace Gra
 {
-    public class Character : SelectableObject
+    public class Character : SelectableObject, ISomethingMoving
     {
+        public enum FriendType
+        {
+            NEUTRAL,
+            FRIENDLY,
+            ENEMY
+        };
+
         public Entity Entity;
         public SceneNode Node;
         public Body Body;
@@ -25,6 +32,7 @@ namespace Gra
         Quaternion _Orientation;
 
         public List<GameObject> Contacts;
+        public GameObject Contact;
 
         public Described PickingTarget;
 
@@ -35,12 +43,13 @@ namespace Gra
 
         public QuestManager ActiveQuests;
         public List<Quest> Quests;
-       // public List<Quest> QuestsDone;
 
         // Rozkazy
         public bool PickItemOrder;
         public bool MoveOrder;
         public bool MoveOrderBack;
+		public bool MoveLeftOrder;
+		public bool MoveRightOrder;
 
         public bool GetSwordOrder;
         public bool HideSwordOrder;
@@ -78,7 +87,61 @@ namespace Gra
 
         public static DecTree.Node Tree = new CharacterDecTree();
 
-        public Statistics Statistics;
+		Statistics _Statistics;
+		public Statistics Statistics
+		{
+			get
+			{
+				return _Statistics;
+			}
+
+			set
+			{
+				_Statistics = value;
+			}
+		}
+
+        float _ZasiegWzroku;
+        public float ZasiegWzroku
+        {
+            get
+            {
+                return _ZasiegWzroku;
+            }
+
+            set
+            {
+                _ZasiegWzroku = value;
+            }
+        }
+
+        float _ZasiegOgolny;
+        public float ZasiegOgolny
+        {
+            get
+            {
+                return _ZasiegOgolny;
+            }
+
+            set
+            {
+                _ZasiegOgolny = value;
+            }
+        }
+
+        FriendType _FriendlyType;
+        public FriendType FriendlyType
+        {
+            get
+            {
+                return _FriendlyType;
+            }
+
+            set
+            {
+                _FriendlyType = value;
+            }
+        }
 
         public Character(CharacterProfile profile)
         {
@@ -90,20 +153,14 @@ namespace Gra
             Node = Engine.Singleton.SceneManager.RootSceneNode.CreateChildSceneNode();
             Node.AttachObject(Entity);
 
-            // Bierzemy połowę rozmiaru BoundingBoxa i mnożymy go przez czynnik
             Vector3 scaledSize = Entity.BoundingBox.HalfSize * Profile.BodyScaleFactor;
 
-            ConvexCollision collision = new MogreNewt.CollisionPrimitives.Capsule(
-                Engine.Singleton.NewtonWorld,
-                // Wybieramy szerokość bądź długość
-                System.Math.Min(scaledSize.x, scaledSize.z),
-                // Z uwagi na to, że wzięliśmy połowę rozmiaru,
-                // musimy wysokość pomnożyć przez 2
-                scaledSize.y * 2,
-                // Kapsuła stworzona przez Newtona będzie leżeć wzdłóż osi X,
-                // więc ustalamy pion wzdłóż osi Y
-                Vector3.UNIT_X.GetRotationTo(Vector3.UNIT_Y),
-                Engine.Singleton.GetUniqueBodyId()); // Unikalny identyfikator ciała
+			ConvexCollision collision = new MogreNewt.CollisionPrimitives.Capsule(
+				Engine.Singleton.NewtonWorld,
+				System.Math.Min(scaledSize.x, scaledSize.z),
+				scaledSize.y * 2,
+				Vector3.UNIT_X.GetRotationTo(Vector3.UNIT_Y),
+				Engine.Singleton.GetUniqueBodyId());
 
 
 
@@ -154,7 +211,7 @@ namespace Gra
             Quests = new List<Quest>();
             //QuestsDone = new List<Quest>();
 
-            Statistics = new Statistics();
+            _Statistics = Profile.Statistics;
         }
 
         void BodyTransformCallback(Body sender, Quaternion orientation,
@@ -174,6 +231,7 @@ namespace Gra
         public override void Update()
         {
             ObjectSensor.SetPositionOrientation(SensorNode._getDerivedPosition(), Node.Orientation);
+            SetContact();
             AnimBlender.Update();
 
             InventoryPerm = false;
@@ -183,6 +241,57 @@ namespace Gra
             Contacts.Clear();
 
             ActiveQuests.Update();
+        }
+
+        public Radian getY()
+        {
+            Matrix3 orientMatrix;
+            orientMatrix = Engine.Singleton.Camera.Orientation.ToRotationMatrix();
+
+            Radian yRad, pRad, rRad;
+            orientMatrix.ToEulerAnglesYXZ(out yRad, out pRad, out rRad);
+
+            return yRad;
+        }
+
+        public Radian getX()
+        {
+            Matrix3 orientMatrix;
+            orientMatrix = Engine.Singleton.Camera.Orientation.ToRotationMatrix();
+
+            Radian yRad, pRad, rRad;
+            orientMatrix.ToEulerAnglesYXZ(out yRad, out pRad, out rRad);
+
+            return pRad;
+        }
+
+        public void SetContact()
+        {
+
+            float length = 5.0f;
+
+            Vector3 AimPosition = new Vector3();
+            AimPosition.x = (float)System.Math.Sin((double)-getY().ValueRadians) * length;
+            AimPosition.x = (float)System.Math.Cos((double)getX().ValueRadians) * AimPosition.x + Engine.Singleton.Camera.Position.x;
+            AimPosition.y = (float)System.Math.Sin((double)getX().ValueRadians) * length + Engine.Singleton.Camera.Position.y;
+            AimPosition.z = (float)System.Math.Cos((double)getY().ValueRadians) * -length;
+            AimPosition.z = (float)System.Math.Cos((double)getX().ValueRadians) * AimPosition.z + Engine.Singleton.Camera.Position.z;
+
+            Contact = null;
+
+            PredicateRaycast raycast = new PredicateRaycast((b => !(b.UserData is TriggerVolume) && (b.MaterialGroupID != Engine.Singleton.MaterialManager.CharacterSensorMaterialID) && (b.MaterialGroupID != Engine.Singleton.MaterialManager.LevelMaterialID)));
+            raycast.Go(Engine.Singleton.NewtonWorld, Engine.Singleton.Camera.Position, AimPosition);
+
+            if (raycast.Contacts.Count != 0)
+            {
+                raycast.SortContacts();
+                AimPosition = Position
+                  + (AimPosition - Position) * raycast.Contacts[0].Distance
+                  + raycast.Contacts[0].Normal * 0.01f * length;
+
+                if (raycast.Contacts[0].Body.UserData is GameObject)
+                  Contact = raycast.Contacts[0].Body.UserData as GameObject;
+            }         
         }
 
         public void TurnTo(Vector3 point)

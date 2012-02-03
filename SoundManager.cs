@@ -9,7 +9,7 @@ namespace Gra
     {
         FMOD.RESULT Result;                 // FMOD zwraca przy wykonaniu każdej funkcji informacje typu RESULT
         FMOD.System System = null;          // Główny silnik FMOD'a
-        float _volume;                      // Główna głośność dźwięków i muzyki
+        float _volume;                      // Główna głośność dźwięków i muzyki zmieniana przez Volume, wartości: <0, 1.0f>
 
         //listy dźwięków
         public List<string> BGMPlaylist; int BGMId = 0;

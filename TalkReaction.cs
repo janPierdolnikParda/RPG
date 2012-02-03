@@ -9,9 +9,16 @@ namespace Gra
     {
         public TalkNode TalkNode;
 
+        public bool FirstTalk = true;
+        public bool GotQuest = true;
+        public bool IsQuestDone = true;
+        public bool IsQuestFinished = true;
+        public bool Other = true;
+
         public TalkEdge(TalkNode target)
         {
             TalkNode = target;
+            base.Conditions += (() => FirstTalk && GotQuest && IsQuestDone && IsQuestFinished);
         }
     }
 

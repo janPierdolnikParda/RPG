@@ -7,7 +7,7 @@ using MogreNewt;
 
 namespace Gra
 {
-    public class Enemy : SelectableObject
+    public class Enemy : SelectableObject, ISomethingMoving
     {
         public Entity Entity;
         public SceneNode Node;
@@ -81,10 +81,63 @@ namespace Gra
         public bool isContainer;
         bool isSeen;
         bool isReachable;
-        float ZasiegWzroku;
-        float ZasiegOgolny;
+        float _ZasiegWzroku;
+        public float ZasiegWzroku
+        {
+            get
+            {
+                return _ZasiegWzroku;
+            }
+
+            set
+            {
+                _ZasiegWzroku = value;
+            }
+        }
+
+        float _ZasiegOgolny;
+        public float ZasiegOgolny
+        {
+            get
+            {
+                return _ZasiegOgolny;
+            }
+
+            set
+            {
+                _ZasiegOgolny = value;
+            }
+        }
+
         Prize DropPrize;
-        public Statistics Statistics;
+		
+		Statistics _Statistics;
+		public Statistics Statistics
+		{
+			get
+			{
+				return _Statistics;
+			}
+
+			set
+			{
+				_Statistics = value;
+			}
+		}
+
+        Character.FriendType _FriendlyType;
+        public Character.FriendType FriendlyType
+        {
+            get
+            {
+                return _FriendlyType;
+            }
+
+            set
+            {
+                _FriendlyType = value;
+            }
+        }
 
         public Enemy(CharacterProfile profile, bool czyPojemnik, float zasiegWzr, float zasiegOgl)
         {
@@ -154,9 +207,9 @@ namespace Gra
             isContainer = czyPojemnik;
             isSeen = false;
             isReachable = false;
-            ZasiegWzroku = zasiegWzr;
-            ZasiegOgolny = zasiegOgl;
-            Statistics = new Statistics();
+            _ZasiegWzroku = zasiegWzr;
+            _ZasiegOgolny = zasiegOgl;
+            _Statistics = Profile.Statistics;
         }
 
         void BodyTransformCallback(Body sender, Quaternion orientation,
@@ -197,7 +250,7 @@ namespace Gra
 
             //System.Console.WriteLine(Distance);
 
-            if (Distance <= ZasiegWzroku)
+            if (Distance <= _ZasiegWzroku)
             {
 
                 PredicateRaycast raycast = new PredicateRaycast((b => !(b.UserData is TriggerVolume)));
@@ -214,7 +267,7 @@ namespace Gra
                     isSeen = false;
             }
 
-            if (Distance <= ZasiegOgolny)
+            if (Distance <= _ZasiegOgolny)
             {
                 isReachable = true;
             }
