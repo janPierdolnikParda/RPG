@@ -5,6 +5,14 @@ using System.Text;
 
 namespace Gra
 {
+    public enum Condition
+    {
+        FirstTalk,
+        GotQuest,
+        IsQuestDone,
+        IsQuestFinished
+    };
+
     public class TalkEdge : TalkConditional
     {
         public TalkNode TalkNode;
@@ -15,10 +23,22 @@ namespace Gra
         public bool IsQuestFinished = true;
         public bool Other = true;
 
+        public List<Condition> Condits;
+
         public TalkEdge(TalkNode target)
         {
+            Condits = new List<Condition>();
             TalkNode = target;
-            base.Conditions += (() => FirstTalk && GotQuest && IsQuestDone && IsQuestFinished);
+            base.Conditions += (() => Other);
+        }
+
+        public TalkEdge()
+        {
+        }
+
+        public void AddConditions(List<Condition> conditions)
+        {
+            Condits = conditions;
         }
     }
 
@@ -35,6 +55,30 @@ namespace Gra
         {
             foreach (TalkEdge edge in Edges)
             {
+                edge.Conditions += (() => edge.Other);
+
+                foreach (Condition c in edge.Condits)
+                {
+                        switch (c)
+                        {
+                            case Condition.FirstTalk:
+                                edge.Conditions += (() => edge.FirstTalk);
+                                break;
+
+                            case Condition.GotQuest:
+                                edge.Conditions += (() => Engine.Singleton.HumanController.Character.ActiveQuests.Quests.Contains(Quests.Quest1));
+                                break;
+
+                            case Condition.IsQuestDone:
+                                edge.Conditions += (() => Engine.Singleton.HumanController.Character.ActiveQuests.Quests[Engine.Singleton.HumanController.Character.ActiveQuests.Quests.IndexOf(Quests.Quest1)].isDone);
+                                break;
+
+                            case Condition.IsQuestFinished:
+                                edge.Conditions += (() => Engine.Singleton.HumanController.Character.ActiveQuests.Quests[Engine.Singleton.HumanController.Character.ActiveQuests.Quests.IndexOf(Quests.Quest1)].IsFinished);
+                                break;
+                        }
+                }
+
                 if (edge.IsConditionFulfilled())
                 {
                     edge.TalkNode.CallActions();
