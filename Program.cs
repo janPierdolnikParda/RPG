@@ -60,6 +60,8 @@ namespace Gra
             Engine.Singleton.HumanController.Character = player;
             
             Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["iKufel"]);
+			Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["sTopor"]);
+			Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["sSword"]);
             Engine.Singleton.HumanController.ToggleHud();
 
 
