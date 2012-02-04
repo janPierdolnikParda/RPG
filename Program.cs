@@ -42,7 +42,7 @@ namespace Gra
 
             Character enpec = new Character(CharacterProfileManager.character);
             enpec.Position = new Vector3(0.0f, 0.0f, 0.0f);
-            enpec.TalkRoot = Engine.Singleton.Dialog.Reactions.Values.ElementAt(0);
+            enpec.TalkRoot = Conversations.D["pierwszy"].Reactions.Values.ElementAt(0);
             enpec.DisplayName = "Endrju";
             Engine.Singleton.ObjectManager.Add(enpec);
 
