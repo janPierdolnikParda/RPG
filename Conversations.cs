@@ -72,10 +72,13 @@ namespace Gra
                             actionList.Add((ActionType)int.Parse(ain["ActionType"].InnerText));
                         }
 
-                        actionList.Add(ActionType.MakeFirstFalse);
                         justNode.AddActions(actionList);
-                        justDialog.EdgesToNodes.Add(tn["TalkEdgeID"].InnerText, tn["TalkNodeID"].InnerText);
-                        Console.WriteLine(tn["TalkEdgeID"].InnerText + " " + tn["TalkNodeID"].InnerText);
+
+                        if (tn["TalkEdgeID"].InnerText != "" && tn["TalkEdgeID"].InnerText != null)
+                        {
+                            justDialog.EdgesToNodes.Add(tn["TalkEdgeID"].InnerText, tn["TalkNodeID"].InnerText);
+                            Console.WriteLine(tn["TalkEdgeID"].InnerText + " " + tn["TalkNodeID"].InnerText);
+                        }
                         justNode.Quest = tn["QuestID"].InnerText;
 
                         justDialog.Nodes.Add(tn["TalkNodeID"].InnerText, justNode);
