@@ -17,58 +17,44 @@ namespace Gra
         }
 
         public string Name;
-        public QuestTypes QuestType;
-        Prize QuestPrize;
 
-        int killAmount;
+        public Dictionary<String, int> BringItems;
+        public Dictionary<String, int> KillEnemies;
+
+        //public QuestTypes QuestType;
+        public Prize QuestPrize;
+
+        //int killAmount;
         //Enemy killWhat;
 
-        public int bringAmount;
+        //public int bringAmount;
         DescribedProfile bringWhat;
 
-        int visitsAmount;
+        //int visitsAmount;
         //List<Activator> visitWhat;
 
         public bool isDone;
 
-        public Quest(string newQuestName, QuestTypes Type, int Amount, Prize prize)
+        public Quest()
         {
-            QuestType = Type;
-            Name = newQuestName;
-            isDone = false;
-
-            if (Type == QuestTypes.KILL)
-                killAmount = Amount;
-
-            else if (Type == QuestTypes.BRING)
-                bringAmount = Amount;
-
-            else if (Type == QuestTypes.VISIT)
-                visitsAmount = Amount;
-
-            QuestPrize = prize;
-
-        }
-
-        public void AddItem(DescribedProfile newItem)
-        {
-            bringWhat = newItem;
+            BringItems = new Dictionary<String, int>();
+            KillEnemies = new Dictionary<String, int>();
         }
 
         public void MakeDone()
         {
             int Licznik = 0;
 
-            if (QuestType == QuestTypes.BRING)
+            foreach (String str in BringItems.Keys)
             {
                 foreach (DescribedProfile Item in Engine.Singleton.HumanController.Character.Inventory)
                 {
-                    if (Item.DisplayName == bringWhat.DisplayName)
+                    if (Item.ProfileName == str)
                     {
                         Licznik++;
                     }
 
-                    if (Licznik == bringAmount)
+                    if (Licznik == BringItems[str])
                         isDone = true;
                 }
             }
@@ -88,17 +74,16 @@ namespace Gra
 
             int Licznik = 0;
 
-            if (QuestType == QuestTypes.BRING)
+            foreach (String str in BringItems.Keys)
             {
                 foreach (DescribedProfile Item in Engine.Singleton.HumanController.Character.Inventory)
                 {
-                    if (Item.DisplayName == bringWhat.DisplayName)
+                    if (Item.ProfileName == str)
                     {
-                        //Console.WriteLine(Item.DisplayName);
                         Licznik++;
                     }
 
-                    if (Licznik == bringAmount)
+                    if (Licznik == BringItems[str])
                         Flaga = true;
                 }
 
@@ -122,14 +107,14 @@ namespace Gra
 
             List<DescribedProfile> Ajtemy = new List<DescribedProfile>();
 
-            if (QuestType == QuestTypes.BRING)
+            foreach (String str in BringItems.Keys)
             {
                 foreach (DescribedProfile Item in Engine.Singleton.HumanController.Character.Inventory)
                 {
-                    if (Licznik == bringAmount)
+                    if (Licznik == BringItems[str])
                         break;
 
-                    if (Item.DisplayName == bringWhat.DisplayName)
+                    if (Item.ProfileName == str)
                     {
                         Ajtemy.Add(Item);
                         Licznik++;

@@ -105,14 +105,14 @@ namespace Gra
 
       public void GiveQuest()
       {
-          Engine.Singleton.HumanController.Character.ActiveQuests.Add(Quests.Quest1);
+          Engine.Singleton.HumanController.Character.ActiveQuests.Add(Quests.Q[Quest]);
       }
 
       public void MakeQuestFinished()
       {
           foreach (Quest q in Engine.Singleton.HumanController.Character.ActiveQuests.Quests)
           {
-              if (q.Name == Quest)
+              if (q == Quests.Q[Quest])
                   Engine.Singleton.HumanController.Character.ActiveQuests.MakeFinished(q);
           }
       }
