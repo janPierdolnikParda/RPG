@@ -47,7 +47,7 @@ namespace Gra
             Engine.Singleton.ObjectManager.Add(enpec);
 
             Engine.Singleton.GameCamera.Character = player;
-            Engine.Singleton.GameCamera.Distance = 3;
+            Engine.Singleton.GameCamera.Distance = 4;
             Engine.Singleton.GameCamera.Angle = new Degree(20);
 
             Light light = Engine.Singleton.SceneManager.CreateLight();
