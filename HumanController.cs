@@ -443,6 +443,14 @@ namespace Gra
 			if (zmiana + akt < new Degree(70) && zmiana + akt > new Degree(-45))
 				Engine.Singleton.GameCamera.Angle += zmiana;
 			
+			if (Engine.Singleton.Mouse.MouseState.Z.rel != 0)
+	        {
+
+				if (Engine.Singleton.GameCamera.Distance -(float)Engine.Singleton.Mouse.MouseState.Z.rel * 0.005f < 10.0f && Engine.Singleton.GameCamera.Distance - (float)Engine.Singleton.Mouse.MouseState.Z.rel * 0.005f > 2.0f)
+					Engine.Singleton.GameCamera.Distance -= (float)Engine.Singleton.Mouse.MouseState.Z.rel *0.005f;
+
+	        }
+
 			if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_F))     // podnoszenie, otwieranie, itp. 
             {
                 if (FocusObject != null)

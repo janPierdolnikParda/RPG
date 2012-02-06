@@ -17,8 +17,9 @@ namespace Gra
 
             Engine.Singleton.Initialise();
 
-            Engine.Singleton.SoundManager.BGMPlaylist.Add("Soundtrack1.mp3");
-            //Engine.Singleton.SoundManager.PlayBGM();
+			Engine.Singleton.SoundManager.BGMPlaylist.Add("Achaidh Cheide.mp3");
+			Engine.Singleton.SoundManager.BGMPlaylist.Add("Thatched Villagers.mp3");
+            Engine.Singleton.SoundManager.PlayBGM();
 
 
             Engine.Singleton.CurrentLevel = new Level();
