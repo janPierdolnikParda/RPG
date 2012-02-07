@@ -19,7 +19,7 @@ namespace Gra
 
 			Engine.Singleton.SoundManager.BGMPlaylist.Add("Achaidh Cheide.mp3");
 			Engine.Singleton.SoundManager.BGMPlaylist.Add("Thatched Villagers.mp3");
-            Engine.Singleton.SoundManager.PlayBGM();
+            //Engine.Singleton.SoundManager.PlayBGM();
 
 
             Engine.Singleton.CurrentLevel = new Level();
@@ -40,10 +40,6 @@ namespace Gra
             Character player = new Character(CharacterProfileManager.character);
             player.Position = new Vector3(7.4251f, 0.2231f, -1.0019f);
             Engine.Singleton.ObjectManager.Add(player);
-
-            Character enpec = new Character(CharacterProfileManager.character);
-            enpec.Position = new Vector3(0.0f, 0.0f, 0.0f);
-            Engine.Singleton.ObjectManager.Add(enpec);
 
             Engine.Singleton.GameCamera.Character = player;
             Engine.Singleton.GameCamera.Distance = 4;

@@ -68,8 +68,10 @@ namespace Gra
                 if (!Root.ShowConfigDialog())
                     return;
 
+			Root.RenderSystem.SetConfigOption("VSync", "Yes");
             RenderWindow = Root.Initialise(true, "Kolejny epicki erpeg");  // @@@@@@@@@@@@@@@ Nazwa okna gry.
-            ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
+			
+			ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
             
             SceneManager = Root.CreateSceneManager(SceneType.ST_GENERIC);
             Camera = SceneManager.CreateCamera("MainCamera");
