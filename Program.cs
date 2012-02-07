@@ -84,6 +84,7 @@ namespace Gra
                     Engine.Singleton.CurrentLevel.navMesh.AStar(NPCManager.npc.Position, player.Position);
                     if (Engine.Singleton.CurrentLevel.navMesh.TriPath.Count > 1)
                     {
+						Console.WriteLine("-------NAV-------");
                         Engine.Singleton.CurrentLevel.navMesh.GetPortals();
                         NPCManager.npc.WalkPath = Engine.Singleton.CurrentLevel.navMesh.Funnel();
 

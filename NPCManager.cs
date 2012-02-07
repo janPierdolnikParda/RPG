@@ -13,7 +13,7 @@ namespace Gra
 
         public NPCManager()
         {
-			npc = new Character(CharacterProfileManager.character);
+			npc = new Character(CharacterProfileManager.C["cAndrzej"]);
 			npc.Position = new Vector3(0, 0, 0);
 			Engine.Singleton.ObjectManager.Add(npc);
 

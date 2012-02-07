@@ -101,6 +101,7 @@ namespace Gra
         {
             TalkLabels.Last().Caption = text.Text;
             TalkLabels.Last().SetPosition(0.5f - TalkLabels.Last().GetTextWidth() * 0.5f, 0.889f);
+			Engine.Singleton.SoundManager.PlayDialog(text.Sound);
             TextRemainingTime = text.Duration;
         }
 

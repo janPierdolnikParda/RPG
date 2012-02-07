@@ -42,7 +42,10 @@ namespace Gra
                     {
                         TalkReply justReply = new TalkReply();
                         justReply.IsEnding = bool.Parse(rep["IsEnding"].InnerText);
-                        justReply.Text.Add(new TalkText((rep["Text"].InnerText), 3.0f));
+						
+						float dur = float.Parse(rep["Duration"].InnerText);
+						justReply.Text.Add(new TalkText((rep["Text"].InnerText), dur, rep["Sound"].InnerText));
+
 
                         if (!justReply.IsEnding)
                             justReply.Reaction = justDialog.Reactions[rep["TalkReaction"].InnerText];
@@ -55,7 +58,9 @@ namespace Gra
                     foreach (XmlNode tn in TalkNodes)
                     {
                         TalkNode justNode = new TalkNode();
-                        justNode.Text.Add(new TalkText((tn["Text"].InnerText), 3.0f));
+
+						float dur = float.Parse(tn["Duration"].InnerText);
+						justNode.Text.Add(new TalkText((tn["Text"].InnerText), dur, tn["Sound"].InnerText));
 
                         XmlNodeList RepliesInNode = tn["NodeReplies"].ChildNodes;
 

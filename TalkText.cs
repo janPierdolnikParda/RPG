@@ -9,11 +9,13 @@ namespace Gra
     {
         public String Text;
         public float Duration;
+		public String Sound;
 
-        public TalkText(String text, float duration)    // @@@@@@@@@@@@@ Do zrobienia tekst mówiony.
+        public TalkText(String text, float duration ,string sound)    // @@@@@@@@@@@@@ Do zrobienia tekst mówiony.
         {
             Text = text;
             Duration = duration;
+			Sound = sound;
         }
     }
 }

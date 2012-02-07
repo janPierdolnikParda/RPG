@@ -115,13 +115,16 @@ namespace Gra
 
 		public void PlayDialog(string path)
 		{
-			string play;
+			if (path != null)
+			{
+				string play;
 
-			play = "Media/Sounds/Dialogs/" + path;
+				play = "Media/Sounds/Dialogs/" + path;
 
-			Result = System.createStream(play, FMOD.MODE.DEFAULT, ref SoundDialog);
+				Result = System.createStream(play, FMOD.MODE.DEFAULT, ref SoundDialog);
 
-			Result = System.playSound(FMOD.CHANNELINDEX.REUSE, SoundDialog, false, ref ChannelDialog);
+				Result = System.playSound(FMOD.CHANNELINDEX.REUSE, SoundDialog, false, ref ChannelDialog);
+			}
 		}
 
 
