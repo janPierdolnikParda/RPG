@@ -212,6 +212,11 @@ namespace Gra
             //QuestsDone = new List<Quest>();
 
             _Statistics = Profile.Statistics;
+
+            if (Profile.DialogRoot != null && Profile.DialogRoot != "")
+            {
+                TalkRoot = Conversations.D[Profile.DialogRoot].Reactions.Values.ElementAt(0);
+            }
         }
 
         void BodyTransformCallback(Body sender, Quaternion orientation,

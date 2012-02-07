@@ -24,6 +24,7 @@ namespace Gra
 
       public String Quest;
       public String Activator;
+      public String Sound;
       public TalkEdge Edge;      
  
       public TalkNode()

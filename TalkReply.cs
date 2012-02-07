@@ -10,6 +10,7 @@ namespace Gra
         public List<TalkText> Text;
         public bool IsEnding;
         public TalkReaction Reaction;
+        public String Sound;
 
         public TalkReply()
         {

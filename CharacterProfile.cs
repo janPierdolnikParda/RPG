@@ -17,6 +17,7 @@ namespace Gra
 
         public String DisplayName;
         public String Description;
+        public String DialogRoot;
         public Vector3 DisplayNameOffset;
         public String PictureMaterial;
 

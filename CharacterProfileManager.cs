@@ -27,10 +27,10 @@ namespace Gra
             character.WalkSpeed = 1.85f;
             character.PictureMaterial = "AdamMaterial";
 
-            if (System.IO.File.Exists("Media\\Profiles\\Characters.xml"))
+            if (System.IO.File.Exists("Media\\Profiles\\NPCs.xml"))
             {
                 XmlDocument File = new XmlDocument();
-                File.Load("Media\\Profiles\\Characters.xml");
+                File.Load("Media\\Profiles\\NPCs.xml");
 
                 XmlElement root = File.DocumentElement;
                 XmlNodeList Items = root.SelectNodes("//npcs//npc");
@@ -54,6 +54,7 @@ namespace Gra
                     Kriper.ProfileName = item["ProfileName"].InnerText;
                     Kriper.FriendlyType = (Character.FriendType)int.Parse(item["FriendlyType"].InnerText);
                     Kriper.Statistics = new Statistics(int.Parse(item["WalkaWrecz"].InnerText), int.Parse(item["Sila"].InnerText), int.Parse(item["Opanowanie"].InnerText), int.Parse(item["Wytrzymalosc"].InnerText), int.Parse(item["Zrecznosc"].InnerText), int.Parse(item["Charyzma"].InnerText), int.Parse(item["Zywotnosc"].InnerText));
+                    Kriper.DialogRoot = item["DialogRoot"].InnerText;
 
                     C.Add(Kriper.ProfileName, Kriper);
                 }
