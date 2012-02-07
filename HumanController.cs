@@ -508,13 +508,6 @@ namespace Gra
                 }
             }
 
-            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_C))
-            {
-                Console.WriteLine("q: ");
-                Console.Write("- ");
-                Console.Write(Engine.Singleton.Dialog.Nodes.ElementAt(0).Value.Quest + "\n");
-            }
-
             if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_SPACE))       // @@ rozpoczęcie rozmowy
             {
                 if (FocusObject != null)
@@ -530,16 +523,6 @@ namespace Gra
             if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_TAB)                    // @@ Otwarcie ekwipunku
                 && Character.InventoryPerm)
                 SwitchState(HumanControllerState.INVENTORY);
-
-            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_N))                     // zmiana aktualnie wybranego obiektu z sensora
-            {
-                FocusObjectId--;
-            }
-            else if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_M))                // j.w.
-            {
-                FocusObjectId++;
-            }
-
 
 			if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_A))          // obrót postaci
 			{
