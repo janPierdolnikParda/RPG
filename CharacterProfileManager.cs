@@ -51,6 +51,10 @@ namespace Gra
                     Kriper.HeadOffset.x = float.Parse(item["HeadOffset_x"].InnerText);
                     Kriper.HeadOffset.y = float.Parse(item["HeadOffset_y"].InnerText);
                     Kriper.HeadOffset.z = float.Parse(item["HeadOffset_z"].InnerText);
+                    Kriper.BodyScaleFactor = Vector3.ZERO;
+                    Kriper.BodyScaleFactor.x = float.Parse(item["BodyScaleFactor_x"].InnerText);
+                    Kriper.BodyScaleFactor.y = float.Parse(item["BodyScaleFactor_y"].InnerText);
+                    Kriper.BodyScaleFactor.z = float.Parse(item["BodyScaleFactor_z"].InnerText);
                     Kriper.ProfileName = item["ProfileName"].InnerText;
                     Kriper.FriendlyType = (Character.FriendType)int.Parse(item["FriendlyType"].InnerText);
                     Kriper.Statistics = new Statistics(int.Parse(item["WalkaWrecz"].InnerText), int.Parse(item["Sila"].InnerText), int.Parse(item["Opanowanie"].InnerText), int.Parse(item["Wytrzymalosc"].InnerText), int.Parse(item["Zrecznosc"].InnerText), int.Parse(item["Charyzma"].InnerText), int.Parse(item["Zywotnosc"].InnerText));
@@ -85,6 +89,10 @@ namespace Gra
                     Kriper.HeadOffset.x = float.Parse(item["HeadOffset_x"].InnerText);
                     Kriper.HeadOffset.y = float.Parse(item["HeadOffset_y"].InnerText);
                     Kriper.HeadOffset.z = float.Parse(item["HeadOffset_z"].InnerText);
+                    Kriper.BodyScaleFactor = Vector3.ZERO;
+                    Kriper.BodyScaleFactor.x = float.Parse(item["BodyScaleFactor_x"].InnerText);
+                    Kriper.BodyScaleFactor.y = float.Parse(item["BodyScaleFactor_y"].InnerText);
+                    Kriper.BodyScaleFactor.z = float.Parse(item["BodyScaleFactor_z"].InnerText);
                     Kriper.ProfileName = item["ProfileName"].InnerText;
                     Kriper.FriendlyType = (Character.FriendType)int.Parse(item["FriendlyType"].InnerText);
                     Kriper.Statistics = new Statistics(int.Parse(item["WalkaWrecz"].InnerText), int.Parse(item["Sila"].InnerText), int.Parse(item["Opanowanie"].InnerText), int.Parse(item["Wytrzymalosc"].InnerText), int.Parse(item["Zrecznosc"].InnerText), int.Parse(item["Charyzma"].InnerText), int.Parse(item["Zywotnosc"].InnerText));
