@@ -17,6 +17,8 @@ namespace Gra
         public Boolean IsPickable;
         public string InventoryPictureMaterial;
         public bool IsEquipment;
+        public bool IsContainer;
+        public string PrizeID;
         public string ProfileName;
 
 		public string Activator;

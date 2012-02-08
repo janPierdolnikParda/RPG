@@ -54,6 +54,10 @@ namespace Gra
                     Kriper.DisplayNameOffset.y = float.Parse(item["nameoffsety"].InnerText);
                     Kriper.DisplayNameOffset.z = float.Parse(item["nameoffsetz"].InnerText);
                     Kriper.ProfileName = item["idstring"].InnerText;
+                    Kriper.IsContainer = bool.Parse(item["iscontainer"].InnerText);
+
+                    if (Kriper.IsContainer)
+                        Kriper.PrizeID = item["prizeid"].InnerText;
 
                     I.Add(item["idstring"].InnerText, Kriper);
                 }

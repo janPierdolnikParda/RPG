@@ -50,7 +50,14 @@ namespace Gra
 			Method = Type.GetMethod(a);
 			//Method = Type.GetMember(profile.Activator);    // <--- zamienić potem na to jak już będzie wczytywał Activator z xmla
 
+            IsContainer = profile.IsContainer;
 
+            if (IsContainer)
+            {
+                Container = new Container();
+                Container.Contains = PrizeManager.P[profile.PrizeID].ItemsList;
+                Container.Gold = PrizeManager.P[profile.PrizeID].AmountGold;
+            }
 
             ConvexCollision coll = new MogreNewt.CollisionPrimitives.ConvexHull(Engine.Singleton.NewtonWorld, 
                 Node, 

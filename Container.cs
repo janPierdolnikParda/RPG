@@ -10,6 +10,7 @@ namespace Gra
 
         public List<DescribedProfile> Contains;
         public int MaxItems;
+        public int Gold;
         public bool CanAdd;
 
 
@@ -18,15 +19,16 @@ namespace Gra
             Contains = new List<DescribedProfile>();
             MaxItems = 1000;
             CanAdd = true;
+            Gold = 0;
         }
 
-        public Container(int maxItems, bool canAdd, List<DescribedProfile> lista)
+        public Container(int maxItems, bool canAdd, int gold, List<DescribedProfile> lista)
         {
             Contains = new List<DescribedProfile>();
             Contains = lista;
             MaxItems = maxItems;
             CanAdd = canAdd;
-
+            Gold = gold;
         }
 
         public bool Add(DescribedProfile item)
@@ -50,8 +52,6 @@ namespace Gra
         public void Delete(int id)
         {
             Contains.RemoveAt(id);
-
         }
-
     }
 }
