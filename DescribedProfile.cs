@@ -20,6 +20,7 @@ namespace Gra
         public bool IsContainer;
         public string PrizeID;
         public string ProfileName;
+        public int Price = 0;
 
 		public string Activator;
 

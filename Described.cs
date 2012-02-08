@@ -55,8 +55,12 @@ namespace Gra
             if (IsContainer)
             {
                 Container = new Container();
-                Container.Contains = PrizeManager.P[profile.PrizeID].ItemsList;
-                Container.Gold = PrizeManager.P[profile.PrizeID].AmountGold;
+
+                if (profile.PrizeID != null)
+                {
+                    Container.Contains = PrizeManager.P[profile.PrizeID].ItemsList;
+                    Container.Gold = PrizeManager.P[profile.PrizeID].AmountGold;
+                }
             }
 
             ConvexCollision coll = new MogreNewt.CollisionPrimitives.ConvexHull(Engine.Singleton.NewtonWorld, 

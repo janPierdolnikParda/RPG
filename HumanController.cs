@@ -13,7 +13,8 @@ namespace Gra
             FREE,
             TALK,
             INVENTORY,
-            CONTAINER
+            CONTAINER,
+            SHOP
         }
 
         public enum HumanTalkState
@@ -48,6 +49,7 @@ namespace Gra
 
         HUDInventory HUDInventory;
         HUDContainer HUDContainer;
+        public HUDShop HUDShop;
         HUD HUD;
 
         int FocusObjectId = 0;
@@ -70,6 +72,7 @@ namespace Gra
 
             HUDInventory = new HUDInventory();
             HUDContainer = new HUDContainer();
+            HUDShop = new HUDShop();
             HUD = new HUD();
         }
 
@@ -129,12 +132,17 @@ namespace Gra
                         HUDContainer.SelectIndex1 = 0;
                         HUDContainer.SelectIndex2 = -1;
                     }
-                    
-                    
-                    
+
+
+
                     HUDContainer.UpdateViewAll();
-                    
-                    
+
+
+                }
+
+                if (newState == HumanControllerState.SHOP)
+                {
+                    HUDShop.IsVisible = true;
                 }
             }
             else if (State == HumanControllerState.TALK)
@@ -146,10 +154,10 @@ namespace Gra
             {
                 if (newState == HumanControllerState.FREE)
                 {
-                   
+
 
                     HUDContainer.IsVisible = false;
-                    
+
                 }
             }
 
@@ -357,6 +365,16 @@ namespace Gra
                     HandleInventory();
                 else if (State == HumanControllerState.CONTAINER)
                     HandleContainer();
+                else if (State == HumanControllerState.SHOP)
+                    HandleShop();
+            }
+        }
+
+        private void HandleShop()           // @@ funka odpowiedzialna za obsluge SKLEPUFFFFFf
+        {                                   //      TROLLLL!!!111111oneoneoneone!!!111TROLLED!
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_TAB))
+            {
+                SwitchState(HumanControllerState.FREE);
             }
         }
 
@@ -515,6 +533,9 @@ namespace Gra
                 {
                     if (Character.TalkPerm && FocusObject.TalkRoot != null)
                     {
+                        if (FocusObject is Character)
+                            FocusObject.TalkRoot.WhoSays = (FocusObject as Character);
+
                         CurrentNode = FocusObject.TalkRoot.PickNode();
                         SwitchState(HumanControllerState.TALK);
                     }

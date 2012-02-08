@@ -47,6 +47,7 @@ namespace Gra
     public class TalkReaction
     {
         public List<TalkEdge> Edges;
+        public Character WhoSays;
 
         public TalkReaction()
         {
@@ -83,6 +84,7 @@ namespace Gra
 
                 if (edge.IsConditionFulfilled())
                 {
+                    edge.TalkNode.WhoSays = WhoSays;
                     edge.TalkNode.CallActions();
                     return edge.TalkNode;
                 }

@@ -25,6 +25,7 @@ namespace Gra
         public Statistics Statistics;
         public float ZasiegWzroku;
         public float ZasiegOgolny;
+        public float MnoznikDlaShopa;
         public Character.FriendType FriendlyType;
 
         public CharacterProfile Clone()

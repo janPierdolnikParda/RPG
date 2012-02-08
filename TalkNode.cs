@@ -13,7 +13,8 @@ namespace Gra
         MakeEdgeTrue,
         MakeEdgeFalse,
         GiveQuest,
-        ActivateActivator
+        ActivateActivator,
+        StartShop
     };
 
     public class TalkNode
@@ -24,7 +25,8 @@ namespace Gra
 
       public String Quest;
       public String Activator;
-      public TalkEdge Edge;      
+      public TalkEdge Edge;
+      public Character WhoSays;
  
       public TalkNode()
       {
@@ -79,6 +81,12 @@ namespace Gra
                       Actions += (() => MakeEdgeFalse());
                       break;
                   }
+
+                  case ActionType.StartShop:
+                  {
+                      Actions += (() => StartShop());
+                      break;
+                  }
               }
           }
       }
@@ -120,6 +128,13 @@ namespace Gra
       public void ActivateActivator()
       {
 
+      }
+
+      public void StartShop()
+      {
+          Engine.Singleton.HumanController.HUDShop.Shop = new Shop(WhoSays.Inventory, (int)WhoSays.Profile.Gold, WhoSays.Profile.DisplayName, 1.0f);
+          //Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.FREE);
+          //Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.SHOP);
       }
  
       public void CallActions()
