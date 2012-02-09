@@ -27,7 +27,9 @@ namespace Gra
       public String Activator;
       public TalkEdge Edge;
       public Character WhoSays;
- 
+
+	  public bool IsEnding = false;
+
       public TalkNode()
       {
         Text = new List<TalkText>();
@@ -132,9 +134,11 @@ namespace Gra
 
       public void StartShop()
       {
+		  WhoSays.Inventory.Add(Items.I["iWaza"]);
           Engine.Singleton.HumanController.HUDShop.Shop = new Shop(WhoSays.Inventory, (int)WhoSays.Profile.Gold, WhoSays.Profile.DisplayName, 1.0f);
-          //Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.FREE);
-          //Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.SHOP);
+		  
+		  //Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.FREE);
+		  Engine.Singleton.HumanController.InitShop = true;
       }
  
       public void CallActions()
@@ -142,6 +146,7 @@ namespace Gra
         if (Actions!=null)
         {
           Actions();
+		 
         }
       }
     }

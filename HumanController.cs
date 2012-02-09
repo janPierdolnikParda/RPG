@@ -52,6 +52,8 @@ namespace Gra
         public HUDShop HUDShop;
         HUD HUD;
 
+		public bool InitShop;
+
         int FocusObjectId = 0;
 
 
@@ -162,8 +164,15 @@ namespace Gra
             }
 
             else if (State == HumanControllerState.INVENTORY)
+			{
                 if (newState == HumanControllerState.FREE)
                     HUDInventory.IsVisible = false;
+			}
+			else if (State == HumanControllerState.SHOP)
+			{
+				if (newState == HumanControllerState.FREE)
+					HUDShop.IsVisible = false;
+			}
 
 
             State = newState;
@@ -354,6 +363,8 @@ namespace Gra
             {
                 HUD.IsVisible = false;
 
+				
+
                 if (State == HumanControllerState.FREE)
                 {
                     HandleMovement();
@@ -365,8 +376,18 @@ namespace Gra
                     HandleInventory();
                 else if (State == HumanControllerState.CONTAINER)
                     HandleContainer();
-                else if (State == HumanControllerState.SHOP)
-                    HandleShop();
+				else if (State == HumanControllerState.SHOP)
+					HandleShop();
+
+				if (InitShop)
+				{
+					State = HumanControllerState.SHOP;
+					HandleShop();
+					InitShop = false;
+					HideTalkOverlay();
+					HUDShop.IsVisible = true;
+					HUDShop.UpdateViewAll();
+				}
             }
         }
 
@@ -511,6 +532,7 @@ namespace Gra
                 Console.Write(Character.Position.y);
                 Console.Write(", ");
                 Console.WriteLine(Character.Position.z);
+				InitShop = true;
             }
 
             if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_B))           // wypisanie w konsoli aktywnych kłestów
