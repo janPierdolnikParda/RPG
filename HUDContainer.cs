@@ -40,13 +40,11 @@ namespace Gra
             {
                 if (item != null)
                 {
-                    Picture.Panel.MaterialName = item.InventoryPictureMaterial;
-                    
+                    Picture.Panel.MaterialName = item.InventoryPictureMaterial;                    
                 }
                 else
                 {
-                    Picture.Panel.MaterialName = "QuadMaterial";
-                    
+                    Picture.Panel.MaterialName = "QuadMaterial";                    
                 }
             }
         }

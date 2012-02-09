@@ -10,20 +10,20 @@ namespace Gra
 	{
 		class Slot
 		{
-			public const float Size = 0.04f;
+			public const float Size = 0.11f;
 			public static float Width;
 			SimpleQuad BgQuad;
 			SimpleQuad BlueQuad;
-			TextLabel ItemLabel;
+            SimpleQuad ItemPicture;
 
 			public Slot(float left, float top)
 			{
 				BgQuad = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", left, top, Width, Size, new ColourValue(1, 1, 1), 1);
 				BlueQuad = Engine.Singleton.Labeler.NewSimpleQuad("HighlightBlueMaterial", left, top, Width, Size, new ColourValue(1, 1, 1), 3);
-				ItemLabel = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.02f, new ColourValue(0, 0, 0), new ColourValue(0, 0, 0), 2);
-				ItemLabel.SetPosition(left, top + 0.015f);
+                ItemPicture = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", left, top, Width, Size, new ColourValue(1, 1, 1), 2);
 
 				BlueQuad.IsVisible = false;
+                ItemPicture.IsVisible = false;
 			}
 
 			public bool IsVisible
@@ -31,7 +31,7 @@ namespace Gra
 				set
 				{
 					BgQuad.IsVisible = value;
-					ItemLabel.IsVisible = value;
+					ItemPicture.IsVisible = value;
 					BlueQuad.IsVisible = value;
 				}
 			}
@@ -41,20 +41,20 @@ namespace Gra
 				if (item != null)
 				{
 					BlueQuad.IsVisible = item.IsEquipment;
-					ItemLabel.Caption = "  " + item.DisplayName;
+                    ItemPicture.Panel.MaterialName = item.InventoryPictureMaterial;
 				}
 				else
 				{
 					BlueQuad.IsVisible = false;
-
+                    ItemPicture.Panel.MaterialName = "QuadMaterial";
 				}
 			}
 		}
 
 		public Shop Shop = new Shop();
 
-		const int SlotsCount = 19;
-		const float SlotsSpacing = 0.01f;
+		const int SlotsCount = 7;
+		const float SlotsSpacing = 0.02f;
 
 		Slot[] Slots;
 		Slot[] Slots2;
@@ -82,13 +82,13 @@ namespace Gra
 		public HUDShop()
 		{
 			AktywnaStrona = 0;
-			Slot.Width = Slot.Size * 6 / Engine.Singleton.Camera.AspectRatio;
+			Slot.Width = Slot.Size / Engine.Singleton.Camera.AspectRatio;
 			Slots = new Slot[SlotsCount];
 			Slots2 = new Slot[SlotsCount];
 			for (int i = 0; i < SlotsCount; i++)
 			{
 				Slots[i] = new Slot(SlotsSpacing, SlotsSpacing + i * (Slot.Size + SlotsSpacing));
-				Slots2[i] = new Slot(SlotsSpacing, SlotsSpacing + i * (Slot.Size + SlotsSpacing));
+				Slots2[i] = new Slot(SlotsSpacing + 0.87f, SlotsSpacing + i * (Slot.Size + SlotsSpacing));
 			}
 
 			DescriptionBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0.2f, 0.5f, 0.6f, 0.45f, ColourValue.White, 1);
@@ -255,7 +255,8 @@ namespace Gra
 		{
 			set
 			{
-				foreach (var slot in Slots) slot.IsVisible = value;
+                foreach (var slot in Slots) slot.IsVisible = value;
+                foreach (var slot in Slots2) slot.IsVisible = value;
 				DescriptionBg.IsVisible = value;
 				DescriptionLabel.IsVisible = value;
 				SelectedPicture.IsVisible = value;
