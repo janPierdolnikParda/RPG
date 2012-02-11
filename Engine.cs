@@ -49,6 +49,8 @@ namespace Gra
 
         public Dialog Dialog;
 
+        public MOIS.MouseState_NativePtr Mysz;
+
         public void Initialise()
         {
             Root = new Root();
@@ -115,10 +117,14 @@ namespace Gra
             SoundManager = new SoundManager();
 
             Dialog = new Dialog();
+
+            Mysz = new MOIS.MouseState_NativePtr();
         }
 
         public void Update()
         {
+            Mysz.height = (int)Root.AutoCreatedWindow.Height;
+            Mysz.width = (int)Root.AutoCreatedWindow.Width;
             long currentTime = Root.Timer.Milliseconds;
             TimeStep = (currentTime - LastTime) / 1000.0f;
             LastTime = currentTime;

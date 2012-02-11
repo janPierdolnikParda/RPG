@@ -82,7 +82,6 @@ namespace Gra
                         if (tn["TalkEdgeID"].InnerText != "" && tn["TalkEdgeID"].InnerText != null)
                         {
                             justDialog.EdgesToNodes.Add(tn["TalkEdgeID"].InnerText, tn["TalkNodeID"].InnerText);
-                            Console.WriteLine(tn["TalkEdgeID"].InnerText + " " + tn["TalkNodeID"].InnerText);
                         }
                         justNode.Quest = tn["QuestID"].InnerText;
 
@@ -108,7 +107,6 @@ namespace Gra
                         while (justDialog.EdgesToNodes.ContainsKey(te["TalkEdgeID"].InnerText))
                         {
                             justDialog.Nodes[justDialog.EdgesToNodes[te["TalkEdgeID"].InnerText]].Edge = justEdge;
-                            Console.WriteLine(te["TalkEdgeID"].InnerText + " -> " + justDialog.EdgesToNodes[te["TalkEdgeID"].InnerText]);
                             justDialog.EdgesToNodes.Remove(te["TalkEdgeID"].InnerText);
                         }
 

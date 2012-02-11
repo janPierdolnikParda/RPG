@@ -11,6 +11,7 @@ namespace Gra
         public String ShopName;
         public int Gold;
 		public float Mnoznik;
+        public Character WhoSays;
 
 
         public Shop()
@@ -18,7 +19,7 @@ namespace Gra
             Items = new List<DescribedProfile>();
         }
 
-        public Shop(List<DescribedProfile> items, int gold, String shopname, float mnoznik)
+        public Shop(List<DescribedProfile> items, int gold, String shopname, float mnoznik, Character WhoSays)
         {
             Items = new List<DescribedProfile>();
 
@@ -28,6 +29,7 @@ namespace Gra
             Gold = gold;
             ShopName = shopname;
 			Mnoznik = mnoznik;
+            this.WhoSays = WhoSays;
         }
     }
 }
