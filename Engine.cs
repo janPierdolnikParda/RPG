@@ -50,6 +50,7 @@ namespace Gra
         public Dialog Dialog;
 
         public MOIS.MouseState_NativePtr Mysz;
+		public bool IsMapLoading;
 
         public void Initialise()
         {
@@ -270,6 +271,8 @@ namespace Gra
                     Engine.Singleton.ObjectManager.Add(newCharacter);
                 }
             }
+
+			IsMapLoading = false;
         }
 
         public bool IsKeyTyped(MOIS.KeyCode code)

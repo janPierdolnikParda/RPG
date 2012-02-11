@@ -48,9 +48,10 @@ namespace Gra
             Body.MaterialGroupID = Engine.Singleton.MaterialManager.LevelMaterialID;
         }
 
-        public void LoadLevel(String LevelName, String NavMeshName, bool isTheSame = false)  //////////@@@@@@@@@@@@@@@@@@ tu pewnie jeszcze navmesza
+        public void LoadLevel(String LevelName, String NavMeshName, bool isTheSame = false) 
         {
-                                                               // trza będzie walnąć, żeby wszystko ładnie się razem ładowało
+			Engine.Singleton.IsMapLoading = true;
+			
             this.Name = LevelName;
             String Name = LevelName + ".mesh";
             NavMeshName = "Media/nav/" + NavMeshName + ".obj";

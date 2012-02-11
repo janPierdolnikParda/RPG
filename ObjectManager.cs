@@ -21,8 +21,14 @@ namespace Gra
 
         public void Update()
         {
-            for (int i = Objects.Count - 1; i >= 0; i--)
-                Objects[i].Update();
+			if (Engine.Singleton.IsMapLoading)
+				return;
+
+			for (int i = Objects.Count - 1; i >= 0; i--)
+			{
+				if (i == -1) Objects[i].Update();
+			}
+			
         }
 
         public void Destroy(GameObject gameObject)

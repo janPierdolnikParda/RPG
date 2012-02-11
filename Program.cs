@@ -34,7 +34,7 @@ namespace Gra
             triggerVolume.AddBoxPart(Vector3.ZERO, Quaternion.IDENTITY, new Vector3(2, 2, 2));
             triggerVolume.EndShapeBuild();
             Engine.Singleton.ObjectManager.Add(triggerVolume);
-            triggerVolume.Position = new Vector3(4, 1, 0);
+            triggerVolume.Position = new Vector3(9, 3.2f, 8);
             triggerVolume.OnCharacterEntered += new TriggerVolume.CharacterEnteredHandler(triggerVolume_OnCharacterEntered);          
 
             Character player = new Character(CharacterProfileManager.character);
@@ -99,7 +99,8 @@ namespace Gra
 
         static void triggerVolume_OnCharacterEntered(TriggerVolume sender, Character character)
         {
-            Console.WriteLine("Bohater wszedł na teren wyzwalacza");
+			Engine.Singleton.CurrentLevel.LoadLevel("Karczmalvl2", "KarczmaNav");
+			Engine.Singleton.Load();
         }
 
         static void triggerVolume_Teleport(TriggerVolume sender, Character character)
