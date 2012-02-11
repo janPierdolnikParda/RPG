@@ -203,6 +203,7 @@ namespace Gra
             Contacts = new List<GameObject>();
 
             Inventory = new List<DescribedProfile>();
+            Inventory = Profile.Inventory;
 
             AnimBlender = new CharacterAnimBlender();
             AnimBlender.SetEntity(Entity);

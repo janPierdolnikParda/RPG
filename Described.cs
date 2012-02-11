@@ -60,6 +60,7 @@ namespace Gra
                 {
                     Container.Contains = PrizeManager.P[profile.PrizeID].ItemsList;
                     Container.Gold = PrizeManager.P[profile.PrizeID].AmountGold;
+                    Container.MaxItems = PrizeManager.P[profile.PrizeID].AmountExp;
                 }
             }
             
