@@ -62,15 +62,19 @@ namespace Gra
                     Container.Gold = PrizeManager.P[profile.PrizeID].AmountGold;
                 }
             }
-
+            
             ConvexCollision coll = new MogreNewt.CollisionPrimitives.ConvexHull(Engine.Singleton.NewtonWorld, 
                 Node, 
                 Quaternion.IDENTITY,
-                0.1f, 
+                0.01f, 
                 Engine.Singleton.GetUniqueBodyId());
+
+            //Collision[] kol;
+
+            //MogreNewt.CollisionPrimitives.CompoundCollision coll = new MogreNewt.CollisionPrimitives.CompoundCollision(Engine.Singleton.NewtonWorld,
+                //kol,
+               // Engine.Singleton.GetUniqueBodyId());
           
-            
-            //
             Vector3 inertia = new Vector3(1,1,1), offset;
             coll.CalculateInertialMatrix(out inertia, out offset);
             
@@ -78,6 +82,7 @@ namespace Gra
             Body = new Body(Engine.Singleton.NewtonWorld, coll, true);
             Body.AttachNode(Node);
             Body.SetMassMatrix(Profile.Mass, Profile.Mass * inertia);
+            Body.AddForce(new Vector3(10, 10, 10));
 
             Body.UserData = this;
             Body.MaterialGroupID = Engine.Singleton.MaterialManager.DescribedMaterialID;

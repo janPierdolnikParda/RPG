@@ -51,6 +51,7 @@ namespace Gra
         HUDContainer HUDContainer;
         public HUDShop HUDShop;
         HUD HUD;
+        public MOIS.MouseState_NativePtr Mysz;
 
 		public bool InitShop;
 
@@ -76,6 +77,8 @@ namespace Gra
             HUDContainer = new HUDContainer();
             HUDShop = new HUDShop();
             HUD = new HUD();
+
+            Mysz = new MOIS.MouseState_NativePtr();
         }
 
 
@@ -359,6 +362,8 @@ namespace Gra
 
         public void Update()
         {
+            //Mysz.height = (int)Engine.Singleton.RenderWindow.Height;
+            //Mysz.width = (int)Engine.Singleton.RenderWindow.Width;
             if (Character != null)
             {
                 HUD.IsVisible = false;
@@ -382,6 +387,8 @@ namespace Gra
 				if (InitShop)
 				{
 					State = HumanControllerState.SHOP;
+                    HUDShop.SelectedOne = -1;
+                    HUDShop.AktywnaStrona = 0;
 					HandleShop();
 					InitShop = false;
 					HideTalkOverlay();
@@ -397,6 +404,140 @@ namespace Gra
             {
                 SwitchState(HumanControllerState.FREE);
             }
+
+            if (Engine.Singleton.Mouse.MouseState.ButtonDown(MOIS.MouseButtonID.MB_Left))
+            {
+                while (Engine.Singleton.Mouse.MouseState.ButtonDown(MOIS.MouseButtonID.MB_Left))
+                {
+                    Engine.Singleton.Mouse.Capture();               //petla, zeby nie klikal mi milion razy, tylko raz :)
+                }
+
+                bool Flag = false;
+
+
+                int Obieg = 0;
+
+                if (HUDShop.AktywnaStrona == 0)
+                {
+                    foreach (HUDShop.Slot S in HUDShop.Slots)
+                    {
+                        if (HUDShop.IsOver(S.BgQuad) && S.ItemPicture.Panel.MaterialName != "QuadMaterial")
+                        {
+                            if (S.isSelected && HUDShop.SelectedOne > -1)
+                            {
+                                float CenaSprzedazy = Character.Inventory[HUDShop.SelectedOne].Price * 0.5f;
+                                CenaSprzedazy += CenaSprzedazy * (Character.Statistics.Charyzma * 0.25f) / 100.0f;
+
+                                if (HUDShop.Shop.Gold >= (int)CenaSprzedazy)
+                                {
+                                    HUDShop.Shop.Gold -= (int)CenaSprzedazy;
+                                    Character.Profile.Gold += (ulong)CenaSprzedazy;
+                                    HUDShop.Shop.Items.Add(Character.Inventory[HUDShop.SelectedOne]);
+                                    HUDShop.Shop.WhoSays.Inventory.Add(Character.Inventory[HUDShop.SelectedOne]);
+                                    HUDShop.Shop.WhoSays.Profile.Gold -= (ulong)CenaSprzedazy;
+                                    Character.Inventory.RemoveAt(HUDShop.SelectedOne);
+                                    HUDShop.AktywnaStrona = 0;
+                                    HUDShop.SelectedOne = -1;
+                                    HUDShop.UpdateViewAll();
+                                    HUDShop.UpdateDescription();
+                                    Flag = true;
+                                }
+                            }
+
+                            else
+                            {
+                                HUDShop.SelectedOne = Obieg + HUDShop.SlotsCount * HUDShop.KtoraStrona;
+                                S.isSelected = true;
+                                Flag = true;
+                            }
+                        }
+                        else
+                            S.isSelected = false;
+
+                        Obieg++;
+                    }
+
+                    if (!Flag)
+                        HUDShop.AktywnaStrona = 1;
+                }
+
+                Obieg = 0;
+
+                if (HUDShop.AktywnaStrona == 1)
+                {
+                    foreach (HUDShop.Slot S in HUDShop.Slots2)
+                    {
+                        if (HUDShop.IsOver(S.BgQuad) && S.ItemPicture.Panel.MaterialName != "QuadMaterial")
+                        {
+                            if (S.isSelected && HUDShop.SelectedOne > -1)
+                            {
+                                float CenaKupna = HUDShop.Shop.Items[HUDShop.SelectedOne].Price * HUDShop.Shop.Mnoznik;
+                                CenaKupna -= CenaKupna * (Character.Statistics.Charyzma * 0.25f) / 100.0f;
+
+                                if (Character.Profile.Gold >= (ulong)CenaKupna)
+                                {
+                                    Character.Profile.Gold -= (ulong)CenaKupna;
+                                    HUDShop.Shop.Gold += (int)CenaKupna;
+                                    HUDShop.Shop.WhoSays.Profile.Gold += (ulong)CenaKupna;
+                                    Character.Inventory.Add(HUDShop.Shop.Items[HUDShop.SelectedOne]);
+                                    HUDShop.Shop.Items.RemoveAt(HUDShop.SelectedOne);
+                                    HUDShop.Shop.WhoSays.Inventory.RemoveAt(HUDShop.SelectedOne);
+                                    HUDShop.AktywnaStrona = 0;
+                                    HUDShop.SelectedOne = -1;
+                                    HUDShop.UpdateViewAll();
+                                    HUDShop.UpdateDescription();
+                                }
+
+                            }
+
+                            else
+                            {
+                                HUDShop.SelectedOne = Obieg + HUDShop.SlotsCount * HUDShop.KtoraStrona;
+                                S.isSelected = true;
+                                Flag = true;
+                            }
+                        }
+                        else
+                            S.isSelected = false;
+
+                        Obieg++;
+                    }
+
+                    if (Flag == false)
+                    {
+                        HUDShop.AktywnaStrona = 0;
+
+                        //Console.WriteLine("Poszet :C");
+                    }
+                }
+
+                if (Flag == false)
+                {                    
+                    HUDShop.SelectedOneB4 = HUDShop.SelectedOne;
+                    HUDShop.SelectedOne = -1;
+                }
+
+                HUDShop.UpdateView();
+                HUDShop.UpdateDescription();
+            }
+
+            if (Engine.Singleton.Mouse.MouseState.Z.rel > 0 && HUDShop.KtoraStrona > 0)     //scroll - gora!
+            {
+                HUDShop.KtoraStrona--;
+                HUDShop.SelectedOne = -1;
+                HUDShop.UpdateView();
+                HUDShop.UpdateDescription();
+            }
+
+            else if (Engine.Singleton.Mouse.MouseState.Z.rel < 0 && HUDShop.Slots[0].BgQuad.Panel.MaterialName != "QuadMaterial")   //scroll - dol!
+            {
+                HUDShop.KtoraStrona++;
+                HUDShop.SelectedOne = -1;
+                HUDShop.UpdateView();
+                HUDShop.UpdateDescription();
+            }
+
+            HUDShop.MouseCursor.SetDimensions(Engine.Singleton.GetFloatFromPxWidth(Engine.Singleton.Mouse.MouseState.X.abs), Engine.Singleton.GetFloatFromPxHeight(Engine.Singleton.Mouse.MouseState.Y.abs), Engine.Singleton.GetFloatFromPxWidth(32), Engine.Singleton.GetFloatFromPxHeight(32));
         }
 
         private void HandleContainer()      // @@ funkcja odpowiedzialna za obsługę kontenerów
@@ -532,7 +673,6 @@ namespace Gra
                 Console.Write(Character.Position.y);
                 Console.Write(", ");
                 Console.WriteLine(Character.Position.z);
-				InitShop = true;
             }
 
             if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_B))           // wypisanie w konsoli aktywnych kłestów

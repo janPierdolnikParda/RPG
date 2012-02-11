@@ -57,6 +57,10 @@ namespace Gra
             Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["iKufel"]);
             Engine.Singleton.HumanController.ToggleHud();
 
+            Engine.Singleton.Mysz = Engine.Singleton.Mouse.MouseState;
+
+            player.Profile.Gold = 30;
+
 
 
             while (true)

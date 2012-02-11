@@ -59,6 +59,7 @@ namespace Gra
                     Kriper.FriendlyType = (Character.FriendType)int.Parse(item["FriendlyType"].InnerText);
                     Kriper.Statistics = new Statistics(int.Parse(item["WalkaWrecz"].InnerText), int.Parse(item["Sila"].InnerText), int.Parse(item["Opanowanie"].InnerText), int.Parse(item["Wytrzymalosc"].InnerText), int.Parse(item["Zrecznosc"].InnerText), int.Parse(item["Charyzma"].InnerText), int.Parse(item["Zywotnosc"].InnerText));
                     Kriper.DialogRoot = item["DialogRoot"].InnerText;
+                    Kriper.MnoznikDlaShopa = float.Parse(item["ShopMnoznik"].InnerText);
 
                     C.Add(Kriper.ProfileName, Kriper);
                 }

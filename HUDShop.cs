@@ -8,13 +8,14 @@ namespace Gra
 {
 	class HUDShop
 	{
-		class Slot
+		public class Slot
 		{
 			public const float Size = 0.11f;
 			public static float Width;
-			SimpleQuad BgQuad;
+			public SimpleQuad BgQuad;
 			SimpleQuad BlueQuad;
-            SimpleQuad ItemPicture;
+            public SimpleQuad ItemPicture;
+            public bool isSelected;
 
 			public Slot(float left, float top)
 			{
@@ -24,6 +25,7 @@ namespace Gra
 
 				BlueQuad.IsVisible = false;
                 ItemPicture.IsVisible = false;
+                isSelected = false;
 			}
 
 			public bool IsVisible
@@ -53,29 +55,40 @@ namespace Gra
 
 		public Shop Shop = new Shop();
 
-		const int SlotsCount = 7;
+		public const int SlotsCount = 7;
 		const float SlotsSpacing = 0.02f;
 
-		Slot[] Slots;
-		Slot[] Slots2;
+		public Slot[] Slots;
+		public Slot[] Slots2;
 
 		int _SelectIndex;
 		int _SelectIndex2;
 		int _ViewIndex;
 		int _ViewIndex2;
 
-		int AktywnaStrona;
+		public int AktywnaStrona;
+        public int SelectedOne;
+        public int SelectedOneB4;
+        public int KtoraStrona;
 
 		SimpleQuad DescriptionBg;
 		SimpleQuad SelectedPicture;
 		TextLabel DescriptionLabel;
+
+        SimpleQuad YourGoldBg;
+        TextLabel YourGoldLabel;
+        SimpleQuad NPCGoldBg;
+        TextLabel NPCGoldLabel;
+
+        SimpleQuad ShopNameBg;
+        TextLabel ShopNameLabel;
 
 		//SimpleQuad CompassBg;
 		//TextLabel CompassLabel;
 
 		SimpleQuad InventoryBg;
 
-		SimpleQuad MouseCursor;
+		public SimpleQuad MouseCursor;
 
 		bool _isVisible;
 
@@ -100,17 +113,39 @@ namespace Gra
 			DescriptionLabel = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.03f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
 			DescriptionLabel.SetPosition(0.45f, 0.51f);
 
+            YourGoldBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0.2f, 0.2f, 0.2f, 0.08f, ColourValue.White, 1);
+            YourGoldLabel = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.03f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
+            YourGoldLabel.SetPosition(0.2f, 0.23f);
+
+            NPCGoldBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0.6f, 0.2f, 0.2f, 0.08f, ColourValue.White, 1);
+            NPCGoldLabel = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.03f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
+            NPCGoldLabel.SetPosition(0.6f, 0.23f);
+
+            ShopNameBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0.25f, 0.04f, 0.5f, 0.1f, ColourValue.White, 1);
+            ShopNameLabel = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.08f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
+            ShopNameLabel.SetPosition(0.25f, 0.06f);
+
 			//CompassBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0.1f, 0.1f, 0.2f, 0.1f, new ColourValue(1, 1, 1), 1);
 			//CompassLabel = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
 			//CompassLabel.SetPosition(0.11f, 0.13f);
 
 			InventoryBg = Engine.Singleton.Labeler.NewSimpleQuad("InventoryBgMaterial", 0.01f, 0.01f, 0.98f, 0.98f, new ColourValue(1, 1, 1), 0);
-			//MouseCursor = Engine.Singleton.Labeler.NewSimpleQuad("Kursor", User.MouseX, User.MouseY, 32, 32, new ColourValue(1, 1, 1), 4);
+            MouseCursor = Engine.Singleton.Labeler.NewSimpleQuad("Kursor", 0.0f, 0.0f, Engine.Singleton.GetFloatFromPxWidth(32), Engine.Singleton.GetFloatFromPxHeight(32), new ColourValue(1, 1, 1), 4);
 			IsVisible = false;
+
+            KtoraStrona = 0;
+            SelectedOne = -1;
 
 			//DescriptionLabel.Caption = screenx.ToString();
 
 		}
+
+        public void UnselectAll()
+        {
+            foreach (Slot S in Slots)
+                if (S.isSelected)
+                    S.isSelected = false;
+        }
 
 		public Character Character
 		{
@@ -124,109 +159,94 @@ namespace Gra
 		{
 			if (AktywnaStrona == 0)
 			{
-				for (int i = ViewIndex; i < ViewIndex + SlotsCount; i++)
-					if (i < Character.Inventory.Count)
-						Slots[i - ViewIndex].SetItem(Character.Inventory.ElementAt(i));
-					else
-						Slots[i - ViewIndex].SetItem(null);
+                for (int i = KtoraStrona * SlotsCount; i < KtoraStrona * SlotsCount + SlotsCount; i++)
+                {
+                    if (i < Character.Inventory.Count)
+                        Slots[i - KtoraStrona * SlotsCount].SetItem(Character.Inventory.ElementAt(i));
+                    else
+                        Slots[i - KtoraStrona * SlotsCount].SetItem(null);
+                }
+
 			}
 
 			if (AktywnaStrona == 1)
 			{
-				for (int i = ViewIndex; i < ViewIndex + SlotsCount; i++)
+                for (int i = KtoraStrona * SlotsCount; i < KtoraStrona * SlotsCount + SlotsCount; i++)
 					if (i < Shop.Items.Count)
-						Slots2[i - ViewIndex].SetItem(Shop.Items.ElementAt(i));
+                        Slots2[i - KtoraStrona * SlotsCount].SetItem(Shop.Items.ElementAt(i));
 					else
-						Slots2[i - ViewIndex].SetItem(null);
+                        Slots2[i - KtoraStrona * SlotsCount].SetItem(null);
 			}
 
-
+            YourGoldLabel.Caption = "Zloto: " + Character.Profile.Gold.ToString();
+            NPCGoldLabel.Caption = "Zloto: " + Shop.Gold.ToString();
+            ShopNameLabel.Caption = "Sklep " + Shop.ShopName;
+            MouseCursor.SetDimensions(Engine.Singleton.GetFloatFromPxWidth(Engine.Singleton.Mouse.MouseState.X.abs), Engine.Singleton.GetFloatFromPxHeight(Engine.Singleton.Mouse.MouseState.Y.abs), Engine.Singleton.GetFloatFromPxWidth(32), Engine.Singleton.GetFloatFromPxHeight(32));
 		}
 
 		public void UpdateDescription()
 		{
 			if (AktywnaStrona == 0)
 			{
-				if (SelectIndex != -1)
-				{
-					DescriptionLabel.Caption =
-						Character.Inventory[SelectIndex].DisplayName
-						+ "\n\n"
-						+ Character.Inventory[SelectIndex].Description;
+                if (SelectedOne != -1 && SelectedOne < Character.Inventory.Count)
+                {
+                    float CenaSprzedazy = Character.Inventory[SelectedOne].Price * 0.5f;
+                    CenaSprzedazy += CenaSprzedazy * (Character.Statistics.Charyzma * 0.25f) / 100.0f;
+                    DescriptionLabel.Caption =
+                        Character.Inventory[SelectedOne].DisplayName
+                        + "\n\n"
+                        + Character.Inventory[SelectedOne].Description
+                        + "\nCena sprzedazy: "
+                        + ((int)CenaSprzedazy).ToString();
 
-					if (Character.Inventory[SelectIndex] is ItemSword)
-						DescriptionLabel.Caption += "\nObrazenia: "
-							+ (Character.Inventory[SelectIndex] as ItemSword).Damage.ToString();
+                    if (Character.Inventory[SelectedOne] is ItemSword)
+                        DescriptionLabel.Caption += "\nObrazenia: "
+                            + (Character.Inventory[SelectedOne] as ItemSword).Damage.ToString();
 
-					if (Character.Inventory[SelectIndex].InventoryPictureMaterial != null)
-						SelectedPicture.Panel.MaterialName = Character.Inventory[SelectIndex].InventoryPictureMaterial;
-				}
-				else
-				{
-					DescriptionLabel.Caption = "";
-					SelectedPicture.Panel.MaterialName = "QuadMaterial";
-				}
+                    
+
+                    if (Character.Inventory[SelectedOne].InventoryPictureMaterial != null && Character.Inventory[SelectedOne].InventoryPictureMaterial != "-")
+                        SelectedPicture.Panel.MaterialName = Character.Inventory[SelectedOne].InventoryPictureMaterial;
+                    else
+                        SelectedPicture.Panel.MaterialName = "QuadMaterial";
+                }
+                else
+                {
+                    DescriptionLabel.Caption = "";
+                    SelectedPicture.Panel.MaterialName = "QuadMaterial";
+                }
 			}
 
 			if (AktywnaStrona == 1)
 			{
-				if (SelectIndex != -1)
-				{
-					DescriptionLabel.Caption =
-						Shop.Items[SelectIndex].DisplayName
-						+ "\n\n"
-						+ Shop.Items[SelectIndex].Description;
+                if (SelectedOne != -1 && SelectedOne < Shop.Items.Count)
+                {
+                    float CenaKupna = Shop.Items[SelectedOne].Price * Shop.Mnoznik;
+                    CenaKupna -= CenaKupna * (Character.Statistics.Charyzma * 0.25f) / 100.0f;
+                    DescriptionLabel.Caption =
+                        Shop.Items[SelectedOne].DisplayName
+                        + "\n\n"
+                        + Shop.Items[SelectedOne].Description
+                        + "\n Cena: "
+                        + ((int)CenaKupna).ToString();
+                        
 
-					if (Shop.Items[SelectIndex] is ItemSword)
-						DescriptionLabel.Caption += "\nObrazenia: "
-							+ (Shop.Items[SelectIndex] as ItemSword).Damage.ToString();
+                    if (Shop.Items[SelectedOne] is ItemSword)
+                        DescriptionLabel.Caption += "\nObrazenia: "
+                            + (Shop.Items[SelectedOne] as ItemSword).Damage.ToString();
 
-					if (Shop.Items[SelectIndex].InventoryPictureMaterial != null)
-						SelectedPicture.Panel.MaterialName = Shop.Items[SelectIndex].InventoryPictureMaterial;
-				}
-				else
-				{
-					DescriptionLabel.Caption = "";
-					SelectedPicture.Panel.MaterialName = "QuadMaterial";
-				}
-			}
-		}
+                    DescriptionLabel.Caption += "\nMasa: " + Shop.Items[SelectedOne].Mass;
 
-		public int SelectIndex
-		{
-			get
-			{
-				return (_SelectIndex >= Character.Inventory.Count ? -1 : _SelectIndex);
-			}
-			set
-			{
-				if (value < 0)
-					value = -1;
-				else if (value >= Character.Inventory.Count)
-					value = Character.Inventory.Count - 1;
-				_SelectIndex = value;
-				if (_SelectIndex >= ViewIndex + SlotsCount)
-					ViewIndex = _SelectIndex - SlotsCount + 1;
-				else if (_SelectIndex < ViewIndex)
-					ViewIndex = _SelectIndex;
-
-				UpdateDescription();
-			}
-		}
-
-		public int ViewIndex
-		{
-			get
-			{
-				return _ViewIndex;
-			}
-			set
-			{
-				if (value != _ViewIndex)
-				{
-					_ViewIndex = System.Math.Max(0, value);
-					UpdateView();
-				}
+                    if (Shop.Items[SelectedOne].InventoryPictureMaterial != null && Shop.Items[SelectedOne].InventoryPictureMaterial != "-")
+                        SelectedPicture.Panel.MaterialName = Shop.Items[SelectedOne].InventoryPictureMaterial;
+                    else
+                        SelectedPicture.Panel.MaterialName = "QuadMaterial";
+                }
+                else
+                {
+                    DescriptionLabel.Caption = "";
+                    SelectedPicture.Panel.MaterialName = "QuadMaterial";
+                }
 			}
 		}
 
@@ -234,20 +254,20 @@ namespace Gra
 		{
 			//if (AktywnaStrona == 0)
 			{
-				for (int i = ViewIndex; i < ViewIndex + SlotsCount; i++)
+                for (int i = KtoraStrona * SlotsCount; i < KtoraStrona * SlotsCount + SlotsCount; i++)
 					if (i < Character.Inventory.Count)
-						Slots[i - ViewIndex].SetItem(Character.Inventory.ElementAt(i));
+                        Slots[i - KtoraStrona * SlotsCount].SetItem(Character.Inventory.ElementAt(i));
 					else
-						Slots[i - ViewIndex].SetItem(null);
+                        Slots[i - KtoraStrona * SlotsCount].SetItem(null);
 			}
 
 			//if (AktywnaStrona == 1)
 			{
-				for (int i = ViewIndex; i < ViewIndex + SlotsCount; i++)
+                for (int i = KtoraStrona * SlotsCount; i < KtoraStrona * SlotsCount + SlotsCount; i++)
 					if (i < Shop.Items.Count)
-						Slots2[i - ViewIndex].SetItem(Shop.Items.ElementAt(i));
+                        Slots2[i - KtoraStrona * SlotsCount].SetItem(Shop.Items.ElementAt(i));
 					else
-						Slots2[i - ViewIndex].SetItem(null);
+                        Slots2[i - KtoraStrona * SlotsCount].SetItem(null);
 			}
 		}
 
@@ -261,7 +281,13 @@ namespace Gra
 				DescriptionLabel.IsVisible = value;
 				SelectedPicture.IsVisible = value;
 				InventoryBg.IsVisible = value;
-				//MouseCursor.IsVisible = value;
+                YourGoldLabel.IsVisible = value;
+                YourGoldBg.IsVisible = value;
+                NPCGoldLabel.IsVisible = value;
+                NPCGoldBg.IsVisible = value;
+                ShopNameBg.IsVisible = value;
+                ShopNameLabel.IsVisible = value;
+				MouseCursor.IsVisible = value;
 
 				if (value)
 				{
@@ -279,5 +305,11 @@ namespace Gra
 				IsVisible = true;
 		}
 
+        public bool IsOver(SimpleQuad quad)
+        {
+            if (Engine.Singleton.GetFloatFromPxWidth(Engine.Singleton.Mouse.MouseState.X.abs) >= quad.Panel.Left && Engine.Singleton.GetFloatFromPxWidth(Engine.Singleton.Mouse.MouseState.X.abs) <= quad.Panel.Left + quad.Panel.Width && Engine.Singleton.GetFloatFromPxHeight(Engine.Singleton.Mouse.MouseState.Y.abs) >= quad.Panel.Top && Engine.Singleton.GetFloatFromPxHeight(Engine.Singleton.Mouse.MouseState.Y.abs) <= quad.Panel.Top + quad.Panel.Height)
+                return true;
+            return false;
+        }
 	}
 }
