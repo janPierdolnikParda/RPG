@@ -19,14 +19,14 @@ namespace Gra
 
 			Engine.Singleton.SoundManager.BGMPlaylist.Add("Achaidh Cheide.mp3");
 			Engine.Singleton.SoundManager.BGMPlaylist.Add("Thatched Villagers.mp3");
-            Engine.Singleton.SoundManager.PlayBGM();
+            //Engine.Singleton.SoundManager.PlayBGM();
 
 
             Engine.Singleton.CurrentLevel = new Level();
            // Engine.Singleton.CurrentLevel.SetGraphicsMesh("World.mesh");
            // Engine.Singleton.CurrentLevel.SetCollisionMesh("World.mesh");
 
-            Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "KarczmaNav");
+            Engine.Singleton.CurrentLevel.LoadLevel("Karczmalvl2", "KarczmaNav");
             Engine.Singleton.Load();
 
             TriggerVolume triggerVolume = new TriggerVolume();
