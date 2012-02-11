@@ -423,7 +423,7 @@ namespace Gra
                     {
                         if (HUDShop.IsOver(S.BgQuad) && S.ItemPicture.Panel.MaterialName != "QuadMaterial")
                         {
-                            if (S.isSelected && HUDShop.SelectedOne > -1)
+                            if (S.isSelected && HUDShop.SelectedOne > -1 && !S.BlueQuad.IsVisible)
                             {
                                 float CenaSprzedazy = Character.Inventory[HUDShop.SelectedOne].Price * 0.5f;
                                 CenaSprzedazy += CenaSprzedazy * (Character.Statistics.Charyzma * 0.25f) / 100.0f;
@@ -529,12 +529,23 @@ namespace Gra
                 HUDShop.UpdateDescription();
             }
 
-            else if (Engine.Singleton.Mouse.MouseState.Z.rel < 0 && HUDShop.Slots[0].BgQuad.Panel.MaterialName != "QuadMaterial")   //scroll - dol!
+            else if (Engine.Singleton.Mouse.MouseState.Z.rel < 0)   //scroll - dol!
             {
-                HUDShop.KtoraStrona++;
-                HUDShop.SelectedOne = -1;
-                HUDShop.UpdateView();
-                HUDShop.UpdateDescription();
+                if (HUDShop.AktywnaStrona == 0 && Character.Inventory.Count >= HUDShop.KtoraStrona * HUDShop.SlotsCount)
+                {
+                    HUDShop.KtoraStrona++;
+                    HUDShop.SelectedOne = -1;
+                    HUDShop.UpdateView();
+                    HUDShop.UpdateDescription();
+                }
+
+                if (HUDShop.AktywnaStrona == 1 && HUDShop.Shop.Items.Count >= HUDShop.KtoraStrona * HUDShop.SlotsCount)
+                {
+                    HUDShop.KtoraStrona++;
+                    HUDShop.SelectedOne = -1;
+                    HUDShop.UpdateView();
+                    HUDShop.UpdateDescription();
+                }
             }
 
             HUDShop.MouseCursor.SetDimensions(Engine.Singleton.GetFloatFromPxWidth(Engine.Singleton.Mouse.MouseState.X.abs), Engine.Singleton.GetFloatFromPxHeight(Engine.Singleton.Mouse.MouseState.Y.abs), Engine.Singleton.GetFloatFromPxWidth(32), Engine.Singleton.GetFloatFromPxHeight(32));

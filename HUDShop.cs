@@ -13,7 +13,7 @@ namespace Gra
 			public const float Size = 0.11f;
 			public static float Width;
 			public SimpleQuad BgQuad;
-			SimpleQuad BlueQuad;
+			public SimpleQuad BlueQuad;
             public SimpleQuad ItemPicture;
             public bool isSelected;
 

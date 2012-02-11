@@ -134,8 +134,6 @@ namespace Gra
 
       public void StartShop()
       {
-          WhoSays.Inventory.Add(Items.I["iKufel"]);
-          WhoSays.Profile.Gold = 30;
           Engine.Singleton.HumanController.HUDShop.Shop = new Shop(WhoSays.Inventory, (int)WhoSays.Profile.Gold, WhoSays.Profile.DisplayName, WhoSays.Profile.MnoznikDlaShopa, WhoSays);
 		  
 		  //Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.FREE);

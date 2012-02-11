@@ -61,6 +61,12 @@ namespace Gra
                     Kriper.DialogRoot = item["DialogRoot"].InnerText;
                     Kriper.MnoznikDlaShopa = float.Parse(item["ShopMnoznik"].InnerText);
 
+                    if (item["ShopPrizeID"].InnerText != null && item["ShopPrizeID"].InnerText != "")
+                    {
+                        Kriper.Gold = (ulong)PrizeManager.P[item["ShopPrizeID"].InnerText].AmountGold;
+                        Kriper.Inventory = PrizeManager.P[item["ShopPrizeID"].InnerText].ItemsList;
+                    }
+
                     C.Add(Kriper.ProfileName, Kriper);
                 }
 

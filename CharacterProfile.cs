@@ -27,6 +27,7 @@ namespace Gra
         public float ZasiegOgolny;
         public float MnoznikDlaShopa = 1.0f;
         public Character.FriendType FriendlyType;
+        public List<DescribedProfile> Inventory;
 
         public CharacterProfile Clone()
         {
@@ -36,6 +37,8 @@ namespace Gra
         public CharacterProfile()
         {
             Statistics = new Statistics();
+            Inventory = new List<DescribedProfile>();
+            Gold = 0;
             ZasiegWzroku = 20;
             ZasiegOgolny = 20;
         }

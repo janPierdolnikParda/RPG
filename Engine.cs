@@ -102,9 +102,10 @@ namespace Gra
             MaterialManager = new MaterialManager();
             MaterialManager.Initialise();
 
-            CharacterProfileManager = new CharacterProfileManager();
+            
             Items = new Items();
             PrizeManager = new PrizeManager();  //////////////////// @@ Brand nju staff. Nawet trochę działa :Δ
+            CharacterProfileManager = new CharacterProfileManager();
             Quests = new Quests();
             NPCManager = new NPCManager();
             

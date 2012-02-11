@@ -59,10 +59,6 @@ namespace Gra
 
             Engine.Singleton.Mysz = Engine.Singleton.Mouse.MouseState;
 
-            player.Profile.Gold = 30;
-
-
-
             while (true)
             {
                 Engine.Singleton.Update();
