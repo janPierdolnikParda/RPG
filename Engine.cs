@@ -51,6 +51,7 @@ namespace Gra
 
         public MOIS.MouseState_NativePtr Mysz;
 		public bool IsMapLoading;
+		public bool DoUpdate;
 
         public void Initialise()
         {
@@ -157,6 +158,7 @@ namespace Gra
 
         public void Load()
         {
+			DoUpdate = false;
             while (Engine.Singleton.ObjectManager.Objects.Count > 0)
                 Engine.Singleton.ObjectManager.Destroy(Engine.Singleton.ObjectManager.Objects[0]);
 
@@ -271,8 +273,9 @@ namespace Gra
                     Engine.Singleton.ObjectManager.Add(newCharacter);
                 }
             }
-
 			IsMapLoading = false;
+			DoUpdate = true;
+			
         }
 
         public bool IsKeyTyped(MOIS.KeyCode code)

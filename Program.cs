@@ -99,6 +99,7 @@ namespace Gra
 
         static void triggerVolume_OnCharacterEntered(TriggerVolume sender, Character character)
         {
+			Engine.Singleton.CurrentLevel.DeleteLevel();
 			Engine.Singleton.CurrentLevel.LoadLevel("Karczmalvl2", "KarczmaNav");
 			Engine.Singleton.Load();
         }

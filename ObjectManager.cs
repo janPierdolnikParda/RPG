@@ -24,10 +24,12 @@ namespace Gra
 			if (Engine.Singleton.IsMapLoading)
 				return;
 
-			for (int i = Objects.Count - 1; i >= 0; i--)
+			if (Engine.Singleton.DoUpdate)
 			{
-				if (i == -1) Objects[i].Update();
+				for (int i = Objects.Count - 1; i >= 0; i--)
+					Objects[i].Update();
 			}
+			
 			
         }
 
