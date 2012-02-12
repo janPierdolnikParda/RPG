@@ -21,12 +21,9 @@ namespace Gra
 
         public void Update()
         {
-			if (Engine.Singleton.IsMapLoading)
-				return;
-
 			for (int i = Objects.Count - 1; i >= 0; i--)
 			{
-				if (i == -1) Objects[i].Update();
+				Objects[i].Update();
 			}
 			
         }

@@ -21,6 +21,10 @@ namespace Gra
 
         public NavMesh navMesh = new NavMesh();
 
+        public bool LoadNewMap = false;
+        public String NewMapName;
+        public String NewMapNav;
+
         void SetGraphicsMesh(String meshFile)
         {
             GraphicsNode = Engine.Singleton.SceneManager.RootSceneNode.CreateChildSceneNode();
@@ -49,9 +53,7 @@ namespace Gra
         }
 
         public void LoadLevel(String LevelName, String NavMeshName, bool isTheSame = false) 
-        {
-			Engine.Singleton.IsMapLoading = true;
-			
+        {			
             this.Name = LevelName;
             String Name = LevelName + ".mesh";
             NavMeshName = "Media/nav/" + NavMeshName + ".obj";
