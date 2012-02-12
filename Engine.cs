@@ -50,8 +50,6 @@ namespace Gra
         public Dialog Dialog;
 
         public MOIS.MouseState_NativePtr Mysz;
-		public bool IsMapLoading;
-		public bool DoUpdate;
 
         public void Initialise()
         {
@@ -154,13 +152,35 @@ namespace Gra
 
             }
             WindowEventUtilities.MessagePump();
+
+            if (CurrentLevel.LoadNewMap)
+            {
+                CurrentLevel.DeleteLevel();
+                CurrentLevel.LoadLevel(CurrentLevel.NewMapName, CurrentLevel.NewMapNav, false);
+                CurrentLevel.LoadNewMap = false;
+                CurrentLevel.NewMapName = "";
+                CurrentLevel.NewMapNav = "";
+                Engine.Singleton.Load();
+            }
         }
 
         public void Load()
         {
-			DoUpdate = false;
             while (Engine.Singleton.ObjectManager.Objects.Count > 0)
-                Engine.Singleton.ObjectManager.Destroy(Engine.Singleton.ObjectManager.Objects[0]);
+            {
+                int q = 0;
+
+                if (Engine.Singleton.ObjectManager.Objects[0] is Character && (Engine.Singleton.ObjectManager.Objects[0] as Character) == Engine.Singleton.HumanController.Character)
+                {
+                    q = 1;
+
+                    if (Engine.Singleton.ObjectManager.Objects.Count == 1)
+                        break;
+                }
+
+                else
+                    Engine.Singleton.ObjectManager.Destroy(Engine.Singleton.ObjectManager.Objects[q]);
+            }
 
             //*************************************************************//
             //                                                             //
@@ -273,9 +293,6 @@ namespace Gra
                     Engine.Singleton.ObjectManager.Add(newCharacter);
                 }
             }
-			IsMapLoading = false;
-			DoUpdate = true;
-			
         }
 
         public bool IsKeyTyped(MOIS.KeyCode code)
