@@ -22,6 +22,7 @@ namespace Gra
         public String PictureMaterial;
 
         public ulong Gold;
+		public int Exp;
         public Statistics Statistics;
         public float ZasiegWzroku;
         public float ZasiegOgolny;
@@ -39,6 +40,7 @@ namespace Gra
             Statistics = new Statistics();
             Inventory = new List<DescribedProfile>();
             Gold = 0;
+			Exp = 0;
             ZasiegWzroku = 20;
             ZasiegOgolny = 20;
         }

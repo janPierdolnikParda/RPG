@@ -56,8 +56,6 @@ namespace Gra
             Body.SetMassMatrix(0, Vector3.ZERO);
             Body.UserData = this;
             Body.MaterialGroupID = Engine.Singleton.MaterialManager.TriggerVolumeMaterialID;
-
-            // Usuwamy z pamięci już użyte części geometrii
             foreach (ConvexCollision c in CompoundParts)
                 c.Dispose();
             CompoundParts = null;
@@ -94,7 +92,6 @@ namespace Gra
 
         public void HandleGameObject(GameObject gameObject)
         {
-            // Próbujemy znaleźć wpis zgłoszonego obiektu
             ObjectInfo entry = ObjectsInside.Find(
                 delegate(ObjectInfo info)
                 {

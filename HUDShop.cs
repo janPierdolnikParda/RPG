@@ -252,23 +252,17 @@ namespace Gra
 
 		public void UpdateViewAll()
 		{
-			//if (AktywnaStrona == 0)
-			{
                 for (int i = KtoraStrona * SlotsCount; i < KtoraStrona * SlotsCount + SlotsCount; i++)
 					if (i < Character.Inventory.Count)
                         Slots[i - KtoraStrona * SlotsCount].SetItem(Character.Inventory.ElementAt(i));
 					else
                         Slots[i - KtoraStrona * SlotsCount].SetItem(null);
-			}
 
-			//if (AktywnaStrona == 1)
-			{
                 for (int i = KtoraStrona * SlotsCount; i < KtoraStrona * SlotsCount + SlotsCount; i++)
 					if (i < Shop.Items.Count)
                         Slots2[i - KtoraStrona * SlotsCount].SetItem(Shop.Items.ElementAt(i));
 					else
                         Slots2[i - KtoraStrona * SlotsCount].SetItem(null);
-			}
 		}
 
 		public bool IsVisible

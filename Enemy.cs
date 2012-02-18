@@ -149,20 +149,14 @@ namespace Gra
             Node = Engine.Singleton.SceneManager.RootSceneNode.CreateChildSceneNode();
             Node.AttachObject(Entity);
 
-            // Bierzemy połowę rozmiaru BoundingBoxa i mnożymy go przez czynnik
             Vector3 scaledSize = Entity.BoundingBox.HalfSize * Profile.BodyScaleFactor;
 
             ConvexCollision collision = new MogreNewt.CollisionPrimitives.Capsule(
                 Engine.Singleton.NewtonWorld,
-                // Wybieramy szerokość bądź długość
                 System.Math.Min(scaledSize.x, scaledSize.z),
-                // Z uwagi na to, że wzięliśmy połowę rozmiaru,
-                // musimy wysokość pomnożyć przez 2
                 scaledSize.y * 2,
-                // Kapsuła stworzona przez Newtona będzie leżeć wzdłóż osi X,
-                // więc ustalamy pion wzdłóż osi Y
                 Vector3.UNIT_X.GetRotationTo(Vector3.UNIT_Y),
-                Engine.Singleton.GetUniqueBodyId()); // Unikalny identyfikator ciała
+                Engine.Singleton.GetUniqueBodyId());
 
             Vector3 inertia, offset;
             collision.CalculateInertialMatrix(out inertia, out offset);
@@ -184,22 +178,6 @@ namespace Gra
             Engine.Singleton.NewtonWorld, Body, Vector3.UNIT_Y);
 
             collision.Dispose();
-
-            //SensorNode = Node.CreateChildSceneNode(new Vector3(0, 0, System.Math.Min(scaledSize.x, scaledSize.z) * 2));
-
-            //collision = new MogreNewt.CollisionPrimitives.Cylinder(
-                //Engine.Singleton.NewtonWorld,
-                //System.Math.Min(scaledSize.x, scaledSize.z) * 2,
-                //scaledSize.y * 2,
-                //Vector3.UNIT_X.GetRotationTo(Vector3.UNIT_Y),
-                //Engine.Singleton.GetUniqueBodyId());
-            //ObjectSensor = new Body(Engine.Singleton.NewtonWorld, collision, true);
-            //ObjectSensor.SetMassMatrix(1, new Vector3(1, 1, 1));
-
-            //ObjectSensor.UserData = this;
-            //ObjectSensor.MaterialGroupID = Engine.Singleton.MaterialManager.EnemyOrNpcSensorMaterialID;
-
-            //Contacts = new List<GameObject>();
 
             AnimBlender = new CharacterAnimBlender();
             AnimBlender.SetEntity(Entity);
@@ -242,20 +220,16 @@ namespace Gra
 
         public override void Update()
         {
-            //ObjectSensor.SetPositionOrientation(SensorNode._getDerivedPosition(), Node.Orientation);
             Tree.e_Visit(this);
 
             double Distance = Engine.Distance(Position, Engine.Singleton.HumanController.Character.Position);
             Distance = System.Math.Abs(Distance);
-
-            //System.Console.WriteLine(Distance);
 
             if (Distance <= _ZasiegWzroku)
             {
 
                 PredicateRaycast raycast = new PredicateRaycast((b => !(b.UserData is TriggerVolume)));
                 raycast.Go(Engine.Singleton.NewtonWorld, Position + Profile.HeadOffset, Engine.Singleton.HumanController.Character.Position);
-                //System.Console.WriteLine(raycast.Contacts.Count);
                 if (raycast.Contacts.Count <= 1)
                 {
                     isSeen = true;

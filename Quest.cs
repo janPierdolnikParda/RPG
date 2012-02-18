@@ -21,17 +21,9 @@ namespace Gra
         public Dictionary<String, int> BringItems;
         public Dictionary<String, int> KillEnemies;
 
-        //public QuestTypes QuestType;
         public Prize QuestPrize;
 
-        //int killAmount;
-        //Enemy killWhat;
-
-        //public int bringAmount;
         DescribedProfile bringWhat;
-
-        //int visitsAmount;
-        //List<Activator> visitWhat;
 
         public bool isDone;
 
@@ -95,7 +87,7 @@ namespace Gra
         public void GivePrize()
         {
             Engine.Singleton.HumanController.Character.Profile.Gold += (ulong)QuestPrize.AmountGold;
-            //Engine.Singleton.HumanController.Character.Exp += Prize.AmountExp;
+            Engine.Singleton.HumanController.Character.Profile.Exp += QuestPrize.AmountExp;
 
             foreach (DescribedProfile I in QuestPrize.ItemsList)
                 Engine.Singleton.HumanController.Character.Inventory.Add(I);

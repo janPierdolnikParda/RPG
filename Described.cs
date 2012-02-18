@@ -18,10 +18,6 @@ namespace Gra
 
         public Container Container = new Container();
 
-
-		//public delegate void Akt();
-		//public event Akt Aktywator;
-
 		public bool PerformAkt = false;
 
 		Type Type;
@@ -69,12 +65,6 @@ namespace Gra
                 Quaternion.IDENTITY,
                 0.01f, 
                 Engine.Singleton.GetUniqueBodyId());
-
-            //Collision[] kol;
-
-            //MogreNewt.CollisionPrimitives.CompoundCollision coll = new MogreNewt.CollisionPrimitives.CompoundCollision(Engine.Singleton.NewtonWorld,
-                //kol,
-               // Engine.Singleton.GetUniqueBodyId());
           
             Vector3 inertia = new Vector3(1,1,1), offset;
             coll.CalculateInertialMatrix(out inertia, out offset);

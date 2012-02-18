@@ -135,8 +135,6 @@ namespace Gra
       public void StartShop()
       {
           Engine.Singleton.HumanController.HUDShop.Shop = new Shop(WhoSays.Inventory, (int)WhoSays.Profile.Gold, WhoSays.Profile.DisplayName, WhoSays.Profile.MnoznikDlaShopa, WhoSays);
-		  
-		  //Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.FREE);
 		  Engine.Singleton.HumanController.InitShop = true;
       }
  

@@ -139,8 +139,6 @@ namespace Gra
                         Slots2[i - ViewIndex2].SetItem(Container.Contains[i]);
                     else
                         Slots2[i - ViewIndex2].SetItem(null);
-
-                //foreach (var slot in Slots1) slot.SetItem(null);
             }
             else if (ActiveEq == 0)
             {
@@ -149,8 +147,6 @@ namespace Gra
                         Slots1[i - ViewIndex1].SetItem(Character.Inventory[i]);
                     else
                         Slots1[i - ViewIndex1].SetItem(null);
-
-                //foreach (var slot in Slots2) slot.SetItem(null);
             }
             
             GoldLabel.Caption = "Zloto: " + Character.Profile.Gold;

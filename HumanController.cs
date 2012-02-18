@@ -409,7 +409,7 @@ namespace Gra
             {
                 while (Engine.Singleton.Mouse.MouseState.ButtonDown(MOIS.MouseButtonID.MB_Left))
                 {
-                    Engine.Singleton.Mouse.Capture();               //petla, zeby nie klikal mi milion razy, tylko raz :)
+                    Engine.Singleton.Mouse.Capture();
                 }
 
                 bool Flag = false;
@@ -506,8 +506,6 @@ namespace Gra
                     if (Flag == false)
                     {
                         HUDShop.AktywnaStrona = 0;
-
-                        //Console.WriteLine("Poszet :C");
                     }
                 }
 
@@ -802,35 +800,8 @@ namespace Gra
                 }
             }
 
-
-            //if (Character.Contacts.Count > 0)
             if (Character.Contact != null)
             {
-                
-                /*if (FocusObjectId < 0)                                  // przełączanie między kilkoma obiektami znajdującymi
-                {                                                       // się w sensorze
-                    FocusObjectId = Character.Contacts.Count - 1;
-                }
-                else if (FocusObjectId >= Character.Contacts.Count)
-                {
-                    FocusObjectId = 0;
-                }
-
-                
-                SelectableObject contact = Character.Contacts[FocusObjectId] as SelectableObject;
-                FocusObject = contact;
-                string lol = null;
-
-				if (contact is Enemy)
-				{
-					//lol = "\nHp: " + (contact as Enemy).Statistics.Hp + "\\" + (contact as Enemy).Statistics.MaxHp;
-				}
-                else if (contact.IsContainer == true)            // dodawanie Otwórz do nazwy obiektu, jeśli jest kontenerem
-					lol = "\n(Otworz)";
-
-                TargetLabel.Caption = contact.DisplayName + lol;
-                TargetLabel.Position3D = contact.Position + contact.DisplayNameOffset;
-                TargetLabel.IsVisible = true;*/
 
                 FocusObject = Character.Contact as SelectableObject;
                 string lol = null;
