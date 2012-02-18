@@ -44,6 +44,7 @@ namespace Gra
         public Items Items;
         public PrizeManager PrizeManager;
         public Quests Quests;
+        public TriggerManager TriggerManager;
 
         public SoundManager SoundManager;
 

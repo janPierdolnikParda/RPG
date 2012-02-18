@@ -48,7 +48,7 @@ namespace Gra
             Instance = Activator.CreateInstance(Type);
 
 			Method = Type.GetMethod(a);
-			//Method = Type.GetMember(profile.Activator);    // <--- zamienić potem na to jak już będzie wczytywał Activator z xmla
+			//Method = Type.GetMethod(profile.Activator);    // <--- zamienić potem na to jak już będzie wczytywał Activator z xmla
 
             IsContainer = profile.IsContainer;
 

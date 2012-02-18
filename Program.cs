@@ -28,6 +28,7 @@ namespace Gra
 
             Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "KarczmaNav");
             Engine.Singleton.Load();
+            Engine.Singleton.TriggerManager = new TriggerManager();
 
             TriggerVolume triggerVolume = new TriggerVolume();
             triggerVolume.BeginShapeBuild();

@@ -30,9 +30,20 @@ namespace Gra
 
         List<ObjectInfo> ObjectsInside;
 
+        public String EnterActivator = "";
+        public String LeftActivator = "";
+        public String ID = "";
+        public List<KeyValuePair<String, String>> EnterParameters;
+        public List<KeyValuePair<String, String>> LeftParameters;
 
         Body Body;
         List<Collision> CompoundParts;
+
+        public TriggerVolume()
+        {
+            EnterParameters = new List<KeyValuePair<string, string>>();
+            LeftParameters = new List<KeyValuePair<string, string>>();
+        }
 
         public delegate void CharacterEnteredHandler(TriggerVolume sender, Character character);
         public delegate void CharacterLeftHandler(TriggerVolume sender, Character character);

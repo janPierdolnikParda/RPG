@@ -7,7 +7,7 @@ namespace Gra
 {
 	public class Activators
 	{
-		public static void soundOddawajPiec()
+		public static void soundOddawajPiec(int n)
 		{
 			Engine.Singleton.SoundManager.PlayDialog("oddawaj_moj_piec.mp3");
 		}
