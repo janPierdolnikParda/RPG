@@ -30,5 +30,9 @@ namespace Gra
             Engine.Singleton.CurrentLevel.NewMapNav = "Karczmanav";
             Engine.Singleton.HumanController.Character.Position = new Mogre.Vector3(9, 1, -12);
         }
+
+        public static void Null()
+        {
+        }
 	}
 }
