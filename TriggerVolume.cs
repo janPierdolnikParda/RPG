@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Mogre;
 using MogreNewt;
+using System.Reflection;
 
 namespace Gra
 {
@@ -30,9 +31,26 @@ namespace Gra
 
         List<ObjectInfo> ObjectsInside;
 
+        public String EnterActivator = "";
+        public String LeftActivator = "";
+        public String ID = "";
+
+        Type Type;
+        MethodInfo Method;
+        object Instance;
+
+        Type Type2;
+        MethodInfo Method2;
+        object Instance2;
 
         Body Body;
         List<Collision> CompoundParts;
+
+        public TriggerVolume()
+        {
+            OnCharacterEntered += new TriggerVolume.CharacterEnteredHandler(Activator_Entered);
+            OnCharacterLeft += new TriggerVolume.CharacterLeftHandler(Activator_Left);
+        }
 
         public delegate void CharacterEnteredHandler(TriggerVolume sender, Character character);
         public delegate void CharacterLeftHandler(TriggerVolume sender, Character character);
@@ -87,6 +105,39 @@ namespace Gra
             set
             {
                 Body.SetPositionOrientation(Body.Position, value);
+            }
+        }
+
+        public void Activator_Entered(TriggerVolume sender, Character character)
+        {
+            if (EnterActivator != "")
+            {
+                Method.Invoke(Instance, null);
+            }
+        }
+
+        public void Activator_Left(TriggerVolume sender, Character character)
+        {
+            if (LeftActivator != "")
+            {
+                Method2.Invoke(Instance2, null);
+            }
+        }
+
+        public void PrzypiszMetody()
+        {
+            if (EnterActivator != "")
+            {
+                Type = Type.GetType("Gra.Activators");
+                Instance = Activator.CreateInstance(Type);
+                Method = Type.GetMethod(EnterActivator);
+            }
+
+            if (LeftActivator != "")
+            {
+                Type2 = Type.GetType("Gra.Activators");
+                Instance2 = Activator.CreateInstance(Type2);
+                Method2 = Type2.GetMethod(LeftActivator);
             }
         }
 

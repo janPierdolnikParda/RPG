@@ -38,13 +38,16 @@ namespace Gra
 
             Vector3 scaledSize = Entity.BoundingBox.Size * Profile.BodyScaleFactor;
 
-			string a = "soundOddawajPiec"; // tymczasowe
-			
-			Type = Type.GetType("Gra.Activators");
-            Instance = Activator.CreateInstance(Type);
+			//string a = "soundOddawajPiec"; // tymczasowe
 
-			Method = Type.GetMethod(a);
-			//Method = Type.GetMember(profile.Activator);    // <--- zamienić potem na to jak już będzie wczytywał Activator z xmla
+            if (profile.Activator != "" && profile.Activator != null)
+            {
+                Type = Type.GetType("Gra.Activators");
+                Instance = Activator.CreateInstance(Type);
+
+                //Method = Type.GetMethod(a);
+                Method = Type.GetMethod(profile.Activator);    // <--- zamienić potem na to jak już będzie wczytywał Activator z xmla
+            }
 
             IsContainer = profile.IsContainer;
 
@@ -103,7 +106,7 @@ namespace Gra
 
         public override void Update()
         {
-			if (PerformAkt)
+			if (PerformAkt && Profile.Activator != "" && Profile.Activator != null)
 			{
 				Method.Invoke(Instance, null);
 				PerformAkt = false;

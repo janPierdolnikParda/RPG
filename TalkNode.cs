@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace Gra
 {
@@ -24,9 +25,13 @@ namespace Gra
       public event Action Actions;
 
       public String Quest;
-      public String Activator;
+      public String Activatorr;
       public TalkEdge Edge;
       public Character WhoSays;
+
+      Type Type;
+      MethodInfo Method;
+      object Instance;
 
 	  public bool IsEnding = false;
 
@@ -127,9 +132,20 @@ namespace Gra
           }
       }
 
+      public void PrzypiszMetode()
+      {
+          if (Activatorr != null && Activatorr != "")
+          {
+              Type = Type.GetType("Gra.Activators");
+              Instance = Activator.CreateInstance(Type);
+              Method = Type.GetMethod(Activatorr);
+          }
+      }
+
       public void ActivateActivator()
       {
-
+          if (Activatorr != null && Activatorr != "")
+              Method.Invoke(Activatorr, null);
       }
 
       public void StartShop()
