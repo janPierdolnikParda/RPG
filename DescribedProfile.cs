@@ -22,9 +22,6 @@ namespace Gra
         public string ProfileName;
         public int Price = 0;
 
-		public string Activator;
-
-
         public DescribedProfile Clone()
         {
             return (DescribedProfile)MemberwiseClone();

@@ -211,6 +211,8 @@ namespace Gra
                         Position.y = float.Parse(item["Position_y"].InnerText);
                         Position.z = float.Parse(item["Position_z"].InnerText);
                         newDescribed.Position = Position;
+                        newDescribed.Activatorr = item["Activator"].InnerText;
+                        newDescribed.PrzypiszMetode();
 
                         Engine.Singleton.ObjectManager.Add(newDescribed);
                     }
@@ -227,6 +229,8 @@ namespace Gra
                         Position.y = float.Parse(item["Position_y"].InnerText);
                         Position.z = float.Parse(item["Position_z"].InnerText);
                         newDescribed.Position = Position;
+                        newDescribed.Activatorr = item["Activator"].InnerText;
+                        newDescribed.PrzypiszMetode();
 
                         Engine.Singleton.ObjectManager.Add(newDescribed);
                     }
