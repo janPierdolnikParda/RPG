@@ -40,20 +40,6 @@ namespace Gra
                     newTrigg.EnterActivator = item["EnteredActivator"].InnerText;
                     newTrigg.LeftActivator = item["LeftActivator"].InnerText;
 
-                    XmlNodeList eParams = item["EnteredParameters"].ChildNodes;
-
-                    foreach (XmlNode ePar in eParams)
-                    {
-                        newTrigg.EnterParameters.Add(new KeyValuePair<String, String>(ePar["Type"].InnerText, ePar["Value"].InnerText));
-                    }
-
-                    XmlNodeList lParams = item["LeftParameters"].ChildNodes;
-
-                    foreach (XmlNode lPar in lParams)
-                    {
-                        newTrigg.LeftParameters.Add(new KeyValuePair<string, string>(lPar["Type"].InnerText, lPar["Value"].InnerText));
-                    }
-
                     float Size = float.Parse(item["Size"].InnerText);
 
                     newTrigg.BeginShapeBuild();
@@ -61,6 +47,8 @@ namespace Gra
                     newTrigg.EndShapeBuild();
 
                     newTrigg.Position = new Vector3(float.Parse(item["Position_x"].InnerText), float.Parse(item["Position_y"].InnerText), float.Parse(item["Position_z"].InnerText));
+
+                    newTrigg.PrzypiszMetody();
 
                     T.Add(newTrigg.ID, newTrigg);
                     Engine.Singleton.ObjectManager.Add(newTrigg);

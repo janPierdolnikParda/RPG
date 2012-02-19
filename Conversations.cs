@@ -83,7 +83,10 @@ namespace Gra
                         {
                             justDialog.EdgesToNodes.Add(tn["TalkEdgeID"].InnerText, tn["TalkNodeID"].InnerText);
                         }
+
                         justNode.Quest = tn["QuestID"].InnerText;
+                        justNode.Activatorr = tn["Activator"].InnerText;
+                        justNode.PrzypiszMetode();
 
                         justDialog.Nodes.Add(tn["TalkNodeID"].InnerText, justNode);
                     }
