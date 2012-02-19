@@ -156,6 +156,7 @@ namespace Gra
 
             if (CurrentLevel.LoadNewMap)
             {
+                HumanController.Character.Contact = null;
                 CurrentLevel.DeleteLevel();
                 CurrentLevel.LoadLevel(CurrentLevel.NewMapName, CurrentLevel.NewMapNav, false);
                 CurrentLevel.LoadNewMap = false;
@@ -179,8 +180,8 @@ namespace Gra
                         break;
                 }
 
-                else
-                    Engine.Singleton.ObjectManager.Destroy(Engine.Singleton.ObjectManager.Objects[q]);
+               
+                Engine.Singleton.ObjectManager.Destroy(Engine.Singleton.ObjectManager.Objects[q]);
             }
 
             //*************************************************************//
