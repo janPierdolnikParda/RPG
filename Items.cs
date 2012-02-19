@@ -40,7 +40,6 @@ namespace Gra
                     Kriper.ProfileName = item["idstring"].InnerText;
                     Kriper.Price = int.Parse(item["price"].InnerText);
                     Kriper.IsContainer = bool.Parse(item["iscontainer"].InnerText);
-                    Kriper.Activator = item["activator"].InnerText;
 
                     if (Kriper.IsContainer)
                         Kriper.PrizeID = item["prizeid"].InnerText;
@@ -62,7 +61,6 @@ namespace Gra
                     Kriper.DisplayNameOffset.z = float.Parse(item["nameoffsetz"].InnerText);
                     Kriper.ProfileName = item["idstring"].InnerText;
                     Kriper.Price = int.Parse(item["price"].InnerText);
-                    Kriper.Activator = item["activator"].InnerText;
 
                     I.Add(item["idstring"].InnerText, Kriper);
                 }

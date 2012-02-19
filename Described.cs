@@ -11,6 +11,7 @@ namespace Gra
     public class Described : SelectableObject
     {
         public DescribedProfile Profile;
+        public String Activatorr;
 
         Entity Entity;
         SceneNode Node;
@@ -28,9 +29,7 @@ namespace Gra
 
         public Described(DescribedProfile profile)
         {
-            Profile = profile.Clone();
-
-            
+            Profile = profile.Clone();            
 
             Entity = Engine.Singleton.SceneManager.CreateEntity(Profile.MeshName);
             Node = Engine.Singleton.SceneManager.RootSceneNode.CreateChildSceneNode();
@@ -39,15 +38,6 @@ namespace Gra
             Vector3 scaledSize = Entity.BoundingBox.Size * Profile.BodyScaleFactor;
 
 			//string a = "soundOddawajPiec"; // tymczasowe
-
-            if (profile.Activator != "" && profile.Activator != null)
-            {
-                Type = Type.GetType("Gra.Activators");
-                Instance = Activator.CreateInstance(Type);
-
-                //Method = Type.GetMethod(a);
-                Method = Type.GetMethod(profile.Activator);    // <--- zamienić potem na to jak już będzie wczytywał Activator z xmla
-            }
 
             IsContainer = profile.IsContainer;
 
@@ -84,12 +74,22 @@ namespace Gra
             coll.Dispose();
         }
 
+        public void PrzypiszMetode()
+        {
+            if (Activatorr != "" && Activatorr != null)
+            {
+                Type = Type.GetType("Gra.Activators");
+                Instance = Activator.CreateInstance(Type);
+
+                //Method = Type.GetMethod(a);
+                Method = Type.GetMethod(Activatorr);    // <--- zamienić potem na to jak już będzie wczytywał Activator z xmla
+            }
+        }
+
         public bool IsPickable
         {
             get { return Profile.IsPickable; }
         }
-
-		
         
 
         public void TurnTo(Vector3 point)
@@ -106,7 +106,7 @@ namespace Gra
 
         public override void Update()
         {
-			if (PerformAkt && Profile.Activator != "" && Profile.Activator != null)
+			if (PerformAkt && Activatorr != "" && Activatorr != null)
 			{
 				Method.Invoke(Instance, null);
 				PerformAkt = false;
