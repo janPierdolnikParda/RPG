@@ -28,15 +28,7 @@ namespace Gra
 
             Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "KarczmaNav");
             Engine.Singleton.Load();
-            Engine.Singleton.TriggerManager = new TriggerManager();
-
-            TriggerVolume triggerVolume = new TriggerVolume();
-            triggerVolume.BeginShapeBuild();
-            triggerVolume.AddBoxPart(Vector3.ZERO, Quaternion.IDENTITY, new Vector3(2, 2, 2));
-            triggerVolume.EndShapeBuild();
-            Engine.Singleton.ObjectManager.Add(triggerVolume);
-            triggerVolume.Position = new Vector3(9, 3.2f, 8);
-            triggerVolume.OnCharacterEntered += new TriggerVolume.CharacterEnteredHandler(triggerVolume_OnCharacterEntered);          
+            Engine.Singleton.TriggerManager = new TriggerManager();       
 
             Character player = new Character(CharacterProfileManager.character);
             player.Position = new Vector3(7.4251f, 0.2231f, -1.0019f);
@@ -96,18 +88,6 @@ namespace Gra
 
             Engine.Singleton.Root.Dispose();
 
-        }
-
-        static void triggerVolume_OnCharacterEntered(TriggerVolume sender, Character character)
-        {
-            Engine.Singleton.CurrentLevel.LoadNewMap = true;
-            Engine.Singleton.CurrentLevel.NewMapName = "Karczmalvl2";
-            Engine.Singleton.CurrentLevel.NewMapNav = "Karczmanav";
-        }
-
-        static void triggerVolume_Teleport(TriggerVolume sender, Character character)
-        {
-            character.Position = new Vector3(-10, 10, -10);
         }
     }
 }
