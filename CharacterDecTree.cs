@@ -59,7 +59,7 @@ namespace Gra
                 pickItem,
                 bendUp);
 
-            DecTree.Job cleanUp = new DecTree.Job(ch => { ch.PickItemOrder = false; return true; });
+            DecTree.Job cleanUp = new DecTree.Job(ch => { ch.PickItemOrder = false; ch.Contact = null; return true; });
             DecTree.FirstFail pickItemNode = new DecTree.FirstFail(
               new DecTree.Assert(ch => ch.PickItemOrder),
               new DecTree.FirstSucc(PickItemDownSeq, cleanUp), // #1

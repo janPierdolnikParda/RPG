@@ -85,7 +85,10 @@ namespace Gra
                         }
 
                         justNode.Quest = tn["QuestID"].InnerText;
-                        justNode.Activatorr = tn["Activator"].InnerText;
+                        if (tn["Activator"].InnerText != "" && tn["Activator"].InnerText != null)
+                            justNode.Activatorr = tn["Activator"].InnerText;
+                        else
+                            justNode.Activatorr = "";
                         justNode.PrzypiszMetode();
 
                         justDialog.Nodes.Add(tn["TalkNodeID"].InnerText, justNode);

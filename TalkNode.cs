@@ -140,6 +140,13 @@ namespace Gra
               Instance = Activator.CreateInstance(Type);
               Method = Type.GetMethod(Activatorr);
           }
+
+          else
+          {
+              Type = Type.GetType("Gra.Activators");
+              Instance = Activator.CreateInstance(Type);
+              Method = Type.GetMethod("Null");
+          }
       }
 
       public void ActivateActivator()
