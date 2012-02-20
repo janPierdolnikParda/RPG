@@ -13,7 +13,7 @@ namespace Gra
     {
         public static Dictionary<String, Dialog> D;
 
-        static Conversations()
+        public Conversations()
         {
             D = new Dictionary<String, Dialog>();
 

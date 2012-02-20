@@ -51,6 +51,7 @@ namespace Gra
         public Dialog Dialog;
 
         public MOIS.MouseState_NativePtr Mysz;
+		public Conversations Conversations;
 
         public void Initialise()
         {
@@ -121,6 +122,7 @@ namespace Gra
             Dialog = new Dialog();
 
             Mysz = new MOIS.MouseState_NativePtr();
+			Conversations = new Conversations();
         }
 
         public void Update()

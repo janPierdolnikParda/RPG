@@ -115,7 +115,7 @@ namespace Gra
 
 		public void PlayDialog(string path)
 		{
-			if (path != null)
+			if (path == "chuck testa") //if (path != null)
 			{
 				string play;
 
