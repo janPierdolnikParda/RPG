@@ -24,6 +24,7 @@ namespace Gra
         public bool Other = true;
 
         public string Quest;
+        public string ID;
 
         public List<Condition> Condits;
 
@@ -85,6 +86,45 @@ namespace Gra
                 if (edge.IsConditionFulfilled())
                 {
                     edge.TalkNode.WhoSays = WhoSays;
+                    edge.TalkNode.CallActions();
+                    return edge.TalkNode;
+                }
+            }
+            throw new Exception("Reaction without edges!");
+        }
+
+        public TalkNode PickNode(Character whosays)
+        {
+            foreach (TalkEdge edge in Edges)
+            {
+                edge.Conditions += (() => edge.Other);
+
+                foreach (Condition c in edge.Condits)
+                {
+                    switch (c)
+                    {
+                        case Condition.FirstTalk:
+                            edge.Conditions += (() => edge.FirstTalk);
+                            break;
+
+                        case Condition.GotQuest:
+                            edge.Conditions += (() => Engine.Singleton.HumanController.Character.ActiveQuests.Quests.Contains(Quests.Q[edge.Quest]));
+                            break;
+
+                        case Condition.IsQuestDone:
+                            edge.Conditions += (() => Engine.Singleton.HumanController.Character.ActiveQuests.Quests[Engine.Singleton.HumanController.Character.ActiveQuests.Quests.IndexOf(Quests.Q[edge.Quest])].isDone);
+                            break;
+
+                        case Condition.IsQuestFinished:
+                            if (Engine.Singleton.HumanController.Character.ActiveQuests.Quests.Contains(Quests.Q[edge.Quest]))
+                                edge.Conditions += (() => Engine.Singleton.HumanController.Character.ActiveQuests.Quests[Engine.Singleton.HumanController.Character.ActiveQuests.Quests.IndexOf(Quests.Q[edge.Quest])].IsFinished);
+                            break;
+                    }
+                }
+
+                if (edge.IsConditionFulfilled())
+                {
+                    edge.TalkNode.WhoSays = whosays;
                     edge.TalkNode.CallActions();
                     return edge.TalkNode;
                 }

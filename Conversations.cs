@@ -79,9 +79,12 @@ namespace Gra
 
                         justNode.AddActions(actionList);
 
-                        if (tn["TalkEdgeID"].InnerText != "" && tn["TalkEdgeID"].InnerText != null)
+                        if (tn["TalkEdges"].ChildNodes.Count > 0)
                         {
-                            justDialog.EdgesToNodes.Add(tn["TalkEdgeID"].InnerText, tn["TalkNodeID"].InnerText);
+                            XmlNodeList nodelist = tn["TalkEdges"].ChildNodes;
+
+                            foreach (XmlNode nod in nodelist)
+                                justDialog.EdgesToNodes.Add(nod["TalkEdgeID"].InnerText, tn["TalkNodeID"].InnerText);
                         }
 
                         justNode.Quest = tn["QuestID"].InnerText;
@@ -90,7 +93,7 @@ namespace Gra
                         else
                             justNode.Activatorr = "";
                         justNode.PrzypiszMetode();
-
+                        justNode.DialogID = item["DialogID"].InnerText;
                         justDialog.Nodes.Add(tn["TalkNodeID"].InnerText, justNode);
                     }
 
@@ -99,7 +102,7 @@ namespace Gra
                     foreach (XmlNode te in TalkEdges)
                     {
                         TalkEdge justEdge = new TalkEdge(justDialog.Nodes[te["ToWhere"].InnerText]);
-
+                        justEdge.ID = te["TalkEdgeID"].InnerText;
                         XmlNodeList ConditionsInEdge = te["Conditions"].ChildNodes;
                         List<Condition> listaWarunkow = new List<Condition>();
 
@@ -112,7 +115,8 @@ namespace Gra
 
                         while (justDialog.EdgesToNodes.ContainsKey(te["TalkEdgeID"].InnerText))
                         {
-                            justDialog.Nodes[justDialog.EdgesToNodes[te["TalkEdgeID"].InnerText]].Edge = justEdge;
+                            justDialog.Nodes[justDialog.EdgesToNodes[te["TalkEdgeID"].InnerText]].Edges.Add(justEdge);
+                            Console.WriteLine(te["TalkEdgeID"].InnerText + " -> " + justDialog.EdgesToNodes[te["TalkEdgeID"].InnerText]);
                             justDialog.EdgesToNodes.Remove(te["TalkEdgeID"].InnerText);
                         }
 

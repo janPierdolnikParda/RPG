@@ -281,7 +281,9 @@ namespace Gra
                         }
                         else
                         {
-                            CurrentNode = CurrentReply.Reaction.PickNode();
+                            TalkNode Tymczas = new TalkNode();
+                            Tymczas.WhoSays = CurrentNode.WhoSays;
+                            CurrentNode = CurrentReply.Reaction.PickNode(Tymczas.WhoSays);
                             SwitchTalkState(HumanTalkState.PAUSE);
                         }
                     }

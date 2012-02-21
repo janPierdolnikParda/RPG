@@ -26,8 +26,9 @@ namespace Gra
 
       public String Quest;
       public String Activatorr;
-      public TalkEdge Edge;
+      public List<TalkEdge> Edges;
       public Character WhoSays;
+      public String DialogID;
 
       Type Type;
       MethodInfo Method;
@@ -39,6 +40,7 @@ namespace Gra
       {
         Text = new List<TalkText>();
         Replies = new List<TalkReply>();
+        Edges = new List<TalkEdge>();
       }
 
       public void AddActions(List<ActionType> newActions)
@@ -100,22 +102,28 @@ namespace Gra
 
       public void MakeEdgeFalse()
       {
-          Edge.Other = false;
+          foreach (TalkEdge e in Edges)
+          {
+              Conversations.D[DialogID].Edges[e.ID].Other = false;
+          }
       }
 
       public void MakeEdgeTrue()
       {
-          Edge.Other = true;
+          foreach (TalkEdge e in Edges)
+              Conversations.D[DialogID].Edges[e.ID].Other = true;
       }
 
       public void MakeFirstFalse()
       {
-          Edge.FirstTalk = false;
+          foreach (TalkEdge e in Edges)
+              Conversations.D[DialogID].Edges[e.ID].FirstTalk = false;
       }
 
       public void MakeFirstTrue()
       {
-          Edge.FirstTalk = true;
+          foreach (TalkEdge e in Edges)
+              Conversations.D[DialogID].Edges[e.ID].FirstTalk = true;
       }
 
       public void GiveQuest()
