@@ -15,7 +15,10 @@ namespace Gra
         MakeEdgeFalse,
         GiveQuest,
         ActivateActivator,
-        StartShop
+        StartShop,
+        GivePrizeNPC,
+        GivePrizePlayer,
+        RemovePrizePlayer
     };
 
     public class TalkNode
@@ -29,6 +32,9 @@ namespace Gra
       public List<TalkEdge> Edges;
       public Character WhoSays;
       public String DialogID;
+      public Prize PrizeNPC;
+      public Prize PrizePlayer;
+      public Prize PrizePlayerRemove;
 
       Type Type;
       MethodInfo Method;
@@ -94,6 +100,24 @@ namespace Gra
                   case ActionType.StartShop:
                   {
                       Actions += (() => StartShop());
+                      break;
+                  }
+
+                  case ActionType.GivePrizeNPC:
+                  {
+                      Actions += (() => GivePrizeNPC());
+                      break;
+                  }
+
+                  case ActionType.GivePrizePlayer:
+                  {
+                      Actions += (() => GivePrizePlayer());
+                      break;
+                  }
+
+                  case ActionType.RemovePrizePlayer:
+                  {
+                      Actions += (() => RemovePrizePlayer());
                       break;
                   }
               }
@@ -169,6 +193,46 @@ namespace Gra
       {
           Engine.Singleton.HumanController.HUDShop.Shop = new Shop(WhoSays.Inventory, (int)WhoSays.Profile.Gold, WhoSays.Profile.DisplayName, WhoSays.Profile.MnoznikDlaShopa, WhoSays);
 		  Engine.Singleton.HumanController.InitShop = true;
+      }
+
+      public void GivePrizeNPC()
+      {
+          foreach (DescribedProfile item in PrizeNPC.ItemsList)
+              WhoSays.Inventory.Add(item);
+          WhoSays.Profile.Gold += (ulong)PrizeNPC.AmountGold;
+      }
+
+      public void GivePrizePlayer()
+      {
+          foreach (DescribedProfile item in PrizePlayer.ItemsList)
+              Engine.Singleton.HumanController.Character.Inventory.Add(item);
+          Engine.Singleton.HumanController.Character.Profile.Gold += (ulong)PrizePlayer.AmountGold;
+          Engine.Singleton.HumanController.Character.Profile.Exp += PrizePlayer.AmountExp;
+      }
+
+      public void RemovePrizePlayer()
+      {
+          List<DescribedProfile> Items2Remove = new List<DescribedProfile>();
+          foreach (DescribedProfile prizeItem in PrizePlayerRemove.ItemsList)
+          {
+              foreach (DescribedProfile item in Engine.Singleton.HumanController.Character.Inventory)
+              {
+                  if (item == prizeItem)
+                  {
+                      Items2Remove.Add(item);
+                      break;
+                  }
+
+              }
+          }
+
+          foreach (DescribedProfile item2remove in Items2Remove)
+              Engine.Singleton.HumanController.Character.Inventory.Remove(item2remove);
+
+          if (Engine.Singleton.HumanController.Character.Profile.Gold >= (ulong)PrizePlayerRemove.AmountGold)
+              Engine.Singleton.HumanController.Character.Profile.Gold -= (ulong)PrizePlayerRemove.AmountGold;
+          else
+              Engine.Singleton.HumanController.Character.Profile.Gold = 0;
       }
  
       public void CallActions()

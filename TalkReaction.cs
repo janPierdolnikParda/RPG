@@ -10,7 +10,8 @@ namespace Gra
         FirstTalk,
         GotQuest,
         IsQuestDone,
-        IsQuestFinished
+        IsQuestFinished,
+        GotGold
     };
 
     public class TalkEdge : TalkConditional
@@ -18,13 +19,11 @@ namespace Gra
         public TalkNode TalkNode;
 
         public bool FirstTalk = true;
-        public bool GotQuest = true;
-        public bool IsQuestDone = true;
-        public bool IsQuestFinished = true;
         public bool Other = true;
 
         public string Quest;
         public string ID;
+        public int AmountGold;
 
         public List<Condition> Condits;
 
@@ -88,6 +87,10 @@ namespace Gra
                                 else
                                     edge.Conditions += (() => Flag);
                                 break;
+
+                            case Condition.GotGold:
+                                edge.Conditions += (() => (Engine.Singleton.HumanController.Character.Profile.Gold >= (ulong)edge.AmountGold));
+                                break;
                         }
                 }
 
@@ -126,6 +129,10 @@ namespace Gra
                         case Condition.IsQuestFinished:
                             if (Engine.Singleton.HumanController.Character.ActiveQuests.Quests.Contains(Quests.Q[edge.Quest]))
                                 edge.Conditions += (() => Engine.Singleton.HumanController.Character.ActiveQuests.Quests[Engine.Singleton.HumanController.Character.ActiveQuests.Quests.IndexOf(Quests.Q[edge.Quest])].IsFinished);
+                            break;
+
+                        case Condition.GotGold:
+                            edge.Conditions += (() => (Engine.Singleton.HumanController.Character.Profile.Gold >= (ulong)edge.AmountGold));
                             break;
                     }
                 }

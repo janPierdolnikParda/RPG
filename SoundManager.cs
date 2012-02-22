@@ -9,7 +9,9 @@ namespace Gra
     {
         FMOD.RESULT Result;                 // FMOD zwraca przy wykonaniu każdej funkcji informacje typu RESULT
         FMOD.System System = null;          // Główny silnik FMOD'a
-        float _volume;                      // Główna głośność dźwięków i muzyki zmieniana przez Volume, wartości: <0, 1.0f>
+        float _volume = 1.0f;                      // Główna głośność dźwięków i muzyki zmieniana przez Volume, wartości: <0, 1.0f>
+		public float BGMVolume = 0.3f;
+		public float DialogVolume = 1.0f;
 
         //listy dźwięków
         public List<string> BGMPlaylist; int BGMId = 0;
@@ -37,11 +39,17 @@ namespace Gra
                                 // 1-bgm, 2-odgłosy chodzenia, 3-dźwięki otoczenia, 4-głosy postaci. Może coś jeszcze?
 
             BGMPlaylist = new List<string>();
+
+
+			ChannelBGM = new FMOD.Channel();
+			ChannelDialog = new FMOD.Channel();
+			
         }
 
         public void PlayBGM(string path = null)
         {
             string play;
+			
 
             if (path == null)
             {
@@ -55,6 +63,7 @@ namespace Gra
             Result = System.playSound(0, SoundBGM, false, ref ChannelBGM);
 
             IsBGMPlaying = true;
+			Volume = _volume;
         }
 
         public void TogglePauseBGM()
@@ -66,6 +75,7 @@ namespace Gra
                 IsBGMPlaying = true;
 
             Result = ChannelBGM.setPaused(!IsBGMPlaying);
+			Volume = _volume;
         }
 
         public void StopBGM()
@@ -82,6 +92,7 @@ namespace Gra
                 BGMId = 0;
 
             PlayBGM(BGMPlaylist[BGMId]);
+			Volume = _volume;
 
         }
 
@@ -93,6 +104,7 @@ namespace Gra
                 BGMId = BGMPlaylist.Count - 1;
 
             PlayBGM(BGMPlaylist[BGMId]);
+			Volume = _volume;
 
         }
 
@@ -107,8 +119,8 @@ namespace Gra
             {                                                   /// TUTAJ TRZA DOPISYWAĆ WSZYSTKIE KOLEJNE CZANELE
                 _volume = value;
 
-                ChannelBGM.setVolume(value);
-				ChannelDialog.setVolume(value);
+                ChannelBGM.setVolume(value * BGMVolume);
+				ChannelDialog.setVolume(value * DialogVolume);
                 //...
             }
         }
@@ -124,6 +136,7 @@ namespace Gra
 				Result = System.createStream(play, FMOD.MODE.DEFAULT, ref SoundDialog);
 
 				Result = System.playSound(FMOD.CHANNELINDEX.REUSE, SoundDialog, false, ref ChannelDialog);
+				Volume = _volume;
 			}
 		}
 

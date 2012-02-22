@@ -9,6 +9,14 @@ namespace Gra
 {
     public class Enemy : SelectableObject, ISomethingMoving
     {
+        public enum StateTypes
+        {
+            IDLE,
+            WALK,
+            ATTACK,
+            DEAD
+        }
+
         public Entity Entity;
         public SceneNode Node;
         public Body Body;
@@ -139,6 +147,20 @@ namespace Gra
             }
         }
 
+        StateTypes _State;
+        public StateTypes State
+        {
+            get
+            {
+                return _State;
+            }
+
+            set
+            {
+                _State = value;
+            }
+        }
+
         public Enemy(CharacterProfile profile, bool czyPojemnik, float zasiegWzr, float zasiegOgl)
         {
             Profile = profile.Clone();
@@ -188,6 +210,7 @@ namespace Gra
             _ZasiegWzroku = zasiegWzr;
             _ZasiegOgolny = zasiegOgl;
             _Statistics = Profile.Statistics;
+            State = StateTypes.IDLE;
         }
 
         void BodyTransformCallback(Body sender, Quaternion orientation,

@@ -88,6 +88,15 @@ namespace Gra
                         }
 
                         justNode.Quest = tn["QuestID"].InnerText;
+                        if (tn["PrizeNPC"].InnerText != "")
+                            justNode.PrizeNPC = PrizeManager.P[tn["PrizeNPC"].InnerText];
+
+                        if (tn["PrizePlayer"].InnerText != "")
+                            justNode.PrizePlayer = PrizeManager.P[tn["PrizePlayer"].InnerText];
+
+                        if (tn["PrizePlayerRemove"].InnerText != "")
+                            justNode.PrizePlayerRemove = PrizeManager.P[tn["PrizePlayerRemove"].InnerText];
+
                         if (tn["Activator"].InnerText != "" && tn["Activator"].InnerText != null)
                             justNode.Activatorr = tn["Activator"].InnerText;
                         else
@@ -120,6 +129,7 @@ namespace Gra
                         }
 
                         justEdge.Quest = te["ConditionQuestID"].InnerText;
+                        justEdge.AmountGold = int.Parse(te["GoldRequired"].InnerText);
 
                         justDialog.Edges.Add(te["TalkEdgeID"].InnerText, justEdge);
                         justDialog.Reactions[te["FromWhere"].InnerText].Edges.Add(justDialog.Edges[te["TalkEdgeID"].InnerText]);

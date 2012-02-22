@@ -23,8 +23,6 @@ namespace Gra
 
         public Prize QuestPrize;
 
-        DescribedProfile bringWhat;
-
         public bool isDone;
 
         public Quest()

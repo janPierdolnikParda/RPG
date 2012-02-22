@@ -30,5 +30,11 @@ namespace Gra
             get;
             set;
         }
+
+        Enemy.StateTypes State
+        {
+            get;
+            set;
+        }
     }
 }

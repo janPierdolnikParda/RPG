@@ -143,6 +143,20 @@ namespace Gra
             }
         }
 
+        Enemy.StateTypes _State;
+        public Enemy.StateTypes State
+        {
+            get
+            {
+                return _State;
+            }
+
+            set
+            {
+                _State = value;
+            }
+        }
+
         public Character(CharacterProfile profile)
         {
             Profile = profile.Clone();
@@ -213,6 +227,8 @@ namespace Gra
             //QuestsDone = new List<Quest>();
 
             _Statistics = Profile.Statistics;
+
+            State = Enemy.StateTypes.IDLE;
 
             if (Profile.DialogRoot != null && Profile.DialogRoot != "")
             {
