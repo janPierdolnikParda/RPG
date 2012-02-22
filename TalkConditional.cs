@@ -8,7 +8,10 @@ namespace Gra
     public abstract class TalkConditional
     {
       public event Func<bool> Conditions;
- 
+      public void Reset()
+      {
+          Conditions = null;
+      }
       public Boolean IsConditionFulfilled()
       {
         bool result = true;

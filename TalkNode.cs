@@ -117,7 +117,9 @@ namespace Gra
       public void MakeFirstFalse()
       {
           foreach (TalkEdge e in Edges)
+          {
               Conversations.D[DialogID].Edges[e.ID].FirstTalk = false;
+          }
       }
 
       public void MakeFirstTrue()

@@ -59,7 +59,9 @@ namespace Gra
         {
             foreach (TalkEdge edge in Edges)
             {
+                edge.Reset();
                 edge.Conditions += (() => edge.Other);
+                bool Flag = false;                  // FLAG!!! TROLOLOLOLOLOLOL!! !!!!!!!!oneone11111!! :_)
 
                 foreach (Condition c in edge.Condits)
                 {
@@ -74,11 +76,17 @@ namespace Gra
                                 break;
 
                             case Condition.IsQuestDone:
-                                edge.Conditions += (() => Engine.Singleton.HumanController.Character.ActiveQuests.Quests[Engine.Singleton.HumanController.Character.ActiveQuests.Quests.IndexOf(Quests.Q[edge.Quest])].isDone);
+                                if (Engine.Singleton.HumanController.Character.ActiveQuests.Quests.Contains(Quests.Q[edge.Quest]))
+                                    edge.Conditions += (() => Engine.Singleton.HumanController.Character.ActiveQuests.Quests[Engine.Singleton.HumanController.Character.ActiveQuests.Quests.IndexOf(Quests.Q[edge.Quest])].isDone);
+                                else
+                                    edge.Conditions += (() => Flag);
                                 break;
 
                             case Condition.IsQuestFinished:
-                                edge.Conditions += (() => Engine.Singleton.HumanController.Character.ActiveQuests.Quests[Engine.Singleton.HumanController.Character.ActiveQuests.Quests.IndexOf(Quests.Q[edge.Quest])].IsFinished);
+                                if (Engine.Singleton.HumanController.Character.ActiveQuests.Quests.Contains(Quests.Q[edge.Quest]))
+                                    edge.Conditions += (() => Engine.Singleton.HumanController.Character.ActiveQuests.Quests[Engine.Singleton.HumanController.Character.ActiveQuests.Quests.IndexOf(Quests.Q[edge.Quest])].IsFinished);
+                                else
+                                    edge.Conditions += (() => Flag);
                                 break;
                         }
                 }

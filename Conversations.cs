@@ -116,7 +116,6 @@ namespace Gra
                         while (justDialog.EdgesToNodes.ContainsKey(te["TalkEdgeID"].InnerText))
                         {
                             justDialog.Nodes[justDialog.EdgesToNodes[te["TalkEdgeID"].InnerText]].Edges.Add(justEdge);
-                            Console.WriteLine(te["TalkEdgeID"].InnerText + " -> " + justDialog.EdgesToNodes[te["TalkEdgeID"].InnerText]);
                             justDialog.EdgesToNodes.Remove(te["TalkEdgeID"].InnerText);
                         }
 
