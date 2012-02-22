@@ -14,7 +14,8 @@ namespace Gra
             TALK,
             INVENTORY,
             CONTAINER,
-            SHOP
+            SHOP,
+            ATTACK
         }
 
         public enum HumanTalkState
@@ -385,6 +386,11 @@ namespace Gra
                     HandleContainer();
 				else if (State == HumanControllerState.SHOP)
 					HandleShop();
+                else if (State == HumanControllerState.ATTACK)
+                {
+                    //FightInterface show!
+                    HandleAttack();
+                }
 
 				if (InitShop)
 				{
@@ -398,6 +404,11 @@ namespace Gra
 					HUDShop.UpdateViewAll();
 				}
             }
+        }
+
+        private void HandleAttack()
+        {
+
         }
 
         private void HandleShop()           // @@ funka odpowiedzialna za obsluge SKLEPUFFFFFf

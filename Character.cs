@@ -178,7 +178,6 @@ namespace Gra
 
 
 
-
             Vector3 inertia, offset;
             collision.CalculateInertialMatrix(out inertia, out offset);
 
@@ -252,6 +251,11 @@ namespace Gra
 
         public override void Update()
         {
+            if (Statistics.aktualnaZywotnosc <= 0)
+            {
+                Console.WriteLine("NIE ZYJESZ");
+            }
+
             ObjectSensor.SetPositionOrientation(SensorNode._getDerivedPosition(), Node.Orientation);
             SetContact();
             AnimBlender.Update();

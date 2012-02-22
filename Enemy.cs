@@ -250,9 +250,9 @@ namespace Gra
 
             if (Distance <= _ZasiegWzroku)
             {
-
                 PredicateRaycast raycast = new PredicateRaycast((b => !(b.UserData is TriggerVolume)));
                 raycast.Go(Engine.Singleton.NewtonWorld, Position + Profile.HeadOffset, Engine.Singleton.HumanController.Character.Position);
+                
                 if (raycast.Contacts.Count <= 1)
                 {
                     isSeen = true;
@@ -272,7 +272,7 @@ namespace Gra
             else
                 isReachable = false;
 
-            if ((isReachable == true) && Distance > 1)
+            if ((isReachable == true) && Distance > 1 && State != StateTypes.DEAD)
             {
                 Engine.Singleton.CurrentLevel.navMesh.AStar(Position, Engine.Singleton.HumanController.Character.Position);
                 if (Engine.Singleton.CurrentLevel.navMesh.TriPath.Count > 1)
@@ -281,15 +281,40 @@ namespace Gra
                     WalkPath = Engine.Singleton.CurrentLevel.navMesh.Funnel();
 
                     FollowPathOrder = true;
+                    State = StateTypes.WALK;
                 }
             }
 
             else
             {
                 FollowPathOrder = false;
+
+                if (State == StateTypes.WALK)
+                    State = StateTypes.IDLE;
+                if (isReachable)
+                {
+                    switch (State)
+                    {
+                        case StateTypes.IDLE:
+                            Console.WriteLine(FriendlyType.ToString());
+                            if (FriendlyType == Character.FriendType.ENEMY)
+                            {
+                                State = StateTypes.ATTACK;
+                            }
+                            break;
+                        
+                        case StateTypes.ATTACK:
+                            if (Engine.Singleton.HumanController.Character.Statistics.aktualnaZywotnosc > 0)
+                                Engine.Singleton.HumanController.Character.Statistics.aktualnaZywotnosc -= Statistics.Sila;
+                            break;
+
+                        case StateTypes.DEAD:
+                            break;
+                    }
+                }
             }
 
-
+            //Console.WriteLine(State.ToString());
            
         }
 
