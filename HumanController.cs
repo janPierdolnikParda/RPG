@@ -389,7 +389,11 @@ namespace Gra
                 else if (State == HumanControllerState.ATTACK)
                 {
                     //FightInterface show!
-                    HandleAttack();
+                    HUD.IsVisible = true;
+					HUD.DrawEnemyHP = true;
+					HUD.DrawLog = true;
+					HandleAttack();
+					
                 }
 
 				if (InitShop)
@@ -420,6 +424,9 @@ namespace Gra
 
 			else
 			{
+				Console.WriteLine("els");
+				Character.FocusedEnemy = null;
+				HUD.DrawEnemyHP = false;
 				SwitchState(HumanControllerState.FREE);
 			}
         }
@@ -768,12 +775,9 @@ namespace Gra
 			else
 				Character.MoveRightOrder = false;
 
-			///////
+			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_L))
+				HUD.ToggleLog();
 
-			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_K))
-				SwitchState(HumanControllerState.ATTACK);
-
-			//////
             if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_W))            // chodzenie do przodu +bieganie
             {
                 Character.MoveOrder = true;
@@ -825,6 +829,7 @@ namespace Gra
                     Character.RunOrder = false;
                     Character.MoveOrderBack = false;
                     Character.GetSwordOrder = true;
+					HUD.DrawLog = true;
                 }
                 else if (Character.Sword != null && Character.Sword.InUse)
                 {
@@ -832,6 +837,7 @@ namespace Gra
                     Character.RunOrder = false;
                     Character.MoveOrderBack = false;
                     Character.HideSwordOrder = true;
+					HUD.DrawLog = false;
                 }
             }
 
