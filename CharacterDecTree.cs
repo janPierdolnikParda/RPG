@@ -12,6 +12,7 @@ namespace Gra
         DecTree.Node PickItemDownSeq;
         DecTree.Node GetSwordSeq;
         DecTree.Node HideSwordSeq;
+		DecTree.Node AttackSeq;
         DecTree.Job TurnJob;
 
         public CharacterDecTree()
@@ -289,7 +290,50 @@ namespace Gra
 			   }),
 			   TurnJob);
 
+			DecTree.FirstSucc resetAnimAttack = new DecTree.FirstSucc(
+			  new DecTree.Assert(ch => ch.AnimBlender.CurrentAnimSet == "GetSword"),
+			  new DecTree.Job(ch =>
+			  {
+				  ch.AnimBlender.ResetAnimSet("GetSword");
+				  ch.AnimBlender.SetAnimSet("GetSword");
+				  return true;
+			  }));
+			// #2
+			Func<Character, bool> animAttack = (
+			  ch => ch.AnimBlender.AnimSetPhase("GetSword") > 0.99f
+			  );
+			DecTree.FirstSucc AnimAttack = new DecTree.FirstSucc(
+              new DecTree.Assert(animAttack),
+              new DecTree.FirstFail(
+                new DecTree.Job(animAttack)
+                )
+              );
 
+			// #4
+
+			AttackSeq = new DecTree.FirstFail(
+				resetAnimAttack,
+				AnimAttack);
+
+
+
+			DecTree.FirstFail Attack = new DecTree.FirstFail(
+			   new DecTree.Assert(ch => ch.AttackOrder),
+			   new DecTree.Job(ch =>
+			   {
+				   
+				   ch.AnimBlender.SetAnimSet("GetSword");  // ### ANIMACJA ATAKU!
+
+				   return true;
+			   }),
+			   TurnJob);
+
+			DecTree.Job cleanUpA = new DecTree.Job(ch => { ch.AttackOrder = false; return true; });
+
+			DecTree.FirstFail AttackNode = new DecTree.FirstFail(
+			  new DecTree.Assert(ch => ch.AttackOrder),
+			  new DecTree.FirstSucc(AttackSeq, cleanUpA), // #1
+			  cleanUpA);
 
 
 
@@ -298,6 +342,7 @@ namespace Gra
             Children.Add(walkNodeBack);
 			Children.Add(go_left);
 			Children.Add(go_right);
+			Children.Add(AttackNode);
 
             Children.Add(pickItemNode);
             Children.Add(followPathNode);

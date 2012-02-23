@@ -59,6 +59,10 @@ namespace Gra
                     Kriper.DisplayNameOffset.x = float.Parse(item["nameoffsetx"].InnerText);
                     Kriper.DisplayNameOffset.y = float.Parse(item["nameoffsety"].InnerText);
                     Kriper.DisplayNameOffset.z = float.Parse(item["nameoffsetz"].InnerText);
+					Kriper.HandleOffset = Vector3.ZERO;
+					Kriper.HandleOffset.x = float.Parse(item["handleoffsetx"].InnerText);
+					Kriper.HandleOffset.y = float.Parse(item["handleoffsety"].InnerText);
+					Kriper.HandleOffset.z = float.Parse(item["handleoffsetz"].InnerText);
                     Kriper.ProfileName = item["idstring"].InnerText;
                     Kriper.Price = int.Parse(item["price"].InnerText);
 

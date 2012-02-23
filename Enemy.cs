@@ -211,6 +211,8 @@ namespace Gra
             _ZasiegOgolny = zasiegOgl;
             _Statistics = Profile.Statistics;
             State = StateTypes.IDLE;
+
+			FriendlyType = Profile.FriendlyType;
         }
 
         void BodyTransformCallback(Body sender, Quaternion orientation,
@@ -281,6 +283,7 @@ namespace Gra
                     WalkPath = Engine.Singleton.CurrentLevel.navMesh.Funnel();
 
                     FollowPathOrder = true;
+					//MoveOrder = true;
                     State = StateTypes.WALK;
                 }
             }
@@ -296,7 +299,7 @@ namespace Gra
                     switch (State)
                     {
                         case StateTypes.IDLE:
-                            Console.WriteLine(FriendlyType.ToString());
+                            //Console.WriteLine(FriendlyType.ToString());
                             if (FriendlyType == Character.FriendType.ENEMY)
                             {
                                 State = StateTypes.ATTACK;

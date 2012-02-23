@@ -408,7 +408,21 @@ namespace Gra
 
         private void HandleAttack()
         {
+			if (Engine.Singleton.Mouse.MouseState.ButtonDown(MOIS.MouseButtonID.MB_Left))
+			{
+				bool IsAlive = Character.FocusedEnemy.Statistics.aktualnaZywotnosc > 0;
+				//bool IsAlive = true;
+				if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_W) && IsAlive)
+				{
+					Character.AttackOrder = true;
 
+				}
+			}
+
+			else
+			{
+				SwitchState(HumanControllerState.FREE);
+			}
         }
 
         private void HandleShop()           // @@ funka odpowiedzialna za obsluge SKLEPUFFFFFf
@@ -752,6 +766,12 @@ namespace Gra
 			else
 				Character.MoveRightOrder = false;
 
+			///////
+
+			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_K))
+				SwitchState(HumanControllerState.ATTACK);
+
+			//////
             if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_W))            // chodzenie do przodu +bieganie
             {
                 Character.MoveOrder = true;
@@ -812,6 +832,26 @@ namespace Gra
                     Character.HideSwordOrder = true;
                 }
             }
+
+			if (Engine.Singleton.Mouse.MouseState.ButtonDown(MOIS.MouseButtonID.MB_Left))
+			{
+				if (Character.Contact != null)
+				{
+					if (Character.Contact is ISomethingMoving)
+					{
+						if ((Character.Contact as ISomethingMoving).FriendlyType != Gra.Character.FriendType.FRIENDLY)
+						{
+							if (Character.Sword != null && Character.Sword.InUse)
+							{
+								Character.FocusedEnemy = (ISomethingMoving)Character.Contact;
+								SwitchState(HumanControllerState.ATTACK);
+							}
+						}
+					}
+				}
+			}
+				
+			
 
             if (Character.Contact != null)
             {

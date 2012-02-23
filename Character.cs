@@ -43,6 +43,7 @@ namespace Gra
 
         public QuestManager ActiveQuests;
         public List<Quest> Quests;
+		public ISomethingMoving FocusedEnemy;
 
         // Rozkazy
         public bool PickItemOrder;
@@ -50,6 +51,8 @@ namespace Gra
         public bool MoveOrderBack;
 		public bool MoveLeftOrder;
 		public bool MoveRightOrder;
+
+		public bool AttackOrder;
 
         public bool GetSwordOrder;
         public bool HideSwordOrder;
@@ -226,6 +229,8 @@ namespace Gra
             //QuestsDone = new List<Quest>();
 
             _Statistics = Profile.Statistics;
+
+			FriendlyType = Profile.FriendlyType;
 
             State = Enemy.StateTypes.IDLE;
 
