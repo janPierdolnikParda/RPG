@@ -47,9 +47,10 @@ namespace Gra
 
                 if (profile.PrizeID != null)
                 {
-                    Container.Contains = PrizeManager.P[profile.PrizeID].ItemsList;
-                    Container.Gold = PrizeManager.P[profile.PrizeID].AmountGold;
-                    Container.MaxItems = PrizeManager.P[profile.PrizeID].AmountExp;
+                    Prize p1 = PrizeManager.P[profile.PrizeID].prize_Clone();
+                    Container.Contains = new List<DescribedProfile>(p1.ItemsList);//PrizeManager.P[profile.PrizeID].ItemsList;
+                    Container.Gold = p1.AmountGold;//PrizeManager.P[profile.PrizeID].AmountGold;
+                    Container.MaxItems = p1.AmountExp;//PrizeManager.P[profile.PrizeID].AmountExp;
                 }
             }
             

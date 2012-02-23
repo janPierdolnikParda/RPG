@@ -32,5 +32,10 @@ namespace Gra
             ItemsList = new List<DescribedProfile>();
             ItemsList.Add(Item);
         }
+
+        public Prize prize_Clone()
+        {
+            return (Prize)MemberwiseClone();
+        }
     }
 }

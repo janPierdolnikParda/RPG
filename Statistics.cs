@@ -48,5 +48,10 @@ namespace Gra
 			Sila = 2;
 			Wytrzymalosc = 2;
         }
+
+        public Statistics statistics_Clone()
+        {
+            return (Statistics)MemberwiseClone();
+        }
     }
 }

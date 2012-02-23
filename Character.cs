@@ -228,7 +228,7 @@ namespace Gra
             Quests = new List<Quest>();
             //QuestsDone = new List<Quest>();
 
-            _Statistics = Profile.Statistics;
+            _Statistics = Profile.Statistics.statistics_Clone();
 
 			FriendlyType = Profile.FriendlyType;
 
@@ -259,6 +259,7 @@ namespace Gra
             if (Statistics.aktualnaZywotnosc <= 0)
             {
                 //Console.WriteLine("NIE ZYJESZ");
+                State = Enemy.StateTypes.DEAD;
             }
 
             ObjectSensor.SetPositionOrientation(SensorNode._getDerivedPosition(), Node.Orientation);

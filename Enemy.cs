@@ -121,7 +121,7 @@ namespace Gra
             }
         }
 
-        Prize DropPrize;
+        public Prize DropPrize;
 		
 		Statistics _Statistics;
 		public Statistics Statistics
@@ -213,7 +213,7 @@ namespace Gra
             isReachable = false;
             _ZasiegWzroku = zasiegWzr;
             _ZasiegOgolny = zasiegOgl;
-            _Statistics = Profile.Statistics;
+            _Statistics = Profile.Statistics.statistics_Clone();
             State = StateTypes.IDLE;
 
             AnimationState idleAnimation = Entity.GetAnimationState("IdleLegs");
@@ -238,7 +238,7 @@ namespace Gra
 
         public void SetPrize(Prize NewPrize)
         {
-            DropPrize = NewPrize;
+            DropPrize = NewPrize.prize_Clone();
         }
 
         public void TurnTo(Vector3 Vect)
@@ -254,10 +254,13 @@ namespace Gra
         {
             Tree.e_Visit(this);
 
+            if (Statistics.aktualnaZywotnosc <= 0)
+                State = StateTypes.DEAD;
+
             double Distance = Engine.Distance(Position, Engine.Singleton.HumanController.Character.Position);
             Distance = System.Math.Abs(Distance);
 
-            if (Distance <= _ZasiegWzroku)
+            if (Distance <= _ZasiegWzroku && State != StateTypes.DEAD)
             {
                 PredicateRaycast raycast = new PredicateRaycast((b => !(b.UserData is TriggerVolume)));
                 raycast.Go(Engine.Singleton.NewtonWorld, Position + Profile.HeadOffset, Engine.Singleton.HumanController.Character.Position);
@@ -319,6 +322,7 @@ namespace Gra
                             break;
 
                         case StateTypes.DEAD:
+                            IsContainer = true;
                             break;
                     }
                 }

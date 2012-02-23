@@ -697,6 +697,17 @@ namespace Gra
                         if ((FocusObject as Character).IsContainer)             // czy człowiek jest kontenerem
                         {
                             HUDContainer.Container.Contains = (FocusObject as Character).Inventory;
+                            HUDContainer.Container.Gold = (int)((FocusObject as Character).Profile.Gold);
+                            SwitchState(HumanControllerState.CONTAINER);
+                        }
+                    }
+
+                    if (FocusObject is Enemy)
+                    {
+                        if ((FocusObject as Enemy).IsContainer)             // czy człowiek jest kontenerem
+                        {
+                            HUDContainer.Container.Contains = new List<DescribedProfile>((FocusObject as Enemy).DropPrize.ItemsList);
+                            HUDContainer.Container.Gold = (FocusObject as Enemy).DropPrize.AmountGold;
                             SwitchState(HumanControllerState.CONTAINER);
                         }
                     }
