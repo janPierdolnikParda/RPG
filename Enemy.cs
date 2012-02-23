@@ -16,11 +16,7 @@ namespace Gra
             ATTACK,
             DEAD
         }
-        // ANIMACJE
-        public AnimationState idleAnimation;
-        public AnimationState walkAnimation;
-        //
-
+  
         public Entity Entity;
         public SceneNode Node;
         public Body Body;
@@ -41,9 +37,6 @@ namespace Gra
         public Described PickingTarget;
 
         public List<DescribedProfile> Inventory;
-        ItemSword _Sword;
-        Entity SwordEntity;
-        public CharacterAnimBlender AnimBlender;
 
 
         public bool TalkPerm;
@@ -56,6 +49,11 @@ namespace Gra
         public bool GetSwordOrder;
         public bool HideSwordOrder;
         bool _RunOrder;
+
+		public AnimationState Animation(string anim)
+		{
+			return Entity.GetAnimationState(anim);
+		}
 
         public bool RunOrder
         {
@@ -205,9 +203,6 @@ namespace Gra
 
             collision.Dispose();
 
-            AnimBlender = new CharacterAnimBlender();
-            AnimBlender.SetEntity(Entity);
-
             isContainer = czyPojemnik;
             isSeen = false;
             isReachable = false;
@@ -216,9 +211,10 @@ namespace Gra
             _Statistics = Profile.Statistics.statistics_Clone();
             State = StateTypes.IDLE;
 
-            AnimationState idleAnimation = Entity.GetAnimationState("IdleLegs");
-            AnimationState walkAnimation = Entity.GetAnimationState("WalkLegs");
 
+			
+			Animation("IdleLegs").Enabled = true;
+			Animation("IdleLegs").Loop = true;
 			FriendlyType = Profile.FriendlyType;
         }
 
@@ -326,80 +322,6 @@ namespace Gra
                             break;
                     }
                 }
-            }
-
-            //Console.WriteLine(State.ToString());
-           
-        }
-
-        public void TryPick(Described target)
-        {
-            PickingTarget = target;
-            PickItemOrder = true;
-        }
-
-        public bool DropItem(int itemIndex)
-        {
-            if (!Inventory[itemIndex].IsEquipment)
-            {
-                Described item = new Described(Inventory[itemIndex]);
-                item.Position = Position + Orientation * Vector3.UNIT_Z * 0.2f;
-                Engine.Singleton.ObjectManager.Add(item);
-                Inventory.RemoveAt(itemIndex);
-                return true;
-            }
-            return false;
-        }
-
-        public void UnequipSword()
-        {
-            Entity.DetachObjectFromBone(SwordEntity);
-            Engine.Singleton.SceneManager.DestroyEntity(SwordEntity);
-            _Sword.IsEquipment = false;
-            SwordEntity = null;
-
-        }
-
-        public void EquipSwordToLongswordSheath(ItemSword value)
-        {
-            SwordEntity = Engine.Singleton.SceneManager.CreateEntity(value.MeshName);
-            Entity.AttachObjectToBone(
-                "LongswordSheath",
-                SwordEntity, Vector3.UNIT_Z.GetRotationTo(-Vector3.UNIT_Y),
-                value.HandleOffset);
-            value.IsEquipment = true;
-            value.InUse = false;
-        }
-
-        public void EquipSwordToSword(ItemSword value)
-        {
-            SwordEntity = Engine.Singleton.SceneManager.CreateEntity(value.MeshName);
-            Entity.AttachObjectToBone(
-                "Sword",
-                SwordEntity, Vector3.UNIT_Z.GetRotationTo(-Vector3.UNIT_Y),
-                value.HandleOffset);
-            value.IsEquipment = true;
-            value.InUse = true;
-        }
-
-        public ItemSword Sword
-        {
-            get
-            {
-                return _Sword;
-            }
-            set
-            {
-                if (SwordEntity != null)
-                {
-                    UnequipSword();
-                }
-                if (value != null)
-                {
-                    EquipSwordToLongswordSheath(value);
-
-                }
-                _Sword = value;
             }
         }
 

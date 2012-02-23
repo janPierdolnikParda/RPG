@@ -343,7 +343,7 @@ namespace Gra
             //Do osobnego Node:
             for (int i = 0; i < Engine.Singleton.HumanController.Character.Statistics.Ataki; i++)
             {
-                if (Engine.Singleton.Procenty(Engine.Singleton.HumanController.Character.Statistics.WalkaWrecz))
+                if (Engine.Singleton.Procenty(Engine.Singleton.HumanController.Character.Statistics.WalkaWrecz) && Engine.Singleton.HumanController.Character.FocusedEnemy != null)
                 {
                     bool Kryt = false;
                     int Hit = Engine.Singleton.Kostka(1, 6) + Engine.Singleton.HumanController.Character.Statistics.Sila;
