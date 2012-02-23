@@ -258,7 +258,7 @@ namespace Gra
         {
             if (Statistics.aktualnaZywotnosc <= 0)
             {
-                Console.WriteLine("NIE ZYJESZ");
+                //Console.WriteLine("NIE ZYJESZ");
             }
 
             ObjectSensor.SetPositionOrientation(SensorNode._getDerivedPosition(), Node.Orientation);

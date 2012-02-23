@@ -315,20 +315,7 @@ namespace Gra
 				resetAnimAttack,
 				AnimAttack);
 
-
-
-			DecTree.FirstFail Attack = new DecTree.FirstFail(
-			   new DecTree.Assert(ch => ch.AttackOrder),
-			   new DecTree.Job(ch =>
-			   {
-				   
-				   ch.AnimBlender.SetAnimSet("GetSword");  // ### ANIMACJA ATAKU!
-
-				   return true;
-			   }),
-			   TurnJob);
-
-			DecTree.Job cleanUpA = new DecTree.Job(ch => { ch.AttackOrder = false; return true; });
+            DecTree.Job cleanUpA = new DecTree.Job(ch => { ch.AttackOrder = false; Atakowanie(); return true; });
 
 			DecTree.FirstFail AttackNode = new DecTree.FirstFail(
 			  new DecTree.Assert(ch => ch.AttackOrder),
@@ -349,6 +336,34 @@ namespace Gra
             Children.Add(walkNode);
             Children.Add(idleNode);
 
+        }
+
+        public void Atakowanie()
+        {
+            //Do osobnego Node:
+            for (int i = 0; i < Engine.Singleton.HumanController.Character.Statistics.Ataki; i++)
+            {
+                if (Engine.Singleton.Procenty(Engine.Singleton.HumanController.Character.Statistics.WalkaWrecz))
+                {
+                    bool Kryt = false;
+                    int Hit = Engine.Singleton.Kostka(1, 6) + Engine.Singleton.HumanController.Character.Statistics.Sila;
+                    Kryt = Engine.Singleton.Procenty(5);
+
+                    if (Kryt)
+                    {
+                        Console.WriteLine("Trafiasz za " + Hit.ToString() + " (KRYT!)");
+                        Hit *= 2;
+                    }
+                    else
+                        Console.WriteLine("Trafiasz za " + Hit.ToString());
+                    Engine.Singleton.HumanController.Character.FocusedEnemy.Statistics.aktualnaZywotnosc -= Hit;
+                }
+
+                else
+                    Console.WriteLine("Nie trafiasz");
+
+            }
+            //
         }
     }
 }

@@ -53,6 +53,8 @@ namespace Gra
         public MOIS.MouseState_NativePtr Mysz;
 		public Conversations Conversations;
 
+        public Random Random;
+
         public void Initialise()
         {
             Root = new Root();
@@ -123,6 +125,7 @@ namespace Gra
 
             Mysz = new MOIS.MouseState_NativePtr();
 			Conversations = new Conversations();
+            Random = new Random();
         }
 
         public void Update()
@@ -362,5 +365,46 @@ namespace Gra
 
 			return ret;
 		}
+
+        public int Kostka(int n, int k)
+        {
+            int Wynik = 0;
+
+            for (int i = 0; i < n; i++)
+                Wynik += Random.Next(1, k+1);
+
+            return Wynik;
+        }
+
+        public bool Procenty(int n)
+        {
+            List<int> TabB4Shuffle = new List<int>();
+            List<int> TabAfterShuffle = new List<int>();
+
+            for (int i = 0; i < 100; i++)
+            {
+                if (n > 0)
+                {
+                    n--;
+                    TabB4Shuffle.Add(1);
+                }
+
+                else
+                    TabB4Shuffle.Add(0);
+            }
+
+            while (TabB4Shuffle.Count > 0)
+            {
+                int Rand = Random.Next(TabB4Shuffle.Count);
+                TabAfterShuffle.Add(TabB4Shuffle[Rand]);
+                TabB4Shuffle.RemoveAt(Rand);
+            }
+
+            if (TabAfterShuffle[Random.Next(100)] == 0)
+                return false;
+
+            else
+                return true;
+        }
     }
 }

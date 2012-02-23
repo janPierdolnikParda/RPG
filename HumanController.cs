@@ -411,11 +411,10 @@ namespace Gra
 			if (Engine.Singleton.Mouse.MouseState.ButtonDown(MOIS.MouseButtonID.MB_Left))
 			{
 				bool IsAlive = Character.FocusedEnemy.Statistics.aktualnaZywotnosc > 0;
-				//bool IsAlive = true;
+
 				if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_W) && IsAlive)
 				{
 					Character.AttackOrder = true;
-
 				}
 			}
 
@@ -848,6 +847,7 @@ namespace Gra
 							{
                                 if ((Character.Contact as ISomethingMoving).FriendlyType == Gra.Character.FriendType.NEUTRAL)
                                     (Character.Contact as ISomethingMoving).FriendlyType = Gra.Character.FriendType.ENEMY;
+                                
                                 Character.MoveLeftOrder = false;
                                 Character.MoveRightOrder = false;
                                 Character.MoveOrder = false;
@@ -858,10 +858,8 @@ namespace Gra
 						}
 					}
 				}
-			}
-				
+			}		
 			
-
             if (Character.Contact != null)
             {
 

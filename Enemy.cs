@@ -16,6 +16,10 @@ namespace Gra
             ATTACK,
             DEAD
         }
+        // ANIMACJE
+        public AnimationState idleAnimation;
+        public AnimationState walkAnimation;
+        //
 
         public Entity Entity;
         public SceneNode Node;
@@ -212,6 +216,9 @@ namespace Gra
             _Statistics = Profile.Statistics;
             State = StateTypes.IDLE;
 
+            AnimationState idleAnimation = Entity.GetAnimationState("IdleLegs");
+            AnimationState walkAnimation = Entity.GetAnimationState("WalkLegs");
+
 			FriendlyType = Profile.FriendlyType;
         }
 
@@ -274,7 +281,7 @@ namespace Gra
             else
                 isReachable = false;
 
-            if ((isReachable == true) && Distance > 1 && State != StateTypes.DEAD)
+            if ((isReachable == true) && Distance > 1 && State != StateTypes.DEAD && FriendlyType == Character.FriendType.ENEMY)
             {
                 Engine.Singleton.CurrentLevel.navMesh.AStar(Position, Engine.Singleton.HumanController.Character.Position);
                 if (Engine.Singleton.CurrentLevel.navMesh.TriPath.Count > 1)
