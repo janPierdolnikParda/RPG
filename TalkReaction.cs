@@ -109,7 +109,7 @@ namespace Gra
             foreach (TalkEdge edge in Edges)
             {
                 edge.Conditions += (() => edge.Other);
-
+                bool Falsz = false;
                 foreach (Condition c in edge.Condits)
                 {
                     switch (c)
@@ -129,6 +129,8 @@ namespace Gra
                         case Condition.IsQuestFinished:
                             if (Engine.Singleton.HumanController.Character.ActiveQuests.Quests.Contains(Quests.Q[edge.Quest]))
                                 edge.Conditions += (() => Engine.Singleton.HumanController.Character.ActiveQuests.Quests[Engine.Singleton.HumanController.Character.ActiveQuests.Quests.IndexOf(Quests.Q[edge.Quest])].IsFinished);
+                            else
+                                edge.Conditions += (() => Falsz);
                             break;
 
                         case Condition.GotGold:

@@ -732,7 +732,10 @@ namespace Gra
                     if (Character.TalkPerm && FocusObject.TalkRoot != null)
                     {
                         if (FocusObject is Character)
+                        {
                             FocusObject.TalkRoot.WhoSays = (FocusObject as Character);
+                            (FocusObject as Character).TurnTo(Character.Position);
+                        }
 
                         CurrentNode = FocusObject.TalkRoot.PickNode();
                         SwitchState(HumanControllerState.TALK);
@@ -843,6 +846,12 @@ namespace Gra
 						{
 							if (Character.Sword != null && Character.Sword.InUse)
 							{
+                                if ((Character.Contact as ISomethingMoving).FriendlyType == Gra.Character.FriendType.NEUTRAL)
+                                    (Character.Contact as ISomethingMoving).FriendlyType = Gra.Character.FriendType.ENEMY;
+                                Character.MoveLeftOrder = false;
+                                Character.MoveRightOrder = false;
+                                Character.MoveOrder = false;
+                                Character.MoveOrderBack = false;
 								Character.FocusedEnemy = (ISomethingMoving)Character.Contact;
 								SwitchState(HumanControllerState.ATTACK);
 							}
