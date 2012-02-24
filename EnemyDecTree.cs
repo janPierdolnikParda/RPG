@@ -30,11 +30,11 @@ namespace Gra
                 new DecTree.Enemies.e_Job(en =>
                 {
                     en.Velocity = en.Orientation * Vector3.UNIT_Z * en.Profile.WalkSpeed;
-
                         
-						en.Animation("IdleLegs").Enabled = false;
-						en.Animation("WalkLegs").Enabled = true;
-						en.Animation("WalkLegs").Loop = true;
+						//en.Animation("IdleLegs").Enabled = false;
+						//en.Animation("WalkLegs").Enabled = true;
+						//en.Animation("WalkLegs").Loop = true;
+                    //en.Animation("WalkLegs").AddTime(1.0f / 90.0f);
                     return true;
                 }),
                 TurnJob);
@@ -48,9 +48,9 @@ namespace Gra
 				  
 				  
 				  
-				  en.Animation("WalkLegs").Enabled = false;
-                 en.Animation("IdleLegs").Enabled = true;
-				  en.Animation("IdleLegs").Loop = true;
+				  //en.Animation("WalkLegs").Enabled = false;
+                 //en.Animation("IdleLegs").Enabled = true;
+				  //en.Animation("IdleLegs").Loop = true;
 				  return true;
               }),
               TurnJob);
@@ -80,10 +80,10 @@ namespace Gra
                       en.Velocity = en.Orientation * Vector3.UNIT_Z * en.Profile.WalkSpeed;
 					  
 					  
-					  en.Animation("IdleLegs").Enabled = false;
+					  //en.Animation("IdleLegs").Enabled = false;
 
-					  en.Animation("WalkLegs").Enabled = true;
-					en.Animation("WalkLegs").Loop = true;
+					  //en.Animation("WalkLegs").Enabled = true;
+					//en.Animation("WalkLegs").Loop = true;
                   }
                   return false;
               }

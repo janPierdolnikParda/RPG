@@ -38,6 +38,8 @@ namespace Gra
 
         public List<DescribedProfile> Inventory;
 
+        public AnimationState walkAnim;
+        public AnimationState idleAnim;
 
         public bool TalkPerm;
         public bool InventoryPerm;
@@ -211,10 +213,11 @@ namespace Gra
             _Statistics = Profile.Statistics.statistics_Clone();
             State = StateTypes.IDLE;
 
-
+            walkAnim = Entity.GetAnimationState("WalkLegs");
+            idleAnim = Entity.GetAnimationState("IdleLegs");
 			
-			Animation("IdleLegs").Enabled = true;
-			Animation("IdleLegs").Loop = true;
+			//Animation("IdleLegs").Enabled = true;
+			//Animation("IdleLegs").Loop = true;
 			FriendlyType = Profile.FriendlyType;
         }
 
@@ -248,6 +251,8 @@ namespace Gra
 
         public override void Update()
         {
+            walkAnim = Entity.GetAnimationState("WalkLegs");
+            idleAnim = Entity.GetAnimationState("IdleLegs");
             Tree.e_Visit(this);
 
             if (Statistics.aktualnaZywotnosc <= 0)
@@ -288,6 +293,11 @@ namespace Gra
                     Engine.Singleton.CurrentLevel.navMesh.GetPortals();
                     WalkPath = Engine.Singleton.CurrentLevel.navMesh.Funnel();
 
+                    idleAnim.Enabled = false;
+                    walkAnim.Enabled = true;
+                    walkAnim.Loop = true;
+                    walkAnim.AddTime(1.0f / 90.0f);
+
                     FollowPathOrder = true;
 					//MoveOrder = true;
                     State = StateTypes.WALK;
@@ -300,6 +310,21 @@ namespace Gra
 
                 if (State == StateTypes.WALK)
                     State = StateTypes.IDLE;
+
+                switch (State)
+                {
+                    case StateTypes.IDLE:
+                        walkAnim.Enabled = false;
+                        idleAnim.Enabled = true;
+                        idleAnim.Loop = true;
+                        idleAnim.AddTime(1.0f / 90.0f);
+                        break;
+                    case StateTypes.DEAD:
+                        //Animacja deda.
+                        break;
+                    //Animacja ataku bedzie tam nizej w case StateTypes.Attack, nie tutaj!!
+
+                }
                 if (isReachable)
                 {
                     switch (State)
