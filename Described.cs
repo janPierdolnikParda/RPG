@@ -53,26 +53,40 @@ namespace Gra
                     Container.MaxItems = p1.AmountExp;//PrizeManager.P[profile.PrizeID].AmountExp;
                 }
             }
-            
-            ConvexCollision coll = new MogreNewt.CollisionPrimitives.ConvexHull(Engine.Singleton.NewtonWorld, 
-                Node, 
-                Quaternion.IDENTITY,
-                0.01f, 
-                Engine.Singleton.GetUniqueBodyId());
-          
-            Vector3 inertia = new Vector3(1,1,1), offset;
-            coll.CalculateInertialMatrix(out inertia, out offset);
-            
-            
-            Body = new Body(Engine.Singleton.NewtonWorld, coll, true);
-            Body.AttachNode(Node);
-            Body.SetMassMatrix(Profile.Mass, Profile.Mass * inertia);
-            Body.AddForce(new Vector3(10, 10, 10));
 
+			if (Profile.Mass != 0)
+			{
+				ConvexCollision coll = new MogreNewt.CollisionPrimitives.ConvexHull(Engine.Singleton.NewtonWorld,
+					Node,
+					Quaternion.IDENTITY,
+					0.01f,
+					Engine.Singleton.GetUniqueBodyId());
+
+				Vector3 inertia = new Vector3(1, 1, 1), offset;
+				coll.CalculateInertialMatrix(out inertia, out offset);
+
+
+				Body = new Body(Engine.Singleton.NewtonWorld, coll, true);
+				coll.Dispose();
+				Body.AttachNode(Node);
+				Body.SetMassMatrix(Profile.Mass, Profile.Mass * inertia);
+			}
+			else
+			{
+				//Collision coll = new MogreNewt.CollisionPrimitives.TreeCollision(Engine.Singleton.NewtonWorld, Node, true, Engine.Singleton.GetUniqueBodyId());
+
+				Collision coll = new MogreNewt.CollisionPrimitives.TreeCollision(Engine.Singleton.NewtonWorld, Entity, true, Engine.Singleton.GetUniqueBodyId());
+
+				//Body = new Body(Engine.Singleton.NewtonWorld, coll, true);
+				Body = new Body(Engine.Singleton.NewtonWorld, coll, false);
+				coll.Dispose();
+				Body.AttachNode(Node);
+
+			}
             Body.UserData = this;
             Body.MaterialGroupID = Engine.Singleton.MaterialManager.DescribedMaterialID;
 
-            coll.Dispose();
+            
         }
 
         public void PrzypiszMetode()
@@ -81,9 +95,7 @@ namespace Gra
             {
                 Type = Type.GetType("Gra.Activators");
                 Instance = Activator.CreateInstance(Type);
-
-                //Method = Type.GetMethod(a);
-                Method = Type.GetMethod(Activatorr);    // <--- zamienić potem na to jak już będzie wczytywał Activator z xmla
+                Method = Type.GetMethod(Activatorr);
             }
         }
 
