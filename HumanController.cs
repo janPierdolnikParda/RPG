@@ -715,6 +715,9 @@ namespace Gra
                 }
             }
 
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_K))
+                Character.Statistics.aktualnaZywotnosc = Character.Statistics.Zywotnosc;
+
             if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_Z))         // tzw. skok
                 Character.Position = new Vector3(Character.Position.x, Character.Position.y + 1, Character.Position.z);
 

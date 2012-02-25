@@ -40,6 +40,7 @@ namespace Gra
 
         public AnimationState walkAnim;
         public AnimationState idleAnim;
+        public AnimationState attackAnim;
 
         public bool TalkPerm;
         public bool InventoryPerm;
@@ -215,6 +216,7 @@ namespace Gra
 
             walkAnim = Entity.GetAnimationState("WalkLegs");
             idleAnim = Entity.GetAnimationState("IdleLegs");
+            attackAnim = Entity.GetAnimationState("DrawSwordTorso");
 			
 			//Animation("IdleLegs").Enabled = true;
 			//Animation("IdleLegs").Loop = true;
@@ -247,12 +249,36 @@ namespace Gra
 
         public void Attack()
         {
+            for (int i = 0; i < Statistics.Ataki; i++)
+            {
+                if (Engine.Singleton.Procenty(Statistics.WalkaWrecz))
+                {
+                    bool Kryt = false;
+                    int Hit = Engine.Singleton.Kostka(1, 6) + Statistics.Sila;
+                    Kryt = Engine.Singleton.Procenty(5);
+
+                    if (Kryt)
+                    {
+                        Hit *= 2;
+                        //Console.WriteLine("Trafiasz za " + Hit.ToString() + " (KRYT!)");
+                        Console.WriteLine(Profile.DisplayName + " trafia cie za " + Hit.ToString() + " (KRYT!)");
+                    }
+                    else
+                        Console.WriteLine(Profile.DisplayName + " trafia cie za " + Hit.ToString());
+                    Engine.Singleton.HumanController.Character.Statistics.aktualnaZywotnosc -= Hit;
+                }
+
+                else
+                    Console.WriteLine(Profile.DisplayName + " cie nie trafia");
+
+            }
         }
 
         public override void Update()
         {
             walkAnim = Entity.GetAnimationState("WalkLegs");
             idleAnim = Entity.GetAnimationState("IdleLegs");
+            attackAnim = Entity.GetAnimationState("DrawSwordTorso");
             Tree.e_Visit(this);
 
             if (Statistics.aktualnaZywotnosc <= 0)
@@ -295,6 +321,7 @@ namespace Gra
 
                     idleAnim.Enabled = false;
                     walkAnim.Enabled = true;
+                    attackAnim.Enabled = false;
                     walkAnim.Loop = true;
                     walkAnim.AddTime(1.0f / 90.0f);
 
@@ -316,6 +343,7 @@ namespace Gra
                     case StateTypes.IDLE:
                         walkAnim.Enabled = false;
                         idleAnim.Enabled = true;
+                        attackAnim.Enabled = false;
                         idleAnim.Loop = true;
                         idleAnim.AddTime(1.0f / 90.0f);
                         break;
@@ -338,8 +366,18 @@ namespace Gra
                             break;
                         
                         case StateTypes.ATTACK:
-                            if (Engine.Singleton.HumanController.Character.Statistics.aktualnaZywotnosc > 0)
-                                Engine.Singleton.HumanController.Character.Statistics.aktualnaZywotnosc -= Statistics.Sila;
+                            walkAnim.Enabled = false;
+                            idleAnim.Enabled = false;
+                            attackAnim.Enabled = true;
+                            attackAnim.Loop = false;
+                            attackAnim.AddTime(1.0f / 90.0f);
+                            
+                            if (Engine.Singleton.HumanController.Character.Statistics.aktualnaZywotnosc > 0 && attackAnim.HasEnded)
+                            {
+                                attackAnim.TimePosition = 0;
+                                Attack();
+                                //Engine.Singleton.HumanController.Character.Statistics.aktualnaZywotnosc -= Statistics.Sila;
+                            }
                             break;
 
                         case StateTypes.DEAD:

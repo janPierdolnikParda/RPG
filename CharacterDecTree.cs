@@ -351,8 +351,8 @@ namespace Gra
 
                     if (Kryt)
                     {
-                        Console.WriteLine("Trafiasz za " + Hit.ToString() + " (KRYT!)");
                         Hit *= 2;
+                        Console.WriteLine("Trafiasz za " + Hit.ToString() + " (KRYT!)");
                     }
                     else
                         Console.WriteLine("Trafiasz za " + Hit.ToString());
