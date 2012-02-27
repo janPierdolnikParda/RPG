@@ -105,6 +105,7 @@ namespace Gra
 					Kriper.Statistics = new Statistics(int.Parse(item["WalkaWrecz"].InnerText), int.Parse(item["Krzepa"].InnerText), int.Parse(item["Opanowanie"].InnerText), int.Parse(item["Odpornosc"].InnerText), int.Parse(item["Zrecznosc"].InnerText), int.Parse(item["Charyzma"].InnerText), int.Parse(item["Zywotnosc"].InnerText), int.Parse(item["Ataki"].InnerText));
                     Kriper.ZasiegOgolny = int.Parse(item["ZasiegOgolny"].InnerText);
                     Kriper.ZasiegWzroku = int.Parse(item["ZasiegWzroku"].InnerText);
+                    Kriper.DropPrizeID = item["DropPrize"].InnerText;
 
                     E.Add(item["ProfileName"].InnerText, Kriper);
                 }

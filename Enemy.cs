@@ -214,6 +214,33 @@ namespace Gra
             _Statistics = Profile.Statistics.statistics_Clone();
             State = StateTypes.IDLE;
 
+            //DROPPRIZE KUFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+            if (Profile.DropPrizeID == "")
+                Profile.DropPrizeID = "pPusty";
+
+            DropPrize = PrizeManager.P[Profile.DropPrizeID].prize_Clone();
+            List<DescribedProfile> lista_tym = new List<DescribedProfile>();
+            List<DescribedProfile> lista_tym2 = new List<DescribedProfile>(DropPrize.ItemsList);
+
+            if (DropPrize.ItemsList.Count > 2)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    int Los = Engine.Singleton.Random.Next(lista_tym2.Count);
+                    lista_tym.Add(lista_tym2[Los]);
+                    lista_tym2.RemoveAt(Los);
+                    DropPrize.ItemsList = new List<DescribedProfile>(lista_tym);
+                }
+            }
+
+            else
+                DropPrize.ItemsList = new List<DescribedProfile>(DropPrize.ItemsList);
+
+            DropPrize.AmountGold = Engine.Singleton.Random.Next(DropPrize.AmountGold / 2, DropPrize.AmountGold + 1);
+
+            //PO DROPPRIZIE KUFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
             walkAnim = Entity.GetAnimationState("WalkLegs");
             idleAnim = Entity.GetAnimationState("IdleLegs");
             attackAnim = Entity.GetAnimationState("DrawSwordTorso");

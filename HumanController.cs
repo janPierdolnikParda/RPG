@@ -706,8 +706,9 @@ namespace Gra
                     {
                         if ((FocusObject as Enemy).IsContainer)             // czy człowiek jest kontenerem
                         {
-                            HUDContainer.Container.Contains = new List<DescribedProfile>((FocusObject as Enemy).DropPrize.ItemsList);
-                            HUDContainer.Container.Gold = (FocusObject as Enemy).DropPrize.AmountGold;
+                            HUDContainer.Container.Contains = (FocusObject as Enemy).DropPrize.ItemsList;
+                            Character.Profile.Gold += (ulong)(FocusObject as Enemy).DropPrize.AmountGold;
+                            (FocusObject as Enemy).DropPrize.AmountGold = 0;
                             SwitchState(HumanControllerState.CONTAINER);
                         }
                     }

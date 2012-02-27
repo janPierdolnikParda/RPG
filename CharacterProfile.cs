@@ -28,6 +28,7 @@ namespace Gra
         public float ZasiegOgolny;
         public float MnoznikDlaShopa = 1.0f;
         public Character.FriendType FriendlyType;
+        public string DropPrizeID;
         public List<DescribedProfile> Inventory;
 
         public CharacterProfile Clone()
