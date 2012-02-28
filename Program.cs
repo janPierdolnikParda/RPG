@@ -17,6 +17,55 @@ namespace Gra
 
             Engine.Singleton.Initialise();
 
+            //MENUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUu
+
+            SubMenu MainMenu = new SubMenu();
+            SubMenu NewGame = new SubMenu();
+            SubMenu LoadGame = new SubMenu();
+            SubMenu SaveGame = new SubMenu();
+            SubMenu Options = new SubMenu();
+            SubMenu Credits = new SubMenu();
+            SubMenu End = new SubMenu();
+
+            MainMenu.MenuName = "MENU";
+            MainMenu.AddSub(NewGame);
+            MainMenu.AddSub(LoadGame);
+            MainMenu.AddSub(SaveGame);
+            MainMenu.AddSub(Options);
+            MainMenu.AddSub(Credits);
+            MainMenu.AddSub(End);            
+
+            NewGame.Ending = true;
+            NewGame.MenuName = "Nowa gra";
+            NewGame.Parent = MainMenu;
+            NewGame.AddAction(New);
+
+            LoadGame.MenuName = "Laduj gre";
+            LoadGame.Enabled = false;
+            LoadGame.Parent = MainMenu;
+
+            SaveGame.MenuName = "Zapisz gre";
+            SaveGame.Enabled = false;
+            SaveGame.Parent = MainMenu;
+
+            Options.MenuName = "Opcje";
+            Options.Enabled = false;
+            Options.Parent = MainMenu;
+
+            Credits.MenuName = "Autorzy";
+            Credits.Enabled = false;
+            Credits.Parent = MainMenu;
+
+            End.MenuName = "Koniec";
+            End.Enabled = false;
+            End.Parent = MainMenu;
+            End.AddAction(Exit);
+
+            Engine.Singleton.Menu = MainMenu;
+            Engine.Singleton.OpenMenu();
+
+            //KONIEC MENUUUUUUUUUUUUUUUUUUUUUUUUUUUu
+
 			Engine.Singleton.SoundManager.BGMPlaylist.Add("Achaidh Cheide.mp3");
 			Engine.Singleton.SoundManager.BGMPlaylist.Add("Thatched Villagers.mp3");
             //Engine.Singleton.SoundManager.PlayBGM();
@@ -53,7 +102,7 @@ namespace Gra
             {
                 Engine.Singleton.Update();
 
-                if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_ESCAPE))
+                if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_ESCAPE) || Engine.Singleton.GameEnder)
                     break;
 
                 if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F3))
@@ -84,6 +133,24 @@ namespace Gra
 
             Engine.Singleton.Root.Dispose();
 
+        }
+
+        static void New()
+        {
+            //Piotra ulubione tworzenie postaci :)
+        }
+
+        static void Load()
+        {
+        }
+
+        static void Save()
+        {
+        }
+
+        static void Exit()
+        {
+            Engine.Singleton.GameEnder = true;
         }
     }
 }

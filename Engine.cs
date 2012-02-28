@@ -55,6 +55,10 @@ namespace Gra
 
         public Random Random;
 
+        public SubMenu Menu;
+
+        public bool GameEnder = false;
+
         public void Initialise()
         {
             Root = new Root();
@@ -405,6 +409,11 @@ namespace Gra
 
             else
                 return true;
+        }
+
+        public void OpenMenu()
+        {
+
         }
     }
 }
