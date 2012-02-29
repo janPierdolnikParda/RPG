@@ -352,15 +352,15 @@ namespace Gra
                     if (Kryt)
                     {
                         Hit *= 2;
-                        Console.WriteLine("Trafiasz za " + Hit.ToString() + " (KRYT!)");
+						Engine.Singleton.HumanController.HUD.LogAdd("Trafiasz za " + Hit.ToString() + " (KRYT!)", new ColourValue(0.7f, 0.4f, 0));
                     }
                     else
-                        Console.WriteLine("Trafiasz za " + Hit.ToString());
-                    Engine.Singleton.HumanController.Character.FocusedEnemy.Statistics.aktualnaZywotnosc -= Hit;
+                       Engine.Singleton.HumanController.HUD.LogAdd("Trafiasz za " + Hit.ToString(), ColourValue.White);
+						Engine.Singleton.HumanController.Character.FocusedEnemy.Statistics.aktualnaZywotnosc -= Hit;
                 }
 
                 else
-                    Console.WriteLine("Nie trafiasz");
+					Engine.Singleton.HumanController.HUD.LogAdd("Nie trafiasz", new ColourValue(0.4f, 0.5f, 0.9f));
 
             }
             //

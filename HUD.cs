@@ -8,6 +8,31 @@ namespace Gra
 {
     class HUD
     {
+
+		class LogSlot
+		{
+			public TextLabel Label;
+
+			public LogSlot(float left, float top)
+			{
+				Label = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.02f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
+				//Label.Caption = "dzambersmok";
+				Label.SetPosition(0.81f, top);
+			}
+
+			public bool IsVisible
+			{
+				set
+				{
+					Label.IsVisible = value;
+
+				}
+			}
+
+		}
+
+		LogSlot[] LogSlots;
+
         SimpleQuad CompassBg;
         TextLabel CompassLabel;
 		SimpleQuad Crosshair;
@@ -15,14 +40,19 @@ namespace Gra
 		SimpleQuad HPHero, HPEnemy, Log;
 		TextLabel HPHeroLabel, HPEnemyLabel, LogLabel;
 
-
+		List<Pair<string, ColourValue>> LogList;
 
         bool _isVisible;
 
         public HUD()
         {
+			LogList = new List<Pair<string, ColourValue>>(8);
+			for (int i = 0; i < 8; i++)
+			{
+				LogList.Add(new Pair<string, ColourValue>("", ColourValue.Black));
+			}
 
-            CompassBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0.1f, 0.1f, 0.2f, 0.1f, new ColourValue(1, 1, 1), 1);
+			CompassBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0.1f, 0.1f, 0.2f, 0.1f, new ColourValue(1, 1, 1), 1);
             CompassLabel = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
             CompassLabel.SetPosition(0.11f, 0.13f);
 
@@ -41,10 +71,19 @@ namespace Gra
 			HPHeroLabel.SetPosition(0.055f, 0.055f);
 			HPEnemyLabel.SetPosition(0.455f, 0.055f);
 			LogLabel.SetPosition(0.82f, 0.82f);
-
+			
+			LogSlots = new LogSlot[8];
+			for (int i = 0; i < 8; i++)
+			{
+				LogSlots[i] = new LogSlot(0.81f, 0.81f + i * 0.02f);
+			}
+			
 			IsVisible = false;
 			DrawEnemyHP = false;
 			DrawLog = false;
+
+			
+
         }
 
 		bool _drawEnemyHP;
@@ -68,6 +107,10 @@ namespace Gra
 				_drawLog = value;
 				Log.IsVisible = value;
 				LogLabel.IsVisible = value;
+				for (int i = 0; i < 8; i++)
+				{
+					LogSlots[i].IsVisible = value;
+				}
 			}
 		}
 
@@ -97,6 +140,16 @@ namespace Gra
 				HPEnemyLabel.Caption = Character.FocusedEnemy.Statistics.aktualnaZywotnosc + "/" + Character.FocusedEnemy.Statistics.Zywotnosc;
 
 			HPHeroLabel.Caption = Character.Statistics.aktualnaZywotnosc + "/" + Character.Statistics.Zywotnosc;
+
+			if (DrawLog)
+			{
+				for (int i = 0; i < 8; i++)
+				{
+					LogSlots[i].Label.Caption = LogList[i].first;
+					LogSlots[i].Label.SetColor(LogList[i].second, LogList[i].second);
+				}
+
+			}
         }
 
         public bool IsVisible
@@ -134,6 +187,15 @@ namespace Gra
 				DrawLog = false;
 			else
 				DrawLog = true;
+		}
+
+		public void LogAdd(string what, ColourValue color)
+		{
+			
+			LogList.Insert(0, new Pair<string, ColourValue>(what, color));
+
+			LogList.RemoveAt(8);
+
 		}
 
     }

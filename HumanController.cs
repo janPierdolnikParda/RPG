@@ -51,7 +51,7 @@ namespace Gra
         HUDInventory HUDInventory;
         HUDContainer HUDContainer;
         public HUDShop HUDShop;
-        HUD HUD;
+        public HUD HUD;
         public MOIS.MouseState_NativePtr Mysz;
 
 		public bool InitShop;

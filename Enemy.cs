@@ -288,15 +288,15 @@ namespace Gra
                     {
                         Hit *= 2;
                         //Console.WriteLine("Trafiasz za " + Hit.ToString() + " (KRYT!)");
-                        Console.WriteLine(Profile.DisplayName + " trafia cie za " + Hit.ToString() + " (KRYT!)");
+						Engine.Singleton.HumanController.HUD.LogAdd(Profile.DisplayName + " trafia cie za " + Hit.ToString() + " (KRYT!)", new ColourValue(0.7f, 0.4f, 0));
                     }
                     else
-                        Console.WriteLine(Profile.DisplayName + " trafia cie za " + Hit.ToString());
+						Engine.Singleton.HumanController.HUD.LogAdd(Profile.DisplayName + " trafia cie za " + Hit.ToString(), new ColourValue(0.4f,0.6f,0.8f));
                     Engine.Singleton.HumanController.Character.Statistics.aktualnaZywotnosc -= Hit;
                 }
 
                 else
-                    Console.WriteLine(Profile.DisplayName + " cie nie trafia");
+					Engine.Singleton.HumanController.HUD.LogAdd(Profile.DisplayName + " cie nie trafia", new ColourValue(0.4f, 0.5f, 0.9f));
 
             }
         }
