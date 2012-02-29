@@ -166,6 +166,34 @@ namespace Gra
             }
         }
 
+        int _DropExp;
+        public int DropExp
+        {
+            get
+            {
+                return _DropExp;
+            }
+
+            set
+            {
+                _DropExp = value;
+            }
+        }
+
+        String _ProfName;
+        public String ProfName
+        {
+            get
+            {
+                return _ProfName;
+            }
+
+            set
+            {
+                _ProfName = value;
+            }
+        }
+
         public Enemy(CharacterProfile profile, bool czyPojemnik, float zasiegWzr, float zasiegOgl)
         {
             Profile = profile.Clone();
@@ -238,6 +266,7 @@ namespace Gra
                 DropPrize.ItemsList = new List<DescribedProfile>(DropPrize.ItemsList);
 
             DropPrize.AmountGold = Engine.Singleton.Random.Next(DropPrize.AmountGold / 2, DropPrize.AmountGold + 1);
+            DropExp = DropPrize.AmountExp;
 
             //PO DROPPRIZIE KUFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
@@ -248,6 +277,8 @@ namespace Gra
 			//Animation("IdleLegs").Enabled = true;
 			//Animation("IdleLegs").Loop = true;
 			FriendlyType = Profile.FriendlyType;
+            ProfName = Profile.ProfileName;
+            
         }
 
         void BodyTransformCallback(Body sender, Quaternion orientation,

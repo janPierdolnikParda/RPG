@@ -36,5 +36,17 @@ namespace Gra
             get;
             set;
         }
+
+        int DropExp
+        {
+            get;
+            set;
+        }
+
+        String ProfName
+        {
+            get;
+            set;
+        }
     }
 }

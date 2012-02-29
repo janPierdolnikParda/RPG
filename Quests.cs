@@ -33,6 +33,7 @@ namespace Gra
                     foreach(XmlNode e in Enemies)
                     {
                         justQuest.KillEnemies.Add(e["EnemyID"].InnerText, int.Parse(e["EnemyAmount"].InnerText));
+                        justQuest.KilledEnemies.Add(e["EnemyID"].InnerText, 0);
                     }
 
                     XmlNodeList Itemy = item["Items"].ChildNodes;

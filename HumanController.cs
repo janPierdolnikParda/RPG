@@ -60,6 +60,8 @@ namespace Gra
 
         int FocusObjectId = 0;
 
+        public bool AddedToKillList;
+
 
         public HumanController()
         {
@@ -471,11 +473,22 @@ namespace Gra
 				{
 					Character.AttackOrder = true;
 				}
+
+                else if (!IsAlive && !AddedToKillList)
+                {
+                    AddedToKillList = true;
+                    Character.Profile.Exp += Character.FocusedEnemy.DropExp;
+
+                    foreach (Quest q in Character.ActiveQuests.Quests)
+                    {
+                        if (q.KilledEnemies.ContainsKey(Character.FocusedEnemy.ProfName))
+                            q.KilledEnemies[Character.FocusedEnemy.ProfName] += 1;
+                    }
+                }
 			}
 
 			else
 			{
-				Console.WriteLine("els");
 				Character.FocusedEnemy = null;
 				HUD.DrawEnemyHP = false;
 				SwitchState(HumanControllerState.FREE);
@@ -924,15 +937,16 @@ namespace Gra
                                 Character.MoveRightOrder = false;
                                 Character.MoveOrder = false;
                                 Character.MoveOrderBack = false;
+                                AddedToKillList = false;
 								Character.FocusedEnemy = (ISomethingMoving)Character.Contact;
 								SwitchState(HumanControllerState.ATTACK);
 							}
 						}
 					}
 				}
-			}		
-			
-            if (Character.Contact != null)
+			}
+
+            if (Character.Contact != null && Character.Contact.Exists)
             {
 
                 FocusObject = Character.Contact as SelectableObject;

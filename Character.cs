@@ -160,6 +160,34 @@ namespace Gra
             }
         }
 
+        int _DropExp;
+        public int DropExp
+        {
+            get
+            {
+                return _DropExp;
+            }
+
+            set
+            {
+                _DropExp = value;
+            }
+        }
+
+        String _ProfName;
+        public String ProfName
+        {
+            get
+            {
+                return _ProfName;
+            }
+
+            set
+            {
+                _ProfName = value;
+            }
+        }
+
         public Character(CharacterProfile profile)
         {
             Profile = profile.Clone();
@@ -233,6 +261,9 @@ namespace Gra
 			FriendlyType = Profile.FriendlyType;
 
             State = Enemy.StateTypes.IDLE;
+
+            DropExp = 0;
+            ProfName = Profile.ProfileName;
 
             if (Profile.DialogRoot != null && Profile.DialogRoot != "")
             {

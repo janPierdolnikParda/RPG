@@ -20,6 +20,7 @@ namespace Gra
 
         public Dictionary<String, int> BringItems;
         public Dictionary<String, int> KillEnemies;
+        public Dictionary<String, int> KilledEnemies;
 
         public Prize QuestPrize;
 
@@ -29,12 +30,14 @@ namespace Gra
         {
             BringItems = new Dictionary<String, int>();
             KillEnemies = new Dictionary<String, int>();
+            KilledEnemies = new Dictionary<String, int>();
+            isDone = false;
         }
 
         public void MakeDone()
         {
             int Licznik = 0;
-
+            bool GotItems = false;
             foreach (String str in BringItems.Keys)
             {
                 foreach (DescribedProfile Item in Engine.Singleton.HumanController.Character.Inventory)
@@ -45,9 +48,22 @@ namespace Gra
                     }
 
                     if (Licznik == BringItems[str])
-                        isDone = true;
+                        GotItems = true;
                 }
             }
+
+            bool KilledAll = true;
+
+            foreach (String str in KillEnemies.Keys)
+            {
+                if (KilledEnemies[str] < KillEnemies[str])
+                    KilledAll = false;
+            }
+
+            if (KilledAll && GotItems)
+                isDone = true;
+            else
+                isDone = false;
         }
 
         public void Update()
