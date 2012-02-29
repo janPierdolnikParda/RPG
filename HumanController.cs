@@ -15,7 +15,8 @@ namespace Gra
             INVENTORY,
             CONTAINER,
             SHOP,
-            ATTACK
+            ATTACK,
+            MENU
         }
 
         public enum HumanTalkState
@@ -51,6 +52,7 @@ namespace Gra
         HUDInventory HUDInventory;
         HUDContainer HUDContainer;
         public HUDShop HUDShop;
+        HUDMenu HUDMenu;
         public HUD HUD;
         public MOIS.MouseState_NativePtr Mysz;
 
@@ -78,6 +80,7 @@ namespace Gra
             HUDContainer = new HUDContainer();
             HUDShop = new HUDShop();
             HUD = new HUD();
+            HUDMenu = new HUDMenu();
 
             Mysz = new MOIS.MouseState_NativePtr();
         }
@@ -118,6 +121,8 @@ namespace Gra
         {
             if (State == HumanControllerState.FREE)
             {
+                if (newState == HumanControllerState.MENU)
+                    HUDMenu.IsVisible = true;
                 if (newState == HumanControllerState.TALK)
                     SwitchTalkState(HumanTalkState.LISTENING);
                 if (newState == HumanControllerState.INVENTORY)
@@ -168,15 +173,18 @@ namespace Gra
             }
 
             else if (State == HumanControllerState.INVENTORY)
-			{
+            {
                 if (newState == HumanControllerState.FREE)
                     HUDInventory.IsVisible = false;
-			}
-			else if (State == HumanControllerState.SHOP)
-			{
-				if (newState == HumanControllerState.FREE)
-					HUDShop.IsVisible = false;
-			}
+            }
+            else if (State == HumanControllerState.SHOP)
+            {
+                if (newState == HumanControllerState.FREE)
+                    HUDShop.IsVisible = false;
+            }
+
+            else if (State == HumanControllerState.MENU)
+                HUDMenu.IsVisible = false;
 
 
             State = newState;
@@ -325,6 +333,46 @@ namespace Gra
             }
         }
 
+        private void HandleMenu()
+        {
+            HUDMenu.Update();
+            bool Klik = false;
+            int IndexKlika = 0;
+
+            for (int i = 0; i < HUDMenu.Options2Choose.Count; i++)
+            {
+                TextLabel TL = HUDMenu.Options2Choose[i];
+                if (HUDMenu.IsOver(TL) && Engine.Singleton.Menu.SubMenus[i].Enabled)
+                    Engine.Singleton.Menu.SubMenus[i].Selected = true;
+                else
+                    Engine.Singleton.Menu.SubMenus[i].Selected = false;
+
+                if (Engine.Singleton.Mysz.ButtonDown(MOIS.MouseButtonID.MB_Left) && Engine.Singleton.Menu.SubMenus[i].Selected)
+                {
+                    Klik = true;
+                    IndexKlika = i;
+                }
+            }
+
+            if (Klik)
+            {
+                Engine.Singleton.Menu.SubMenus[IndexKlika].CallActions();
+
+                if (Engine.Singleton.Menu.SubMenus[IndexKlika].Ending)
+                {
+                    SwitchState(HumanControllerState.FREE);
+                }
+
+                else
+                    Engine.Singleton.Menu = Engine.Singleton.Menu.SubMenus[IndexKlika];
+
+                Klik = false;
+                IndexKlika = 0;
+            }
+            
+            
+        }
+
         private void HandleInventory()                               // @@ funkcja odpowiedzialna za obsługę ekwipunku
         {
             if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_S))      // następny przedmiot z listy
@@ -371,7 +419,7 @@ namespace Gra
             {
                 HUD.IsVisible = false;
 
-				
+
 
                 if (State == HumanControllerState.FREE)
                 {
@@ -384,17 +432,20 @@ namespace Gra
                     HandleInventory();
                 else if (State == HumanControllerState.CONTAINER)
                     HandleContainer();
-				else if (State == HumanControllerState.SHOP)
-					HandleShop();
+                else if (State == HumanControllerState.SHOP)
+                    HandleShop();
                 else if (State == HumanControllerState.ATTACK)
                 {
                     //FightInterface show!
                     HUD.IsVisible = true;
-					HUD.DrawEnemyHP = true;
-					HUD.DrawLog = true;
-					HandleAttack();
-					
+                    HUD.DrawEnemyHP = true;
+                    HUD.DrawLog = true;
+                    HandleAttack();
+
                 }
+
+                else if (State == HumanControllerState.MENU)
+                    HandleMenu();
 
 				if (InitShop)
 				{

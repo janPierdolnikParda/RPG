@@ -89,9 +89,6 @@ namespace Gra
 
            return (float)textWidth * (float)TextArea.CharHeight / (float)Engine.Singleton.Camera.AspectRatio;
 
-           
-
-       }
-        
+       }        
     }
 }

@@ -410,10 +410,5 @@ namespace Gra
             else
                 return true;
         }
-
-        public void OpenMenu()
-        {
-
-        }
     }
 }

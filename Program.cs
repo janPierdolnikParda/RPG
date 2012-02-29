@@ -57,32 +57,18 @@ namespace Gra
             Credits.Parent = MainMenu;
 
             End.MenuName = "Koniec";
-            End.Enabled = false;
+            End.Enabled = true;
             End.Parent = MainMenu;
             End.AddAction(Exit);
 
             Engine.Singleton.Menu = MainMenu;
-            Engine.Singleton.OpenMenu();
+            Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.MENU);
 
             //KONIEC MENUUUUUUUUUUUUUUUUUUUUUUUUUUUu
 
 			Engine.Singleton.SoundManager.BGMPlaylist.Add("Achaidh Cheide.mp3");
 			Engine.Singleton.SoundManager.BGMPlaylist.Add("Thatched Villagers.mp3");
             //Engine.Singleton.SoundManager.PlayBGM();
-
-
-            Engine.Singleton.CurrentLevel = new Level();
-            Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "KarczmaNav");
-            Engine.Singleton.Load();
-            Engine.Singleton.TriggerManager = new TriggerManager();       
-
-            Character player = new Character(CharacterProfileManager.character);
-            player.Position = new Vector3(7.4251f, 0.2231f, -1.0019f);
-            Engine.Singleton.ObjectManager.Add(player);
-
-            Engine.Singleton.GameCamera.Character = player;
-            Engine.Singleton.GameCamera.Distance = 4;
-            Engine.Singleton.GameCamera.Angle = new Degree(20);
 
             Light light = Engine.Singleton.SceneManager.CreateLight();
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
@@ -91,12 +77,20 @@ namespace Gra
 
             Engine.Singleton.SceneManager.ShadowTechnique = ShadowTechnique.SHADOWTYPE_STENCIL_MODULATIVE;
 
-            Engine.Singleton.HumanController.Character = player;
-            
-            Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["iKufel"]);
-            Engine.Singleton.HumanController.ToggleHud();
-
             Engine.Singleton.Mysz = Engine.Singleton.Mouse.MouseState;
+
+            Character player = new Character(CharacterProfileManager.character);
+            player.Position = new Vector3(7.4251f, 0.2231f, -1.0019f);
+            Engine.Singleton.ObjectManager.Add(player);
+            Engine.Singleton.HumanController.Character = player;
+
+            Engine.Singleton.CurrentLevel = new Level();
+            Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "KarczmaNav"); // MENU LVL
+            //Engine.Singleton.Load();
+
+            Engine.Singleton.GameCamera.Character = player;
+            Engine.Singleton.GameCamera.Distance = 4;
+            Engine.Singleton.GameCamera.Angle = new Degree(20);
 
             while (true)
             {
@@ -120,7 +114,7 @@ namespace Gra
 
                 if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_P))
                 {
-                    Engine.Singleton.CurrentLevel.navMesh.AStar(NPCManager.npc.Position, player.Position);
+                    Engine.Singleton.CurrentLevel.navMesh.AStar(NPCManager.npc.Position, Engine.Singleton.HumanController.Character.Position);
                     if (Engine.Singleton.CurrentLevel.navMesh.TriPath.Count > 1)
                     {
                         Engine.Singleton.CurrentLevel.navMesh.GetPortals();
@@ -138,6 +132,23 @@ namespace Gra
         static void New()
         {
             //Piotra ulubione tworzenie postaci :)
+            Engine.Singleton.CurrentLevel = new Level();
+            Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "KarczmaNav");
+            Engine.Singleton.Load();
+            Engine.Singleton.TriggerManager = new TriggerManager();
+
+            //Character player = new Character(CharacterProfileManager.character);
+            //player.Position = new Vector3(7.4251f, 0.2231f, -1.0019f);
+            //Engine.Singleton.ObjectManager.Add(player);
+
+            Engine.Singleton.GameCamera.Character = Engine.Singleton.HumanController.Character;
+            Engine.Singleton.GameCamera.Distance = 4;
+            Engine.Singleton.GameCamera.Angle = new Degree(20);
+
+            //Engine.Singleton.HumanController.Character = player;
+
+            Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["iKufel"]);
+            Engine.Singleton.HumanController.ToggleHud();
         }
 
         static void Load()

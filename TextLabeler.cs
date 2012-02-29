@@ -58,6 +58,12 @@ namespace Gra
             return textLabel;
         }
 
+        public void DestroyTextLabel(TextLabel textLabel, int layer)
+        {
+            Panels[layer]._removeChild(textLabel.TextArea);
+            Labels.Remove(textLabel);
+        }
+
         public void Update()
         {
             foreach (TextLabel label in Labels)
