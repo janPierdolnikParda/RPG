@@ -146,6 +146,7 @@ namespace Gra
             Engine.Singleton.GameCamera.Character = Engine.Singleton.HumanController.Character;
             Engine.Singleton.GameCamera.Distance = 4;
             Engine.Singleton.GameCamera.Angle = new Degree(20);
+            Engine.Singleton.HumanController.HUDStats = new HUDStats();
 
             //Engine.Singleton.HumanController.Character = player;
 

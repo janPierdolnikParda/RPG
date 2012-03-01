@@ -9,7 +9,7 @@ namespace Gra
     {
         public int WalkaWrecz;
         public int Krzepa;
-		public int Ataki;
+	public int Ataki;
         public int Opanowanie;
         public int Odpornosc;
         public int Zrecznosc;

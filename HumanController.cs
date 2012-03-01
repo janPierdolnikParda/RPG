@@ -16,7 +16,8 @@ namespace Gra
             CONTAINER,
             SHOP,
             ATTACK,
-            MENU
+            MENU,
+            STATS
         }
 
         public enum HumanTalkState
@@ -54,6 +55,7 @@ namespace Gra
         public HUDShop HUDShop;
         public HUDMenu HUDMenu;
         public HUD HUD;
+        public HUDStats HUDStats;
         public MOIS.MouseState_NativePtr Mysz;
 
 		public bool InitShop;
@@ -123,6 +125,8 @@ namespace Gra
         {
             if (State == HumanControllerState.FREE)
             {
+                if (newState == HumanControllerState.STATS)
+                    HUDStats.IsVisible = true;
                 if (newState == HumanControllerState.MENU)
                     HUDMenu.IsVisible = true;
                 if (newState == HumanControllerState.TALK)
@@ -449,6 +453,9 @@ namespace Gra
 
                 }
 
+                else if (State == HumanControllerState.STATS)
+                    HandleStats();
+
                 else if (State == HumanControllerState.MENU)
                     HandleMenu();
 
@@ -649,6 +656,11 @@ namespace Gra
             HUDShop.MouseCursor.SetDimensions(Engine.Singleton.GetFloatFromPxWidth(Engine.Singleton.Mouse.MouseState.X.abs), Engine.Singleton.GetFloatFromPxHeight(Engine.Singleton.Mouse.MouseState.Y.abs), Engine.Singleton.GetFloatFromPxWidth(32), Engine.Singleton.GetFloatFromPxHeight(32));
         }
 
+        private void HandleStats()
+        {
+
+        }
+
         private void HandleContainer()      // @@ funkcja odpowiedzialna za obsługę kontenerów
         {
             if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_S))      // następny przedmiot z listy
@@ -782,6 +794,9 @@ namespace Gra
 
                 }
             }
+
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_C))
+                SwitchState(HumanControllerState.STATS);
 
             if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_K))
                 Character.Statistics.aktualnaZywotnosc = Character.Statistics.Zywotnosc;
