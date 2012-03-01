@@ -80,17 +80,18 @@ namespace Gra
             Engine.Singleton.Mysz = Engine.Singleton.Mouse.MouseState;
 
             Character player = new Character(CharacterProfileManager.character);
-            player.Position = new Vector3(7.4251f, 0.2231f, -1.0019f);
+            player.Position = new Vector3(0,0,0);
+			//player.Orientation = new Quaternion(new Radian(new Degree(180)), Vector3.UNIT_Y);
             Engine.Singleton.ObjectManager.Add(player);
             Engine.Singleton.HumanController.Character = player;
 
             Engine.Singleton.CurrentLevel = new Level();
-            Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "KarczmaNav"); // MENU LVL
+            Engine.Singleton.CurrentLevel.LoadLevel("MenuLevel", "KarczmaNav", true); // MENU LVL
             //Engine.Singleton.Load();
 
             Engine.Singleton.GameCamera.Character = player;
-            Engine.Singleton.GameCamera.Distance = 4;
-            Engine.Singleton.GameCamera.Angle = new Degree(20);
+			Engine.Singleton.GameCamera.Distance = 7;
+            Engine.Singleton.GameCamera.Angle = new Degree(33);
 
             while (true)
             {
@@ -132,7 +133,8 @@ namespace Gra
         static void New()
         {
             //Piotra ulubione tworzenie postaci :)
-            Engine.Singleton.CurrentLevel = new Level();
+			Engine.Singleton.CurrentLevel.DeleteLevel();
+            //Engine.Singleton.CurrentLevel = new Level();
             Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "KarczmaNav");
             Engine.Singleton.Load();
             Engine.Singleton.TriggerManager = new TriggerManager();

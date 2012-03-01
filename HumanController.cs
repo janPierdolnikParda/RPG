@@ -52,7 +52,7 @@ namespace Gra
         HUDInventory HUDInventory;
         HUDContainer HUDContainer;
         public HUDShop HUDShop;
-        HUDMenu HUDMenu;
+        public HUDMenu HUDMenu;
         public HUD HUD;
         public MOIS.MouseState_NativePtr Mysz;
 
@@ -341,19 +341,22 @@ namespace Gra
             bool Klik = false;
             int IndexKlika = 0;
 
-            for (int i = 0; i < HUDMenu.Options2Choose.Count; i++)
+            for (int i = 0; i < 6; i++)
             {
                 TextLabel TL = HUDMenu.Options2Choose[i];
-                if (HUDMenu.IsOver(TL) && Engine.Singleton.Menu.SubMenus[i].Enabled)
-                    Engine.Singleton.Menu.SubMenus[i].Selected = true;
-                else
-                    Engine.Singleton.Menu.SubMenus[i].Selected = false;
+				if (TL.IsVisible)
+				{
+					if (HUDMenu.IsOver(TL) && Engine.Singleton.Menu.SubMenus[i].Enabled)
+						Engine.Singleton.Menu.SubMenus[i].Selected = true;
+					else
+						Engine.Singleton.Menu.SubMenus[i].Selected = false;
 
-                if (Engine.Singleton.Mysz.ButtonDown(MOIS.MouseButtonID.MB_Left) && Engine.Singleton.Menu.SubMenus[i].Selected)
-                {
-                    Klik = true;
-                    IndexKlika = i;
-                }
+					if (Engine.Singleton.Mysz.ButtonDown(MOIS.MouseButtonID.MB_Left) && Engine.Singleton.Menu.SubMenus[i].Selected)
+					{
+						Klik = true;
+						IndexKlika = i;
+					}
+				}
             }
 
             if (Klik)

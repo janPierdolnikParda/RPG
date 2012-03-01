@@ -38,6 +38,11 @@ namespace Gra
             else
                 Engine.Singleton.Camera.Position = InterPosition;
 
+			if (Engine.Singleton.HumanController.HUDMenu.IsVisible)
+			{
+				Engine.Singleton.Camera.Position = new Vector3(Engine.Singleton.Camera.Position.x, Engine.Singleton.Camera.Position.y, -Engine.Singleton.Camera.Position.z)  ;
+			}
+
             Engine.Singleton.Camera.LookAt(head);
         }
     }

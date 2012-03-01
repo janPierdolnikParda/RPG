@@ -10,7 +10,8 @@ namespace Gra
     {
         bool _IsVisible;
         SubMenu Menu;
-        public List<TextLabel> Options2Choose;
+        //public List<TextLabel> Options2Choose;
+		public TextLabel[] Options2Choose;
         TextLabel Header;
 
         public SimpleQuad MouseCursor; 
@@ -18,13 +19,20 @@ namespace Gra
         public HUDMenu()
         {
             Menu = Engine.Singleton.Menu;
-            Options2Choose = new List<TextLabel>();
+            //Options2Choose = new List<TextLabel>();
+			Options2Choose = new TextLabel[6];
             Header = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.1f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
             Header.SetPosition(0.4f, 0.3f);
             MouseCursor = Engine.Singleton.Labeler.NewSimpleQuad("Kursor", 0.0f, 0.0f, Engine.Singleton.GetFloatFromPxWidth(32), Engine.Singleton.GetFloatFromPxHeight(32), new ColourValue(1, 1, 1), 4);
+
+			for (int i = 0; i < 6; i++)
+			{
+				Options2Choose[i] = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.03f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
+			}
+
         }
 
-        public bool IsVisible
+		public bool IsVisible
         {
             get
             {
@@ -43,25 +51,34 @@ namespace Gra
 
         public void Update()
         {
-            for (int i = 0; i < Options2Choose.Count; i++)
-                Engine.Singleton.Labeler.DestroyTextLabel(Options2Choose[i], 2);
+            //for (int i = 0; i < Options2Choose.Count; i++)
+                //Engine.Singleton.Labeler.DestroyTextLabel(Options2Choose[i], 2);
             Menu = Engine.Singleton.Menu;
-            Options2Choose.Clear();
+            //Options2Choose.Clear();
 
-            foreach (SubMenu SB in Menu.SubMenus)
+            for (int i = 0; i < Menu.SubMenus.Count; i++)
             {
-                if (SB.Selected)
-                    Options2Choose.Add(Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.03f, new ColourValue(1.0f, 0, 0.2f), new ColourValue(1, 1.0f, 0.6f), 2));
-                else if(SB.Enabled)
-                    Options2Choose.Add(Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.03f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2));
-                else
-                    Options2Choose.Add(Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.03f, new ColourValue(0.22f, 0.22f, 0.22f), new ColourValue(1, 1.0f, 0.6f), 2));
-                Options2Choose[Options2Choose.Count - 1].Caption = SB.MenuName;
+				SubMenu SB = Menu.SubMenus[i];
+				if (SB.Selected)
+					Options2Choose[i].SetColor(new ColourValue(1.0f, 0, 0.2f), new ColourValue(1, 1.0f, 0.6f));
+				else if (SB.Enabled)
+					Options2Choose[i].SetColor(new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f));
+				else
+					Options2Choose[i].SetColor(new ColourValue(0.22f, 0.22f, 0.22f), new ColourValue(1, 1.0f, 0.6f));
+                Options2Choose[i].Caption = SB.MenuName;
             }
 
             Header.Caption = Menu.MenuName;
 
-            for (int i = 0; i < Options2Choose.Count; i++)
+			for (int i = 0; i < 6; i++)
+			{
+				if (i < Menu.SubMenus.Count)
+					Options2Choose[i].IsVisible = true;
+				else
+					Options2Choose[i].IsVisible = false;
+			}
+
+            for (int i = 0; i < 6; i++)
             {
                 TextLabel TL = Options2Choose[i];
                 TL.SetPosition(0.4f, 0.45f + i * 0.05f);
