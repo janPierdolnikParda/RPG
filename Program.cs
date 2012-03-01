@@ -81,7 +81,6 @@ namespace Gra
 
             Character player = new Character(CharacterProfileManager.character);
             player.Position = new Vector3(0,0,0);
-			//player.Orientation = new Quaternion(new Radian(new Degree(180)), Vector3.UNIT_Y);
             Engine.Singleton.ObjectManager.Add(player);
             Engine.Singleton.HumanController.Character = player;
 

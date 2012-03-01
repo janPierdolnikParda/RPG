@@ -13,6 +13,7 @@ namespace Gra
         //public List<TextLabel> Options2Choose;
 		public TextLabel[] Options2Choose;
         TextLabel Header;
+		SimpleQuad BGQuad;
 
         public SimpleQuad MouseCursor; 
 
@@ -24,6 +25,8 @@ namespace Gra
             Header = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.1f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
             Header.SetPosition(0.4f, 0.3f);
             MouseCursor = Engine.Singleton.Labeler.NewSimpleQuad("Kursor", 0.0f, 0.0f, Engine.Singleton.GetFloatFromPxWidth(32), Engine.Singleton.GetFloatFromPxHeight(32), new ColourValue(1, 1, 1), 4);
+
+			BGQuad = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0.35f, 0.25f, 0.3f, 0.5f, ColourValue.Black, 1);
 
 			for (int i = 0; i < 6; i++)
 			{
@@ -43,6 +46,7 @@ namespace Gra
                 _IsVisible = value;
                 Header.IsVisible = value;
                 MouseCursor.IsVisible = value;
+				BGQuad.IsVisible = value;
 
                 foreach (TextLabel TL in Options2Choose)
                     TL.IsVisible = value;

@@ -140,6 +140,11 @@ namespace Gra
 			}
 		}
 
+		public void StopDialog()
+		{
+            Result = ChannelDialog.stop();
+		}
+
 
     }
 }

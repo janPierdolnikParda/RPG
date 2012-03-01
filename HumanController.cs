@@ -164,8 +164,11 @@ namespace Gra
             }
             else if (State == HumanControllerState.TALK)
             {
-                if (newState == HumanControllerState.FREE)
-                    HideTalkOverlay();
+				if (newState == HumanControllerState.FREE)
+				{
+					HideTalkOverlay();
+					Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_SPACE);
+				}
             }
             else if (State == HumanControllerState.CONTAINER)
             {
@@ -282,6 +285,11 @@ namespace Gra
                         BeginTextDisplay(CurrentNode.Text[TextIndex]);
                     }
                 }
+				else if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_SPACE))
+				{
+					TextRemainingTime = 0;
+					Engine.Singleton.SoundManager.StopDialog();
+				}
             }
             else if (TalkState == HumanTalkState.REPLYING)
             {
@@ -307,6 +315,11 @@ namespace Gra
                         BeginTextDisplay(CurrentReply.Text[TextIndex]);
                     }
                 }
+				else if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_SPACE) && !CurrentReply.IsEnding)
+				{
+					TextRemainingTime = 0;
+					Engine.Singleton.SoundManager.StopDialog();
+				}
             }
             else if (TalkState == HumanTalkState.PAUSE)
             {
@@ -331,7 +344,7 @@ namespace Gra
                 }
                 UpdateRepliesColours();
 
-                if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_SPACE))
+                if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_SPACE))
                 {
                     CurrentReply = ValidReplies[SelectedReply];
                     SwitchTalkState(HumanTalkState.REPLYING);
