@@ -137,7 +137,7 @@ namespace Gra
             //Engine.Singleton.CurrentLevel = new Level();
             Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "KarczmaNav");
             Engine.Singleton.Load();
-            Engine.Singleton.TriggerManager = new TriggerManager();
+            //Engine.Singleton.TriggerManager = new TriggerManager();
 
             //Character player = new Character(CharacterProfileManager.character);
             //player.Position = new Vector3(7.4251f, 0.2231f, -1.0019f);

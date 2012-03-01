@@ -15,7 +15,7 @@ namespace Gra
         public TriggerManager()
         {
             T = new Dictionary<string, TriggerVolume>();
-            Load();
+            //Load();
         }
 
         public void RemoveAll()

@@ -20,6 +20,22 @@ namespace Gra
             Engine.Singleton.HumanController.Character.Position = new Mogre.Vector3(3.5f, 0.5f, -3.4f);
         }
 
+        public static void teleportKarczma2()
+        {
+            Engine.Singleton.CurrentLevel.LoadNewMap = true;
+            Engine.Singleton.CurrentLevel.NewMapName = "Karczmalvl2";
+            Engine.Singleton.CurrentLevel.NewMapNav = "Karczmanav";
+            Engine.Singleton.HumanController.Character.Position = new Mogre.Vector3(-4.29f, -0.57f, -9.09f);
+        }
+
+        public static void teleportKarczma()
+        {
+            Engine.Singleton.CurrentLevel.LoadNewMap = true;
+            Engine.Singleton.CurrentLevel.NewMapName = "Karczma";
+            Engine.Singleton.CurrentLevel.NewMapNav = "Karczmanav";
+            Engine.Singleton.HumanController.Character.Position = new Mogre.Vector3(9.10f, -1.01f, 3.09f);
+        }
+
         public static void WyjscieZPiwnicy()
         {
             Engine.Singleton.CurrentLevel.LoadNewMap = true;

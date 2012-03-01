@@ -130,6 +130,7 @@ namespace Gra
             Mysz = new MOIS.MouseState_NativePtr();
 			Conversations = new Conversations();
             Random = new Random();
+            TriggerManager = new TriggerManager();
         }
 
         public void Update()
@@ -177,6 +178,7 @@ namespace Gra
 
         public void Load()
         {
+            TriggerManager.RemoveAll();
             while (Engine.Singleton.ObjectManager.Objects.Count > 0)
             {
                 int q = 0;
@@ -308,6 +310,8 @@ namespace Gra
                     Engine.Singleton.ObjectManager.Add(newCharacter);
                 }
             }
+
+            TriggerManager.Load();
         }
 
         public bool IsKeyTyped(MOIS.KeyCode code)
