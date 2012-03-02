@@ -164,11 +164,11 @@ namespace Gra
             }
             else if (State == HumanControllerState.TALK)
             {
-				if (newState == HumanControllerState.FREE)
-				{
-					HideTalkOverlay();
-					Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_SPACE);
-				}
+                if (newState == HumanControllerState.FREE)
+                {
+                    HideTalkOverlay();
+                    Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_SPACE);
+                }
             }
             else if (State == HumanControllerState.CONTAINER)
             {
@@ -194,6 +194,9 @@ namespace Gra
 
             else if (State == HumanControllerState.MENU)
                 HUDMenu.IsVisible = false;
+
+            else if (State == HumanControllerState.STATS)
+                HUDStats.IsVisible = false;
 
 
             State = newState;
@@ -671,7 +674,19 @@ namespace Gra
 
         private void HandleStats()
         {
+            HUDStats.Update();
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_C))
+                SwitchState(HumanControllerState.FREE);
+            if (Engine.Singleton.Mysz.ButtonDown(MOIS.MouseButtonID.MB_Left))
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    if (HUDStats.Stats[i].AddAble && HUDStats.Stats[i].IsOverAddPoint())
+                    {
 
+                    }
+                }
+            }
         }
 
         private void HandleContainer()      // @@ funkcja odpowiedzialna za obsługę kontenerów
