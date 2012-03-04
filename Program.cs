@@ -147,6 +147,8 @@ namespace Gra
             Engine.Singleton.GameCamera.Angle = new Degree(20);
             Engine.Singleton.HumanController.HUDStats = new HUDStats();
 
+			Engine.Singleton.HumanController.Character.Sword = null;
+
             Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["iKufel"]);
             Engine.Singleton.HumanController.ToggleHud();
         }

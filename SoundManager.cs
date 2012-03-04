@@ -10,7 +10,7 @@ namespace Gra
         FMOD.RESULT Result;                 // FMOD zwraca przy wykonaniu każdej funkcji informacje typu RESULT
         FMOD.System System = null;          // Główny silnik FMOD'a
         float _volume = 1.0f;                      // Główna głośność dźwięków i muzyki zmieniana przez Volume, wartości: <0, 1.0f>
-		public float BGMVolume = 0.3f;
+		public float BGMVolume = 0.3f;		// mnożniki głośności poszczególnych kanałów
 		public float DialogVolume = 1.0f;
 
         //listy dźwięków
@@ -143,6 +143,21 @@ namespace Gra
 		public void StopDialog()
 		{
             Result = ChannelDialog.stop();
+		}
+
+		public void PlaySound(string path)
+		{
+			if (path != null)
+			{
+				string play;
+
+				play = "Media/Sounds/" + path;
+
+				Result = System.createStream(play, FMOD.MODE.DEFAULT, ref SoundDialog);
+
+				Result = System.playSound(FMOD.CHANNELINDEX.REUSE, SoundDialog, false, ref ChannelDialog);
+				Volume = _volume;
+			}
 		}
 
 

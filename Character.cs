@@ -331,7 +331,7 @@ namespace Gra
         public void SetContact()
         {
 
-            float length = 5.0f;
+			float length = 5.0f; //Engine.Singleton.GameCamera.DistanceNow + 1.0f;
 
             Vector3 AimPosition = new Vector3();
             AimPosition.x = (float)System.Math.Sin((double)-getY().ValueRadians) * length;

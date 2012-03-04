@@ -296,6 +296,7 @@ namespace Gra
 			  {
 				  ch.AnimBlender.ResetAnimSet("GetSword");
 				  ch.AnimBlender.SetAnimSet("GetSword");
+				  Engine.Singleton.SoundManager.PlaySound("Other/haa.mp3");
 				  return true;
 			  }));
 			// #2

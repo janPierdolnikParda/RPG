@@ -14,6 +14,8 @@ namespace Gra
 
         public Vector3 InterPosition;
 
+		public float DistanceNow;
+
         public void Update()
         {
 			if (!Engine.Singleton.HumanController.HUDMenu.IsVisible)
@@ -36,9 +38,14 @@ namespace Gra
 					Engine.Singleton.Camera.Position = head
 					  + (InterPosition - head) * raycast.Contacts[0].Distance
 					  + raycast.Contacts[0].Normal * 0.15f;
+
+					DistanceNow = raycast.Contacts[0].Distance;
 				}
 				else
+				{
 					Engine.Singleton.Camera.Position = InterPosition;
+					DistanceNow = Distance;
+				}
 
 				Engine.Singleton.Camera.LookAt(head);
 			}
