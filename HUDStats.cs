@@ -90,6 +90,14 @@ namespace Gra
             }
         }
 
+		public Character Character
+		{
+			get
+			{
+				return Engine.Singleton.HumanController.Character;
+			}
+		}
+
         public HUDStats()
         {
             Stats = new Stat[10];
@@ -130,6 +138,11 @@ namespace Gra
             Stats[9].UpdateValue(CharStats.Ataki.ToString());
             MouseCursor.SetDimensions(Engine.Singleton.GetFloatFromPxWidth(Engine.Singleton.Mouse.MouseState.X.abs), Engine.Singleton.GetFloatFromPxHeight(Engine.Singleton.Mouse.MouseState.Y.abs), Engine.Singleton.GetFloatFromPxWidth(32), Engine.Singleton.GetFloatFromPxHeight(32));
             Exp.Caption = "Punkty doswiadczenia: " + Engine.Singleton.HumanController.Character.Profile.Exp.ToString();
+
+			Character.MoveLeftOrder = false;
+			Character.MoveRightOrder = false;
+			Character.MoveOrder = false;
+			Character.MoveOrderBack = false;
         }
 
         public bool IsVisible

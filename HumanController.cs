@@ -125,8 +125,15 @@ namespace Gra
         {
             if (State == HumanControllerState.FREE)
             {
-                if (newState == HumanControllerState.STATS)
-                    HUDStats.IsVisible = true;
+				if (newState == HumanControllerState.STATS)
+				{
+					HUDStats.IsVisible = true;
+					Character.MoveLeftOrder = false;
+					Character.MoveRightOrder = false;
+					Character.MoveOrder = false;
+					Character.MoveOrderBack = false;
+
+				}
                 if (newState == HumanControllerState.MENU)
                     HUDMenu.IsVisible = true;
                 if (newState == HumanControllerState.TALK)
