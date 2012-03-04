@@ -80,13 +80,17 @@ namespace Gra
             Engine.Singleton.Mysz = Engine.Singleton.Mouse.MouseState;
 
             Character player = new Character(CharacterProfileManager.character);
-            player.Position = new Vector3(0,0,0);
+            player.Position = new Vector3(-3.5f,0,1);
+			player.Orientation = new Quaternion(new Radian(new Degree(90)), Vector3.UNIT_Y);
+
+			player.Sword = (ItemSword)Items.I["sSword"];
+			player.GetSwordOrder = true;
+
             Engine.Singleton.ObjectManager.Add(player);
             Engine.Singleton.HumanController.Character = player;
 
             Engine.Singleton.CurrentLevel = new Level();
             Engine.Singleton.CurrentLevel.LoadLevel("MenuLevel", "KarczmaNav", true); // MENU LVL
-            //Engine.Singleton.Load();
 
             Engine.Singleton.GameCamera.Character = player;
 			Engine.Singleton.GameCamera.Distance = 7;
@@ -111,7 +115,7 @@ namespace Gra
                     Engine.Singleton.NewtonDebugger.ShowDebugInformation();
                 else
                     Engine.Singleton.NewtonDebugger.HideDebugInformation();
-
+				/*
                 if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_P))
                 {
                     Engine.Singleton.CurrentLevel.navMesh.AStar(NPCManager.npc.Position, Engine.Singleton.HumanController.Character.Position);
@@ -123,6 +127,7 @@ namespace Gra
                         NPCManager.npc.FollowPathOrder = true;
                     }
                 }
+				*/
             }
 
             Engine.Singleton.Root.Dispose();
@@ -131,23 +136,16 @@ namespace Gra
 
         static void New()
         {
-            //Piotra ulubione tworzenie postaci :)
+            //Piotra ulubione tworzenie postaci :) @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 			Engine.Singleton.CurrentLevel.DeleteLevel();
-            //Engine.Singleton.CurrentLevel = new Level();
+
             Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "KarczmaNav");
             Engine.Singleton.Load();
-            //Engine.Singleton.TriggerManager = new TriggerManager();
-
-            //Character player = new Character(CharacterProfileManager.character);
-            //player.Position = new Vector3(7.4251f, 0.2231f, -1.0019f);
-            //Engine.Singleton.ObjectManager.Add(player);
 
             Engine.Singleton.GameCamera.Character = Engine.Singleton.HumanController.Character;
             Engine.Singleton.GameCamera.Distance = 4;
             Engine.Singleton.GameCamera.Angle = new Degree(20);
             Engine.Singleton.HumanController.HUDStats = new HUDStats();
-
-            //Engine.Singleton.HumanController.Character = player;
 
             Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["iKufel"]);
             Engine.Singleton.HumanController.ToggleHud();
