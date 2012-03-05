@@ -59,6 +59,8 @@ namespace Gra
         public MOIS.MouseState_NativePtr Mysz;
 
 		public bool InitShop;
+        public Statistics StatisticsB4;
+        public int ExpB4;
 
         int FocusObjectId = 0;
 
@@ -132,7 +134,8 @@ namespace Gra
 					Character.MoveRightOrder = false;
 					Character.MoveOrder = false;
 					Character.MoveOrderBack = false;
-
+                    StatisticsB4 = Character.Statistics.statistics_Clone();
+                    ExpB4 = Character.Profile.Exp;
 				}
                 if (newState == HumanControllerState.MENU)
                     HUDMenu.IsVisible = true;
@@ -203,7 +206,11 @@ namespace Gra
                 HUDMenu.IsVisible = false;
 
             else if (State == HumanControllerState.STATS)
+            {
                 HUDStats.IsVisible = false;
+                Character.Profile.Exp = ExpB4;
+                Character.Statistics = StatisticsB4.statistics_Clone();
+            }
 
 
             State = newState;
@@ -686,13 +693,130 @@ namespace Gra
                 SwitchState(HumanControllerState.FREE);
             if (Engine.Singleton.Mysz.ButtonDown(MOIS.MouseButtonID.MB_Left))
             {
-                for (int i = 0; i < 10; i++)
+                while (Engine.Singleton.Mysz.ButtonDown(MOIS.MouseButtonID.MB_Left))
                 {
-                    if (HUDStats.Stats[i].AddAble && HUDStats.Stats[i].IsOverAddPoint())
-                    {
+                    Engine.Singleton.Mouse.Capture();
+                }
 
+                for (int i = 0; i < 7; i++)
+                {
+                    if (HUDStats.Stats[i].AddAble && HUDStats.Stats[i].IsOverAddPoint() && HUDStats.Stats[i].AddPoint_Available)
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                                Character.Statistics.Ile_WW++;
+                                Character.Statistics.WalkaWrecz += 5;
+                                Character.Profile.Exp -= (Character.Statistics.Ile_WW) * 100;
+                                break;
+
+                            case 1:
+                                Character.Statistics.Ile_KR++;
+                                Character.Statistics.Krzepa += 5;
+                                Character.Profile.Exp -= (Character.Statistics.Ile_KR) * 100;
+                                Character.Statistics.Sila = Character.Statistics.Krzepa / 10;
+                                break;
+
+                            case 2:
+                                Character.Statistics.Ile_ZR++;
+                                Character.Statistics.Zrecznosc += 5;
+                                Character.Profile.Exp -= (Character.Statistics.Ile_ZR) * 100;
+                                break;
+
+                            case 3:
+                                Character.Statistics.Ile_ZY++;
+                                Character.Statistics.Zywotnosc += 1;
+                                Character.Profile.Exp -= (Character.Statistics.Ile_ZY) * 100;
+                                break;
+
+                            case 4:
+                                Character.Statistics.Ile_CH++;
+                                Character.Statistics.Charyzma += 5;
+                                Character.Profile.Exp -= (Character.Statistics.Ile_CH) * 100;
+                                break;
+
+                            case 5:
+                                Character.Statistics.Ile_OP++;
+                                Character.Statistics.Opanowanie += 5;
+                                Character.Profile.Exp -= (Character.Statistics.Ile_OP) * 100;
+                                break;
+
+                            case 6:
+                                Character.Statistics.Ile_ODP++;
+                                Character.Statistics.Odpornosc += 5;
+                                Character.Profile.Exp -= (Character.Statistics.Ile_ODP) * 100;
+                                Character.Profile.Statistics.Wytrzymalosc = Character.Statistics.Odpornosc / 10;
+                                break;
+                        }
+                    }
+
+                    else if (HUDStats.Stats[i].AddAble && HUDStats.Stats[i].IsOverRemovePoint() && HUDStats.Stats[i].RemovePoint_Available)
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                                Character.Statistics.Ile_WW--;
+                                Character.Statistics.WalkaWrecz -= 5;
+                                Character.Profile.Exp += (Character.Statistics.Ile_WW + 1) * 100;
+                                break;
+
+                            case 1:
+                                Character.Statistics.Ile_KR--;
+                                Character.Statistics.Krzepa -= 5;
+                                Character.Profile.Exp += (Character.Statistics.Ile_KR + 1) * 100;
+                                Character.Statistics.Sila = Character.Statistics.Krzepa / 10;
+                                break;
+
+                            case 2:
+                                Character.Statistics.Ile_ZR--;
+                                Character.Statistics.Zrecznosc -= 5;
+                                Character.Profile.Exp += (Character.Statistics.Ile_ZR + 1) * 100;
+                                break;
+
+                            case 3:
+                                Character.Statistics.Ile_ZY--;
+                                Character.Statistics.Zywotnosc -= 1;
+                                Character.Profile.Exp += (Character.Statistics.Ile_ZY + 1) * 100;
+                                break;
+
+                            case 4:
+                                Character.Statistics.Ile_CH--;
+                                Character.Statistics.Charyzma -= 5;
+                                Character.Profile.Exp += (Character.Statistics.Ile_CH + 1) * 100;
+                                break;
+
+                            case 5:
+                                Character.Statistics.Ile_OP--;
+                                Character.Statistics.Opanowanie -= 5;
+                                Character.Profile.Exp += (Character.Statistics.Ile_OP + 1) * 100;
+                                break;
+
+                            case 6:
+                                Character.Statistics.Ile_ODP--;
+                                Character.Statistics.Odpornosc -= 5;
+                                Character.Profile.Exp += (Character.Statistics.Ile_ODP + 1) * 100;
+                                Character.Profile.Statistics.Wytrzymalosc = Character.Statistics.Odpornosc / 10;
+                                break;
+                        }
+                    }
+
+                    else if (HUDStats.IsOverZmiany())
+                    {
+                        StatisticsB4 = Character.Statistics.statistics_Clone();
+                        ExpB4 = Character.Profile.Exp;
+                        SwitchState(HumanControllerState.FREE);
                     }
                 }
+            }
+
+            if (HUDStats.IsOverZmiany())
+            {
+                HUDStats.Zmiany.SetColor(new ColourValue(1.0f, 0, 0.2f), new ColourValue(1, 1.0f, 0.6f));
+            }
+
+            else
+            {
+                HUDStats.Zmiany.SetColor(new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f));
             }
         }
 

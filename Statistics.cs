@@ -9,7 +9,7 @@ namespace Gra
     {
         public int WalkaWrecz;
         public int Krzepa;
-	public int Ataki;
+	    public int Ataki;
         public int Opanowanie;
         public int Odpornosc;
         public int Zrecznosc;
@@ -18,6 +18,14 @@ namespace Gra
         public int aktualnaZywotnosc;
 		public int Sila;
 		public int Wytrzymalosc;
+
+        public int Ile_WW = 0;
+        public int Ile_KR = 0;
+        public int Ile_OP = 0;
+        public int Ile_ODP = 0;
+        public int Ile_ZR = 0;
+        public int Ile_CH = 0;
+        public int Ile_ZY = 0;
 
         public Statistics(int ww, int k, int op, int odp, int zr, int ch, int zy, int at)
         {
@@ -32,6 +40,17 @@ namespace Gra
             aktualnaZywotnosc = zy;
 			Ataki = at;
 			Wytrzymalosc = Odpornosc / 10;
+        }
+
+        public void PrzypiszIlosci(int ww, int k, int op, int odp, int zr, int ch, int zy)
+        {
+            Ile_WW = ww;
+            Ile_KR = k;
+            Ile_OP = op;
+            Ile_ODP = odp;
+            Ile_ZR = zr;
+            Ile_CH = ch;
+            Ile_ZY = zy;
         }
 
         public Statistics()
