@@ -24,11 +24,11 @@ namespace Gra
             
             AddAble = addAble;
 
-            Name = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 3);
+            Name = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 4);
             Name.Caption = name;
             Name.SetPosition(left + 0.01f, top + 0.01f);
 
-            Value = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 3);
+            Value = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 4);
             Value.Caption = value;
             Value.SetPosition(left + 0.22f, top + 0.01f);
 
