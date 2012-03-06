@@ -341,30 +341,80 @@ namespace Gra
 
         public void Atakowanie()
         {
-            //Do osobnego Node:
+            bool Blok = false;
+
             for (int i = 0; i < Engine.Singleton.HumanController.Character.Statistics.Ataki; i++)
             {
-                if (Engine.Singleton.Procenty(Engine.Singleton.HumanController.Character.Statistics.WalkaWrecz) && Engine.Singleton.HumanController.Character.FocusedEnemy != null)
-                {
-                    bool Kryt = false;
-                    int Hit = Engine.Singleton.Kostka(1, 6) + Engine.Singleton.HumanController.Character.Statistics.Sila;
-                    Kryt = Engine.Singleton.Procenty(5);
+                bool Kryt = false;
+                bool BlokNieUdany = true;
+                bool Unikniety = false;
 
-                    if (Kryt)
+                if (Engine.Singleton.HumanController.Character.FocusedEnemy != null)
+                {
+                    if (Engine.Singleton.Procenty(Engine.Singleton.HumanController.Character.Statistics.WalkaWrecz))
                     {
-                        Hit *= 2;
-						Engine.Singleton.HumanController.HUD.LogAdd("Trafiasz za " + Hit.ToString() + " (KRYT!)", new ColourValue(0.7f, 0.4f, 0));
+                        if (Engine.Singleton.Procenty(50))  // REAKCJA WROGA
+                        {
+                            if (!Blok)
+                            {
+                                if (Engine.Singleton.Procenty(50)) // BLOK!
+                                {
+                                    Blok = true;
+
+                                    if (Engine.Singleton.Random.Next(101) <= Engine.Singleton.HumanController.Character.FocusedEnemy.Statistics.WalkaWrecz)
+                                    {
+                                        BlokNieUdany = false;
+                                    }
+                                }
+
+                                else
+                                {
+                                    //    UNIK !!
+
+                                    if (Engine.Singleton.Random.Next(101) <= Engine.Singleton.HumanController.Character.FocusedEnemy.Statistics.Zrecznosc)
+                                        Unikniety = true;
+                                }
+                            }
+
+                            else
+                            {
+                                //    UNIK !!
+
+                                if (Engine.Singleton.Random.Next(101) <= Engine.Singleton.HumanController.Character.FocusedEnemy.Statistics.Zrecznosc)
+                                    Unikniety = true;
+                            }
+                        }
+
+                        if (BlokNieUdany && !Unikniety)
+                        {
+                            int Obrazenia = Engine.Singleton.Kostka(1, 6);
+
+                            if (Engine.Singleton.Procenty(5))
+                            {
+                                Kryt = true;
+                                Obrazenia *= 2;
+                            }
+
+                            Obrazenia = Obrazenia + Engine.Singleton.HumanController.Character.Statistics.Sila
+                                - Engine.Singleton.HumanController.Character.FocusedEnemy.Statistics.Wytrzymalosc;
+
+                            if (Obrazenia < 0)
+                                Obrazenia = 0;
+
+                            Engine.Singleton.HumanController.Character.FocusedEnemy.Statistics.aktualnaZywotnosc -= Obrazenia;
+
+                            if (Kryt)
+                                Engine.Singleton.HumanController.HUD.LogAdd("Trafiasz za " + Obrazenia.ToString() + " (KRYT!)", new ColourValue(0.7f, 0.4f, 0));
+                            else
+                                Engine.Singleton.HumanController.HUD.LogAdd("Trafiasz za " + Obrazenia.ToString(), ColourValue.White);
+                        }
                     }
+
                     else
-                       Engine.Singleton.HumanController.HUD.LogAdd("Trafiasz za " + Hit.ToString(), ColourValue.White);
-						Engine.Singleton.HumanController.Character.FocusedEnemy.Statistics.aktualnaZywotnosc -= Hit;
+                        Engine.Singleton.HumanController.HUD.LogAdd("Nie trafiasz", new ColourValue(0.4f, 0.5f, 0.9f));
                 }
 
-                else
-					Engine.Singleton.HumanController.HUD.LogAdd("Nie trafiasz", new ColourValue(0.4f, 0.5f, 0.9f));
-
             }
-            //
         }
     }
 }

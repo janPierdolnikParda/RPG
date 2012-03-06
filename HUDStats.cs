@@ -125,6 +125,8 @@ namespace Gra
         SimpleQuad MouseCursor;
         SimpleQuad ZmianyBg;
         public TextLabel Zmiany;
+        public SimpleQuad RequiredBg;
+        public TextLabel Required;
 
         public Statistics CharStats
         {
@@ -177,6 +179,8 @@ namespace Gra
             Zmiany.SetPosition(0.42f, 0.71f);
             Zmiany.Caption = "Zatwierdz zmiany";
             ZmianyBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0.41f, 0.7f, 0.22f, 0.06f, ColourValue.White, 1);
+            RequiredBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0, 0, 0.3f, 0.05f, new ColourValue(1, 1, 1), 2);
+            Required = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 4);
 
             IsVisible = false;
         }
@@ -267,6 +271,12 @@ namespace Gra
             MouseCursor.SetDimensions(Engine.Singleton.GetFloatFromPxWidth(Engine.Singleton.Mouse.MouseState.X.abs), Engine.Singleton.GetFloatFromPxHeight(Engine.Singleton.Mouse.MouseState.Y.abs), Engine.Singleton.GetFloatFromPxWidth(32), Engine.Singleton.GetFloatFromPxHeight(32));
             Exp.Caption = "Punkty doswiadczenia: " + Engine.Singleton.HumanController.Character.Profile.Exp.ToString();
 
+            if (Required.IsVisible)
+            {
+                Required.SetPosition(Engine.Singleton.GetFloatFromPxWidth(Engine.Singleton.Mouse.MouseState.X.abs) + 0.06f, Engine.Singleton.GetFloatFromPxHeight(Engine.Singleton.Mouse.MouseState.Y.abs) + 0.01f);
+                RequiredBg.SetDimensions(Engine.Singleton.GetFloatFromPxWidth(Engine.Singleton.Mouse.MouseState.X.abs) + 0.06f, Engine.Singleton.GetFloatFromPxHeight(Engine.Singleton.Mouse.MouseState.Y.abs), 0.3f, 0.05f);
+            }
+
 			Character.MoveLeftOrder = false;
 			Character.MoveRightOrder = false;
 			Character.MoveOrder = false;
@@ -296,6 +306,12 @@ namespace Gra
                 ExpBg.IsVisible = value;
                 Zmiany.IsVisible = value;
                 ZmianyBg.IsVisible = value;
+
+                if (!value)
+                {
+                    Required.IsVisible = value;
+                    RequiredBg.IsVisible = value;
+                }
 
                 foreach (Stat s in Stats)
                     s.IsVisible = value;

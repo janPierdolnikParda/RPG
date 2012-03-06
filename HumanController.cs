@@ -516,6 +516,12 @@ namespace Gra
 
                 else if (!IsAlive && !AddedToKillList)
                 {
+                    String KogoZabiles = "";
+                    if (CharacterProfileManager.E.ContainsKey(Character.FocusedEnemy.ProfName))
+                        KogoZabiles = CharacterProfileManager.E[Character.FocusedEnemy.ProfName].DisplayName;
+                    else
+                        KogoZabiles = CharacterProfileManager.C[Character.FocusedEnemy.ProfName].DisplayName;
+                    HUD.LogAdd(KogoZabiles + " umiera (" + Character.FocusedEnemy.DropExp.ToString() + " PD)", new ColourValue(1, 1, 0));
                     AddedToKillList = true;
                     Character.Profile.Exp += Character.FocusedEnemy.DropExp;
 
@@ -691,6 +697,56 @@ namespace Gra
             HUDStats.Update();
             if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_C))
                 SwitchState(HumanControllerState.FREE);
+
+            bool kibel = false;
+
+            for (int i = 0; i < 7; i++)
+            {
+                if (HUDStats.Stats[i].AddAble && HUDStats.Stats[i].IsOverAddPoint())
+                {
+                    if (!HUDStats.Stats[i].AddPoint_Available)
+                    {
+                        String Req = "Wymagane ";
+                        switch (i)
+                        {
+                            case 0:
+                                Req += (Character.Statistics.Ile_WW + 1) * 100;
+                                break;
+                            case 1:
+                                Req += (Character.Statistics.Ile_KR + 1) * 100;
+                                break;
+                            case 2:
+                                Req += (Character.Statistics.Ile_ZR + 1) * 100;
+                                break;
+                            case 3:
+                                Req += (Character.Statistics.Ile_ZY + 1) * 100;
+                                break;
+                            case 4:
+                                Req += (Character.Statistics.Ile_CH + 1) * 100;
+                                break;
+                            case 5:
+                                Req += (Character.Statistics.Ile_OP + 1) * 100;
+                                break;
+                            case 6:
+                                Req += (Character.Statistics.Ile_ODP + 1) * 100;
+                                break;
+                        }
+
+                        Req += " PD";
+                        kibel = true;
+                        HUDStats.Required.IsVisible = true;
+                        HUDStats.RequiredBg.IsVisible = true;
+                        HUDStats.Required.Caption = Req;
+                    }
+                }
+            }
+
+            if (!kibel)
+            {
+                HUDStats.Required.IsVisible = false;
+                HUDStats.RequiredBg.IsVisible = false;
+            }
+
             if (Engine.Singleton.Mysz.ButtonDown(MOIS.MouseButtonID.MB_Left))
             {
                 while (Engine.Singleton.Mysz.ButtonDown(MOIS.MouseButtonID.MB_Left))
@@ -700,53 +756,56 @@ namespace Gra
 
                 for (int i = 0; i < 7; i++)
                 {
-                    if (HUDStats.Stats[i].AddAble && HUDStats.Stats[i].IsOverAddPoint() && HUDStats.Stats[i].AddPoint_Available)
+                    if (HUDStats.Stats[i].AddAble && HUDStats.Stats[i].IsOverAddPoint())
                     {
-                        switch (i)
+                        if (HUDStats.Stats[i].AddPoint_Available)
                         {
-                            case 0:
-                                Character.Statistics.Ile_WW++;
-                                Character.Statistics.WalkaWrecz += 5;
-                                Character.Profile.Exp -= (Character.Statistics.Ile_WW) * 100;
-                                break;
+                            switch (i)
+                            {
+                                case 0:
+                                    Character.Statistics.Ile_WW++;
+                                    Character.Statistics.WalkaWrecz += 5;
+                                    Character.Profile.Exp -= (Character.Statistics.Ile_WW) * 100;
+                                    break;
 
-                            case 1:
-                                Character.Statistics.Ile_KR++;
-                                Character.Statistics.Krzepa += 5;
-                                Character.Profile.Exp -= (Character.Statistics.Ile_KR) * 100;
-                                Character.Statistics.Sila = Character.Statistics.Krzepa / 10;
-                                break;
+                                case 1:
+                                    Character.Statistics.Ile_KR++;
+                                    Character.Statistics.Krzepa += 5;
+                                    Character.Profile.Exp -= (Character.Statistics.Ile_KR) * 100;
+                                    Character.Statistics.Sila = Character.Statistics.Krzepa / 10;
+                                    break;
 
-                            case 2:
-                                Character.Statistics.Ile_ZR++;
-                                Character.Statistics.Zrecznosc += 5;
-                                Character.Profile.Exp -= (Character.Statistics.Ile_ZR) * 100;
-                                break;
+                                case 2:
+                                    Character.Statistics.Ile_ZR++;
+                                    Character.Statistics.Zrecznosc += 5;
+                                    Character.Profile.Exp -= (Character.Statistics.Ile_ZR) * 100;
+                                    break;
 
-                            case 3:
-                                Character.Statistics.Ile_ZY++;
-                                Character.Statistics.Zywotnosc += 1;
-                                Character.Profile.Exp -= (Character.Statistics.Ile_ZY) * 100;
-                                break;
+                                case 3:
+                                    Character.Statistics.Ile_ZY++;
+                                    Character.Statistics.Zywotnosc += 1;
+                                    Character.Profile.Exp -= (Character.Statistics.Ile_ZY) * 100;
+                                    break;
 
-                            case 4:
-                                Character.Statistics.Ile_CH++;
-                                Character.Statistics.Charyzma += 5;
-                                Character.Profile.Exp -= (Character.Statistics.Ile_CH) * 100;
-                                break;
+                                case 4:
+                                    Character.Statistics.Ile_CH++;
+                                    Character.Statistics.Charyzma += 5;
+                                    Character.Profile.Exp -= (Character.Statistics.Ile_CH) * 100;
+                                    break;
 
-                            case 5:
-                                Character.Statistics.Ile_OP++;
-                                Character.Statistics.Opanowanie += 5;
-                                Character.Profile.Exp -= (Character.Statistics.Ile_OP) * 100;
-                                break;
+                                case 5:
+                                    Character.Statistics.Ile_OP++;
+                                    Character.Statistics.Opanowanie += 5;
+                                    Character.Profile.Exp -= (Character.Statistics.Ile_OP) * 100;
+                                    break;
 
-                            case 6:
-                                Character.Statistics.Ile_ODP++;
-                                Character.Statistics.Odpornosc += 5;
-                                Character.Profile.Exp -= (Character.Statistics.Ile_ODP) * 100;
-                                Character.Profile.Statistics.Wytrzymalosc = Character.Statistics.Odpornosc / 10;
-                                break;
+                                case 6:
+                                    Character.Statistics.Ile_ODP++;
+                                    Character.Statistics.Odpornosc += 5;
+                                    Character.Profile.Exp -= (Character.Statistics.Ile_ODP) * 100;
+                                    Character.Profile.Statistics.Wytrzymalosc = Character.Statistics.Odpornosc / 10;
+                                    break;
+                            }
                         }
                     }
 

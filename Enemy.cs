@@ -307,27 +307,78 @@ namespace Gra
 
         public void Attack()
         {
-            for (int i = 0; i < Statistics.Ataki; i++)
+            bool Blok = false;
+
+            for (int i = 0; i < Engine.Singleton.HumanController.Character.Statistics.Ataki; i++)
             {
-                if (Engine.Singleton.Procenty(Statistics.WalkaWrecz))
-                {
-                    bool Kryt = false;
-                    int Hit = Engine.Singleton.Kostka(1, 6) + Statistics.Sila;
-                    Kryt = Engine.Singleton.Procenty(5);
+                bool Kryt = false;
+                bool BlokNieUdany = true;
+                bool Unikniety = false;
 
-                    if (Kryt)
+                //if (Engine.Singleton.HumanController.Character.FocusedEnemy != null)
+                //{
+                    if (Engine.Singleton.Procenty(Statistics.WalkaWrecz))
                     {
-                        Hit *= 2;
-                        //Console.WriteLine("Trafiasz za " + Hit.ToString() + " (KRYT!)");
-						Engine.Singleton.HumanController.HUD.LogAdd(Profile.DisplayName + " trafia cie za " + Hit.ToString() + " (KRYT!)", new ColourValue(0.7f, 0.4f, 0));
-                    }
-                    else
-						Engine.Singleton.HumanController.HUD.LogAdd(Profile.DisplayName + " trafia cie za " + Hit.ToString(), new ColourValue(0.4f,0.6f,0.8f));
-                    Engine.Singleton.HumanController.Character.Statistics.aktualnaZywotnosc -= Hit;
-                }
+                        if (Engine.Singleton.Procenty(50))  // REAKCJA WROGA
+                        {
+                            if (!Blok)
+                            {
+                                if (Engine.Singleton.Procenty(50)) // BLOK!
+                                {
+                                    Blok = true;
 
-                else
-					Engine.Singleton.HumanController.HUD.LogAdd(Profile.DisplayName + " cie nie trafia", new ColourValue(0.4f, 0.5f, 0.9f));
+                                    if (Engine.Singleton.Random.Next(101) <= Engine.Singleton.HumanController.Character.Statistics.WalkaWrecz)
+                                    {
+                                        BlokNieUdany = false;
+                                    }
+                                }
+
+                                else
+                                {
+                                    //    UNIK !!
+
+                                    if (Engine.Singleton.Random.Next(101) <= Engine.Singleton.HumanController.Character.Statistics.Zrecznosc)
+                                        Unikniety = true;
+                                }
+                            }
+
+                            else
+                            {
+                                //    UNIK !!
+
+                                if (Engine.Singleton.Random.Next(101) <= Engine.Singleton.HumanController.Character.Statistics.Zrecznosc)
+                                    Unikniety = true;
+                            }
+                        }
+
+                        if (BlokNieUdany && !Unikniety)
+                        {
+                            int Obrazenia = Engine.Singleton.Kostka(1, 6);
+
+                            if (Engine.Singleton.Procenty(5))
+                            {
+                                Kryt = true;
+                                Obrazenia *= 2;
+                            }
+
+                            Obrazenia = Obrazenia + Statistics.Sila
+                                - Engine.Singleton.HumanController.Character.Statistics.Wytrzymalosc;
+
+                            if (Obrazenia < 0)
+                                Obrazenia = 0;
+
+                            Engine.Singleton.HumanController.Character.Statistics.aktualnaZywotnosc -= Obrazenia;
+
+                            if (Kryt)
+                                Engine.Singleton.HumanController.HUD.LogAdd(Profile.DisplayName + " trafia cie za " + Obrazenia.ToString() + " (KRYT!)", new ColourValue(0.7f, 0.4f, 0));
+                            else
+                                Engine.Singleton.HumanController.HUD.LogAdd(Profile.DisplayName + " trafia cie za " + Obrazenia.ToString(), new ColourValue(0.4f, 0.6f, 0.8f));
+                        }
+                    }
+
+                    else
+                        Engine.Singleton.HumanController.HUD.LogAdd(Profile.DisplayName + " cie nie trafia", new ColourValue(0.4f, 0.5f, 0.9f));
+                //}
 
             }
         }
