@@ -83,6 +83,7 @@ namespace Gra
             player.Position = new Vector3(-3.5f,0,1);
 			player.Orientation = new Quaternion(new Radian(new Degree(90)), Vector3.UNIT_Y);
 
+            player.Statistics = new Statistics();
 			player.Sword = (ItemSword)Items.I["sSword"];
 			player.GetSwordOrder = true;
 
@@ -151,6 +152,8 @@ namespace Gra
 
             Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["iKufel"]);
             Engine.Singleton.HumanController.ToggleHud();
+            Engine.Singleton.HumanController.HUDNewCharacterStats = new HUDNewCharacterStats();
+            Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.CREATOR_STATS);
         }
 
         static void Load()

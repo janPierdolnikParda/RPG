@@ -68,6 +68,12 @@ namespace Gra
 			Wytrzymalosc = 2;
         }
 
+        public void UpdateStatistics()
+        {
+            Sila = Krzepa / 10;
+            Wytrzymalosc = Odpornosc / 10;
+        }
+
         public Statistics statistics_Clone()
         {
             return (Statistics)MemberwiseClone();

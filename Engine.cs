@@ -118,6 +118,7 @@ namespace Gra
             NPCManager = new NPCManager();
             
             Labeler = new TextLabeler(5);
+            Random = new Random();
             HumanController = new HumanController();
 
             TypedInput = new TypedInput();
@@ -129,7 +130,7 @@ namespace Gra
 
             Mysz = new MOIS.MouseState_NativePtr();
 			Conversations = new Conversations();
-            Random = new Random();
+            
             TriggerManager = new TriggerManager();
         }
 

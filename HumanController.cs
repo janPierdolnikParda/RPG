@@ -17,7 +17,8 @@ namespace Gra
             SHOP,
             ATTACK,
             MENU,
-            STATS
+            STATS,
+            CREATOR_STATS
         }
 
         public enum HumanTalkState
@@ -56,6 +57,7 @@ namespace Gra
         public HUDMenu HUDMenu;
         public HUD HUD;
         public HUDStats HUDStats;
+        public HUDNewCharacterStats HUDNewCharacterStats;
         public MOIS.MouseState_NativePtr Mysz;
 
 		public bool InitShop;
@@ -127,6 +129,12 @@ namespace Gra
         {
             if (State == HumanControllerState.FREE)
             {
+                if (newState == HumanControllerState.CREATOR_STATS)
+                {
+                    HUDNewCharacterStats.IsVisible = true;
+                    HUDNewCharacterStats.KwadratyLosu[0].Zaznaczony = true;
+                    HUDNewCharacterStats.KtoryZaznaczony = 0;
+                }
 				if (newState == HumanControllerState.STATS)
 				{
 					HUDStats.IsVisible = true;
@@ -210,6 +218,11 @@ namespace Gra
                 HUDStats.IsVisible = false;
                 Character.Profile.Exp = ExpB4;
                 Character.Statistics = StatisticsB4.statistics_Clone();
+            }
+
+            else if (State == HumanControllerState.CREATOR_STATS)
+            {
+                HUDNewCharacterStats.IsVisible = false;
             }
 
 
@@ -489,6 +502,9 @@ namespace Gra
                 else if (State == HumanControllerState.MENU)
                     HandleMenu();
 
+                else if (State == HumanControllerState.CREATOR_STATS)
+                    HandleCreatorStats();
+
 				if (InitShop)
 				{
 					State = HumanControllerState.SHOP;
@@ -500,6 +516,91 @@ namespace Gra
 					HUDShop.IsVisible = true;
 					HUDShop.UpdateViewAll();
 				}
+            }
+        }
+
+        private void HandleCreatorStats()
+        {
+            HUDNewCharacterStats.Update();
+
+            if (Engine.Singleton.Mouse.MouseState.ButtonDown(MOIS.MouseButtonID.MB_Left))
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    if (HUDNewCharacterStats.StatyLosu[i].IsOverAddPoint() && HUDNewCharacterStats.StatyLosu[i].AddPoint_Available)
+                    {
+                        switch (i)
+                        {
+                            case 0:
+                                Character.Statistics.WalkaWrecz +=
+                                    int.Parse(HUDNewCharacterStats.KwadratyLosu[HUDNewCharacterStats.KtoryZaznaczony].Wartosc.Caption);
+                                break;
+
+                            case 1:
+                                Character.Statistics.Krzepa +=
+                                    int.Parse(HUDNewCharacterStats.KwadratyLosu[HUDNewCharacterStats.KtoryZaznaczony].Wartosc.Caption);
+                                break;
+
+                            case 2:
+                                Character.Statistics.Zrecznosc +=
+                                    int.Parse(HUDNewCharacterStats.KwadratyLosu[HUDNewCharacterStats.KtoryZaznaczony].Wartosc.Caption);
+                                break;
+
+                            case 3:
+                                Character.Statistics.Charyzma +=
+                                    int.Parse(HUDNewCharacterStats.KwadratyLosu[HUDNewCharacterStats.KtoryZaznaczony].Wartosc.Caption);
+                                break;
+
+                            case 4:
+                                Character.Statistics.Opanowanie +=
+                                    int.Parse(HUDNewCharacterStats.KwadratyLosu[HUDNewCharacterStats.KtoryZaznaczony].Wartosc.Caption);
+                                break;
+
+                            case 5:
+                                Character.Statistics.Odpornosc +=
+                                    int.Parse(HUDNewCharacterStats.KwadratyLosu[HUDNewCharacterStats.KtoryZaznaczony].Wartosc.Caption);
+                                break;
+
+                        }
+
+                        HUDNewCharacterStats.KwadratyLosu[HUDNewCharacterStats.KtoryZaznaczony].Zaznaczony = false;
+                        HUDNewCharacterStats.KwadratyLosu[HUDNewCharacterStats.KtoryZaznaczony].Uzyty = false;
+                        HUDNewCharacterStats.KtoryZaznaczony++;
+
+                        if (HUDNewCharacterStats.KtoryZaznaczony < 6)
+                            HUDNewCharacterStats.KwadratyLosu[HUDNewCharacterStats.KtoryZaznaczony].Zaznaczony = true;
+                        else
+                        {
+                            HUDNewCharacterStats.DownArrowEnabled = true;
+                        }
+
+                        HUDNewCharacterStats.StatyLosu[i].SetAddPointUnavailable();
+                    }
+                }
+
+                if (HUDNewCharacterStats.IsOverDownArrow() && HUDNewCharacterStats.DownArrowEnabled)
+                {
+                    Character.Statistics.Zywotnosc += Engine.Singleton.Kostka(1, 3);
+                    Character.Statistics.aktualnaZywotnosc = Character.Statistics.Zywotnosc;
+                    Character.Statistics.UpdateStatistics();
+                    SwitchState(HumanControllerState.FREE);
+                }
+
+                if (HUDNewCharacterStats.IsOverQuad(HUDNewCharacterStats.ResetBg))
+                {
+                    Character.Statistics = new Statistics();
+                    HUDNewCharacterStats.KtoryZaznaczony = 0;
+                    HUDNewCharacterStats.DownArrowEnabled = false;
+
+                    for (int i = 0; i < 6; i++)
+                    {
+                        HUDNewCharacterStats.KwadratyLosu[i].Uzyty = false;
+                        HUDNewCharacterStats.KwadratyLosu[i].Zaznaczony = false;
+                        HUDNewCharacterStats.StatyLosu[i].SetAddPointAvailable();
+                    }
+
+                    HUDNewCharacterStats.KwadratyLosu[0].Zaznaczony = true;
+                }
             }
         }
 
@@ -1017,7 +1118,8 @@ namespace Gra
                 SwitchState(HumanControllerState.STATS);
 
             if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_K))
-                Character.Statistics.aktualnaZywotnosc = Character.Statistics.Zywotnosc;
+                //Character.Statistics.aktualnaZywotnosc = Character.Statistics.Zywotnosc;
+                SwitchState(HumanControllerState.CREATOR_STATS);
 
             if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_Z))         // tzw. skok
                 Character.Position = new Vector3(Character.Position.x, Character.Position.y + 1, Character.Position.z);
