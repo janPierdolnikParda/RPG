@@ -408,16 +408,15 @@ namespace Gra
 
             if (Klik)
             {
-                Engine.Singleton.Menu.SubMenus[IndexKlika].CallActions();
-
                 if (Engine.Singleton.Menu.SubMenus[IndexKlika].Ending)
                 {
-                    SwitchState(HumanControllerState.FREE);
+                    SwitchState(HumanControllerState.FREE);                    
                 }
 
                 else
                     Engine.Singleton.Menu = Engine.Singleton.Menu.SubMenus[IndexKlika];
 
+                Engine.Singleton.Menu.SubMenus[IndexKlika].CallActions();
                 Klik = false;
                 IndexKlika = 0;
             }
@@ -1118,8 +1117,8 @@ namespace Gra
                 SwitchState(HumanControllerState.STATS);
 
             if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_K))
-                //Character.Statistics.aktualnaZywotnosc = Character.Statistics.Zywotnosc;
-                SwitchState(HumanControllerState.CREATOR_STATS);
+                Character.Statistics.aktualnaZywotnosc = Character.Statistics.Zywotnosc;
+                //SwitchState(HumanControllerState.CREATOR_STATS);
 
             if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_Z))         // tzw. skok
                 Character.Position = new Vector3(Character.Position.x, Character.Position.y + 1, Character.Position.z);
