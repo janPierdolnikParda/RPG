@@ -64,8 +64,6 @@ namespace Gra
         public Statistics StatisticsB4;
         public int ExpB4;
 
-        int FocusObjectId = 0;
-
         public bool AddedToKillList;
 
 
@@ -398,8 +396,9 @@ namespace Gra
 					else
 						Engine.Singleton.Menu.SubMenus[i].Selected = false;
 
-					if (Engine.Singleton.Mysz.ButtonDown(MOIS.MouseButtonID.MB_Left) && Engine.Singleton.Menu.SubMenus[i].Selected)
+					if (Engine.Singleton.Mysza && Engine.Singleton.Przycisk == MOIS.MouseButtonID.MB_Left && Engine.Singleton.Menu.SubMenus[i].Selected)
 					{
+						Engine.Singleton.Mysza = false;
 						Klik = true;
 						IndexKlika = i;
 					}
@@ -521,9 +520,9 @@ namespace Gra
         private void HandleCreatorStats()
         {
             HUDNewCharacterStats.Update();
-
-            if (Engine.Singleton.Mouse.MouseState.ButtonDown(MOIS.MouseButtonID.MB_Left))
+			if (Engine.Singleton.Mysza && Engine.Singleton.Przycisk == MOIS.MouseButtonID.MB_Left)
             {
+				Engine.Singleton.Mysza = false;
                 for (int i = 0; i < 6; i++)
                 {
                     if (HUDNewCharacterStats.StatyLosu[i].IsOverAddPoint() && HUDNewCharacterStats.StatyLosu[i].AddPoint_Available)
@@ -648,13 +647,9 @@ namespace Gra
                 SwitchState(HumanControllerState.FREE);
             }
 
-            if (Engine.Singleton.Mouse.MouseState.ButtonDown(MOIS.MouseButtonID.MB_Left))
+			if (Engine.Singleton.Mysza && Engine.Singleton.Przycisk == MOIS.MouseButtonID.MB_Left)
             {
-                while (Engine.Singleton.Mouse.MouseState.ButtonDown(MOIS.MouseButtonID.MB_Left))
-                {
-                    Engine.Singleton.Mouse.Capture();
-                }
-
+				Engine.Singleton.Mysza = false;
                 bool Flag = false;
 
 
@@ -847,12 +842,9 @@ namespace Gra
                 HUDStats.RequiredBg.IsVisible = false;
             }
 
-            if (Engine.Singleton.Mysz.ButtonDown(MOIS.MouseButtonID.MB_Left))
+            if (Engine.Singleton.Mysza && Engine.Singleton.Przycisk == MOIS.MouseButtonID.MB_Left)
             {
-                while (Engine.Singleton.Mysz.ButtonDown(MOIS.MouseButtonID.MB_Left))
-                {
-                    Engine.Singleton.Mouse.Capture();
-                }
+                Engine.Singleton.Mysza = false;
 
                 for (int i = 0; i < 7; i++)
                 {
@@ -1054,6 +1046,17 @@ namespace Gra
 
 			Degree akt = Engine.Singleton.GameCamera.Angle;
 			Degree zmiana;
+
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F5))
+            {
+                if (System.IO.Directory.Exists("Saves\\QuickSave"))
+                    System.IO.Directory.Delete("Saves\\QuickSave", true);
+                Engine.Singleton.CopyAll(new System.IO.DirectoryInfo("Saves\\AutoSave"), new System.IO.DirectoryInfo("Saves\\QuickSave"));
+                Engine.Singleton.AutoSave("QuickSave");
+            }
+
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F9))
+                Engine.Singleton.Load("QuickSave");
 	
 			if (!InvertMouse)																	// ruszanie kamerą (góra i dół)
 				zmiana = new Degree(Engine.Singleton.Mouse.MouseState.Y.rel * 0.1f * MouseSpeed);

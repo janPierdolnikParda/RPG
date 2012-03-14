@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 
 namespace Gra
 {
@@ -77,6 +78,19 @@ namespace Gra
         public Statistics statistics_Clone()
         {
             return (Statistics)MemberwiseClone();
+        }
+
+        public void WriteToFile(XmlTextWriter writer)
+        {
+            writer.WriteElementString("WalkaWrecz", WalkaWrecz.ToString());
+            writer.WriteElementString("Krzepa", Krzepa.ToString());
+            writer.WriteElementString("Ataki", Ataki.ToString());
+            writer.WriteElementString("Charyzma", Charyzma.ToString());
+            writer.WriteElementString("Odpornosc", Odpornosc.ToString());
+            writer.WriteElementString("Zrecznosc", Zrecznosc.ToString());
+            writer.WriteElementString("Opanowanie", Opanowanie.ToString());
+            writer.WriteElementString("Zywotnosc", Zywotnosc.ToString());
+            writer.WriteElementString("aktualnaZywotnosc", aktualnaZywotnosc.ToString());
         }
     }
 }

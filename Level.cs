@@ -74,6 +74,7 @@ namespace Gra
 
         public void DeleteLevel()
         {
+            Engine.Singleton.AutoSave(null);
             GraphicsNode.DetachAllObjects();
             CollisionNode.DetachAllObjects();
             Body.Dispose();

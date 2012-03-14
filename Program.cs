@@ -138,10 +138,6 @@ namespace Gra
         static void New()
         {
             //Piotra ulubione tworzenie postaci :) @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-			Engine.Singleton.CurrentLevel.DeleteLevel();
-
-            Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "KarczmaNav");
-            Engine.Singleton.Load();
 
             Engine.Singleton.GameCamera.Character = Engine.Singleton.HumanController.Character;
             Engine.Singleton.GameCamera.Distance = 4;
@@ -154,6 +150,11 @@ namespace Gra
             Engine.Singleton.HumanController.ToggleHud();
             Engine.Singleton.HumanController.HUDNewCharacterStats = new HUDNewCharacterStats();
             Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.CREATOR_STATS);
+            Engine.Singleton.CreateNewChar();
+            Engine.Singleton.CurrentLevel.DeleteLevel();
+
+            Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "KarczmaNav");
+            Engine.Singleton.Load(null);
         }
 
         static void Load()
@@ -162,6 +163,7 @@ namespace Gra
 
         static void Save()
         {
+
         }
 
         static void Exit()

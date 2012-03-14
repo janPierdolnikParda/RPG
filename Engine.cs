@@ -59,6 +59,9 @@ namespace Gra
 
         public bool GameEnder = false;
 
+        public bool Mysza;
+        public MOIS.MouseButtonID Przycisk;
+
         public void Initialise()
         {
             Root = new Root();
@@ -98,7 +101,7 @@ namespace Gra
             InputManager = MOIS.InputManager.CreateInputSystem(pl);
 
             Keyboard = (MOIS.Keyboard)InputManager.CreateInputObject(MOIS.Type.OISKeyboard, false);
-            Mouse = (MOIS.Mouse)InputManager.CreateInputObject(MOIS.Type.OISMouse, false);
+            Mouse = (MOIS.Mouse)InputManager.CreateInputObject(MOIS.Type.OISMouse, true);
 
 			NewtonWorld = new World();
             NewtonDebugger = new Debugger(NewtonWorld);
@@ -132,7 +135,17 @@ namespace Gra
 			Conversations = new Conversations();
             
             TriggerManager = new TriggerManager();
+
+            Mouse.MouseReleased += new MOIS.MouseListener.MouseReleasedHandler(MouseReleased);
         }
+
+        public bool MouseReleased(MOIS.MouseEvent e, MOIS.MouseButtonID button)
+        {
+            Mysza = true;
+            Przycisk = button;
+            return true;
+        }
+
 
         public void Update()
         {
@@ -173,12 +186,16 @@ namespace Gra
                 CurrentLevel.LoadNewMap = false;
                 CurrentLevel.NewMapName = "";
                 CurrentLevel.NewMapNav = "";
-                Engine.Singleton.Load();
+                Engine.Singleton.Load(null);
             }
         }
 
-        public void Load()
+        public void Load(String Slot)
         {
+            if (Slot == null)
+                Slot = "AutoSave";
+            bool WasSaved = System.IO.File.Exists("Saves\\" + Slot +"\\" + Engine.Singleton.CurrentLevel.Name + "\\Saved.xml");
+
             TriggerManager.RemoveAll();
             while (Engine.Singleton.ObjectManager.Objects.Count > 0)
             {
@@ -202,10 +219,10 @@ namespace Gra
             //                                                             //
             //*************************************************************//
 
-            if (System.IO.File.Exists("Media\\Maps\\" + CurrentLevel.Name + "\\Items.xml"))
+            if (System.IO.File.Exists("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\Items.xml"))
             {
                 XmlDocument File = new XmlDocument();
-                File.Load("Media\\Maps\\" + CurrentLevel.Name + "\\Items.xml");
+                File.Load("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\Items.xml");
 
                 XmlElement root = File.DocumentElement;
                 XmlNodeList Items = root.SelectNodes("//items/item");
@@ -226,6 +243,19 @@ namespace Gra
                         newDescribed.Position = Position;
                         newDescribed.Activatorr = item["Activator"].InnerText;
                         newDescribed.PrzypiszMetode();
+
+                        if (newDescribed.IsContainer && WasSaved)
+                        {
+                            newDescribed.Container.Gold = int.Parse(item["ContainerGold"].InnerText);
+
+                            XmlNodeList No_oN = item["ContainerItems"].ChildNodes;
+
+                            newDescribed.Container.Contains = new List<DescribedProfile>();
+
+                            foreach (XmlNode o_o in No_oN)
+                                newDescribed.Container.Contains.Add(Gra.Items.I[o_o["ContainerItem"].InnerText]);
+
+                        }
 
                         Engine.Singleton.ObjectManager.Add(newDescribed);
                     }
@@ -256,10 +286,10 @@ namespace Gra
             //                                                             //
             //*************************************************************//
 
-            if (System.IO.File.Exists("Media\\Maps\\" + CurrentLevel.Name + "\\NPCs.xml"))
+            if (System.IO.File.Exists("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\NPCs.xml"))
             {
                 XmlDocument File = new XmlDocument();
-                File.Load("Media\\Maps\\" + CurrentLevel.Name + "\\NPCs.xml");
+                File.Load("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\NPCs.xml");
 
                 XmlElement root = File.DocumentElement;
                 XmlNodeList Items = root.SelectNodes("//npcs//npc");
@@ -277,6 +307,25 @@ namespace Gra
                     Position.z = float.Parse(item["Position_z"].InnerText);
                     newCharacter.Position = Position;
 
+                    if (WasSaved)
+                    {
+                        newCharacter.Statistics = new Statistics(
+                            int.Parse(item["WalkaWrecz"].InnerText), int.Parse(item["Krzepa"].InnerText),
+                            int.Parse(item["Opanowanie"].InnerText), int.Parse(item["Odpornosc"].InnerText),
+                            int.Parse(item["Zrecznosc"].InnerText), int.Parse(item["Charyzma"].InnerText),
+                            int.Parse(item["Zywotnosc"].InnerText), int.Parse(item["Ataki"].InnerText));
+                        newCharacter.Statistics.aktualnaZywotnosc = int.Parse(item["aktualnaZywotnosc"].InnerText);
+                        newCharacter.State = (Enemy.StateTypes)int.Parse((item["State"].InnerText));
+                        newCharacter.Profile.Gold = ulong.Parse(item["Gold"].InnerText);
+                        List<DescribedProfile> Inventory = new List<DescribedProfile>();
+                        XmlNodeList inv = item["Inventory"].ChildNodes;
+                        foreach (XmlNode invItem in inv)
+                        {
+                            Inventory.Add(Gra.Items.I[invItem["InventoryItem"].InnerText]);
+                        }
+                        newCharacter.Inventory = Inventory;
+                    }
+
                     Engine.Singleton.ObjectManager.Add(newCharacter);
                 }
             }
@@ -287,10 +336,10 @@ namespace Gra
             //                                                             //
             //*************************************************************//
 
-            if (System.IO.File.Exists("Media\\Maps\\" + CurrentLevel.Name + "\\Enemies.xml"))
+            if (System.IO.File.Exists("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\Enemies.xml"))
             {
                 XmlDocument File = new XmlDocument();
-                File.Load("Media\\Maps\\" + CurrentLevel.Name + "\\Enemies.xml");
+                File.Load("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\Enemies.xml");
 
                 XmlElement root = File.DocumentElement;
                 XmlNodeList Items = root.SelectNodes("//enemies//enemy");
@@ -308,7 +357,65 @@ namespace Gra
                     Position.z = float.Parse(item["Position_z"].InnerText);
                     newCharacter.Position = Position;
 
+                    if (WasSaved)
+                    {
+                        newCharacter.Statistics = new Statistics(
+                            int.Parse(item["WalkaWrecz"].InnerText), int.Parse(item["Krzepa"].InnerText),
+                            int.Parse(item["Opanowanie"].InnerText), int.Parse(item["Odpornosc"].InnerText),
+                            int.Parse(item["Zrecznosc"].InnerText), int.Parse(item["Charyzma"].InnerText),
+                            int.Parse(item["Zywotnosc"].InnerText), int.Parse(item["Ataki"].InnerText));
+                        newCharacter.Statistics.aktualnaZywotnosc = int.Parse(item["aktualnaZywotnosc"].InnerText);
+                        newCharacter.State = (Enemy.StateTypes)int.Parse((item["State"].InnerText));
+                    }
+
                     Engine.Singleton.ObjectManager.Add(newCharacter);
+                }
+            }
+
+            //*************************************************************//
+            //                                                             //
+            //                        TWOJ PROFIL                          //
+            //                                                             //
+            //*************************************************************//
+
+            if (WasSaved)
+            {
+                XmlDocument File = new XmlDocument();
+                File.Load("Saves\\" + Slot +"\\Profile.xml");
+
+                XmlElement root = File.DocumentElement;
+                XmlNode Item = root.SelectSingleNode("//Profile");
+
+                Character ch = HumanController.Character;
+                ch.Profile.Gold = ulong.Parse(Item["Gold"].InnerText);
+                ch.Profile.Exp = int.Parse(Item["Exp"].InnerText);
+                ch.Position = new Vector3(float.Parse(Item["Position_x"].InnerText),
+                    float.Parse(Item["Position_y"].InnerText),
+                    float.Parse(Item["Position_z"].InnerText));
+                ch.Orientation = new Quaternion(float.Parse(Item["Orientation_w"].InnerText),
+                    float.Parse(Item["Orientation_x"].InnerText),
+                    float.Parse(Item["Orientation_y"].InnerText),
+                    float.Parse(Item["Orientation_z"].InnerText));
+                ch.Statistics = new Statistics(
+                    int.Parse(Item["WalkaWrecz"].InnerText), int.Parse(Item["Krzepa"].InnerText),
+                    int.Parse(Item["Opanowanie"].InnerText), int.Parse(Item["Odpornosc"].InnerText),
+                    int.Parse(Item["Zrecznosc"].InnerText), int.Parse(Item["Charyzma"].InnerText),
+                    int.Parse(Item["Zywotnosc"].InnerText), int.Parse(Item["Ataki"].InnerText));
+                ch.Statistics.aktualnaZywotnosc = int.Parse(Item["aktualnaZywotnosc"].InnerText);
+                ch.State = (Enemy.StateTypes)int.Parse((Item["State"].InnerText));
+                ch.Inventory = new List<DescribedProfile>();
+
+                XmlNodeList invItems = Item["Inventory"].ChildNodes;
+
+                foreach (XmlNode invItem in invItems)
+                {
+                    ch.Inventory.Add(Gra.Items.I[invItem["ProfileName"].InnerText]);
+
+                    if (bool.Parse(invItem["IsEquipment"].InnerText))
+                    {
+                        ch.Inventory[ch.Inventory.Count - 1].IsEquipment = true;
+                        ch.Sword = ch.Inventory[ch.Inventory.Count - 1] as ItemSword;
+                    }
                 }
             }
 
@@ -414,6 +521,234 @@ namespace Gra
 
             else
                 return true;
+        }
+
+        public void CreateNewChar()
+        {
+            if (System.IO.Directory.Exists("Saves\\AutoSave"))
+                System.IO.Directory.Delete("Saves\\AutoSave", true);
+            CopyAll(new DirectoryInfo("Media\\Maps"), new DirectoryInfo("Saves\\AutoSave"));
+        }
+
+        public void AutoSave(String Slot)
+        {
+            if (Slot == null)
+                Slot = "AutoSave";
+            XmlTextWriter Saved = new XmlTextWriter("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\Saved.xml", (Encoding)null);
+            Saved.WriteStartElement("Saved");
+            Saved.WriteStartElement("IsSaved");
+            Saved.WriteElementString("IsItFkinSaved", "True");
+            Saved.WriteEndElement();
+            Saved.WriteEndElement();
+            Saved.Flush();
+            Saved.Close();
+
+            //*************************************************************//
+            //                                                             //
+            //                            ITEMY                            //
+            //                                                             //
+            //*************************************************************//
+
+            XmlTextWriter w = new XmlTextWriter("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\Items.xml", (Encoding)null);
+
+            w.WriteStartElement("items");
+
+            foreach (GameObject GO in Engine.Singleton.ObjectManager.Objects)
+            {
+                if (GO.GetType().ToString() == "Gra.Described" && (GO as Described).Profile.ProfileName[0] != 's')
+                {
+                    w.WriteStartElement("item");
+                    w.WriteElementString("DescribedProfile", (GO as Described).Profile.ProfileName);
+                    w.WriteElementString("ItemSword", "");
+                    w.WriteElementString("Position_x", (GO as Described).Position.x.ToString());
+                    w.WriteElementString("Position_y", (GO as Described).Position.y.ToString());
+                    w.WriteElementString("Position_z", (GO as Described).Position.z.ToString());
+                    w.WriteElementString("Orientation_w", (GO as Described).Orientation.w.ToString());
+                    w.WriteElementString("Orientation_x", (GO as Described).Orientation.x.ToString());
+                    w.WriteElementString("Orientation_y", (GO as Described).Orientation.y.ToString());
+                    w.WriteElementString("Orientation_z", (GO as Described).Orientation.z.ToString());
+                    w.WriteElementString("Activator", (GO as Described).Activatorr);
+
+                    if ((GO as Described).IsContainer)
+                    {
+                        w.WriteElementString("ContainerGold", (GO as Described).Container.Gold.ToString());
+                        w.WriteStartElement("ContainerItems");
+
+                        foreach (DescribedProfile DP in (GO as Described).Container.Contains)
+                        {
+                            w.WriteStartElement("BLABLA");
+                            w.WriteElementString("ContainerItem", DP.ProfileName);
+                            w.WriteEndElement();
+                        }
+
+                        w.WriteEndElement();
+                    }
+                    
+
+                    w.WriteEndElement();
+                }
+
+                if (GO.GetType().ToString() == "Gra.Described" && (GO as Described).Profile.ProfileName[0] == 's')
+                {
+                    w.WriteStartElement("item");
+                    w.WriteElementString("ItemSword", (GO as Described).Profile.ProfileName);
+                    w.WriteElementString("DescribedProfile", "");
+                    w.WriteElementString("Position_x", (GO as Described).Position.x.ToString());
+                    w.WriteElementString("Position_y", (GO as Described).Position.y.ToString());
+                    w.WriteElementString("Position_z", (GO as Described).Position.z.ToString());
+                    w.WriteElementString("Orientation_w", (GO as Described).Orientation.w.ToString());
+                    w.WriteElementString("Orientation_x", (GO as Described).Orientation.x.ToString());
+                    w.WriteElementString("Orientation_y", (GO as Described).Orientation.y.ToString());
+                    w.WriteElementString("Orientation_z", (GO as Described).Orientation.z.ToString());
+                    w.WriteElementString("Activator", (GO as Described).Activatorr);
+                    w.WriteEndElement();
+                }
+            }
+
+            w.WriteEndElement();
+            w.Flush();
+            w.Close();
+
+            //*************************************************************//
+            //                                                             //
+            //                             NPCS                            //
+            //                                                             //
+            //*************************************************************//
+
+            XmlTextWriter NPCs = new XmlTextWriter("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\NPCs.xml", (Encoding)null);
+
+            NPCs.WriteStartElement("npcs");
+
+            foreach (GameObject GO in Engine.Singleton.ObjectManager.Objects)
+            {
+                if (GO.GetType().ToString() == "Gra.Character" && (GO as Character) != Engine.Singleton.HumanController.Character
+                    && (GO as Character).State != Enemy.StateTypes.DEAD)
+                {
+                    NPCs.WriteStartElement("npc");
+                    NPCs.WriteElementString("ProfileName", (GO as Character).Profile.ProfileName);
+                    NPCs.WriteElementString("Position_x", (GO as Character).Position.x.ToString());
+                    NPCs.WriteElementString("Position_y", (GO as Character).Position.y.ToString());
+                    NPCs.WriteElementString("Position_z", (GO as Character).Position.z.ToString());
+                    NPCs.WriteElementString("Orientation_w", (GO as Character).Orientation.w.ToString());
+                    NPCs.WriteElementString("Orientation_x", (GO as Character).Orientation.x.ToString());
+                    NPCs.WriteElementString("Orientation_y", (GO as Character).Orientation.y.ToString());
+                    NPCs.WriteElementString("Orientation_z", (GO as Character).Orientation.z.ToString());
+                    NPCs.WriteElementString("Gold", (GO as Character).Profile.Gold.ToString());
+                    NPCs.WriteStartElement("Inventory");
+
+                    foreach (DescribedProfile invItem in (GO as Character).Inventory)
+                    {
+                        NPCs.WriteStartElement("BLABLA");
+                        NPCs.WriteElementString("InventoryItem", invItem.ProfileName);
+                        NPCs.WriteEndElement();
+                    }
+
+                    NPCs.WriteEndElement();
+                    (GO as Character).Statistics.WriteToFile(NPCs);
+                    NPCs.WriteElementString("State", ((int)(GO as Character).State).ToString());
+                    NPCs.WriteEndElement();
+                }
+            }
+
+            NPCs.WriteEndElement();
+            NPCs.Flush();
+            NPCs.Close();
+
+            //*************************************************************//
+            //                                                             //
+            //                            ENEMY                            //
+            //                                                             //
+            //*************************************************************//
+
+            XmlTextWriter Enemies = new XmlTextWriter("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\Enemies.xml", (Encoding)null);
+
+            Enemies.WriteStartElement("enemies");
+
+            foreach (GameObject GO in Engine.Singleton.ObjectManager.Objects)
+            {
+                if (GO.GetType().ToString() == "Gra.Enemy" && (GO as Enemy).State != Enemy.StateTypes.DEAD)
+                {
+                    Enemies.WriteStartElement("enemy");
+                    Enemies.WriteElementString("ProfileName", (GO as Enemy).Profile.ProfileName);
+                    Enemies.WriteElementString("Position_x", (GO as Enemy).Position.x.ToString());
+                    Enemies.WriteElementString("Position_y", (GO as Enemy).Position.y.ToString());
+                    Enemies.WriteElementString("Position_z", (GO as Enemy).Position.z.ToString());
+                    Enemies.WriteElementString("Orientation_w", (GO as Enemy).Orientation.w.ToString());
+                    Enemies.WriteElementString("Orientation_x", (GO as Enemy).Orientation.x.ToString());
+                    Enemies.WriteElementString("Orientation_y", (GO as Enemy).Orientation.y.ToString());
+                    Enemies.WriteElementString("Orientation_z", (GO as Enemy).Orientation.z.ToString());
+                    (GO as Enemy).Statistics.WriteToFile(Enemies);
+                    Enemies.WriteElementString("State", ((int)(GO as Enemy).State).ToString());
+                    Enemies.WriteEndElement();
+                }
+            }
+
+            Enemies.WriteEndElement();
+            Enemies.Flush();
+            Enemies.Close();
+
+            //*************************************************************//
+            //                                                             //
+            //                         TWOJ PROFIL                         //
+            //                                                             //
+            //*************************************************************//
+
+            Character ch = HumanController.Character;
+            XmlTextWriter Profile = new XmlTextWriter("Saves\\" + Slot +"\\Profile.xml", (Encoding)null);
+
+            Profile.WriteStartElement("Profile");
+            Profile.WriteElementString("Exp", ch.Profile.Exp.ToString());
+            Profile.WriteElementString("Gold", ch.Profile.Gold.ToString());
+            Profile.WriteElementString("Position_x", ch.Position.x.ToString());
+            Profile.WriteElementString("Position_y", ch.Position.y.ToString());
+            Profile.WriteElementString("Position_z", ch.Position.z.ToString());
+            Profile.WriteElementString("Orientation_w", ch.Orientation.w.ToString());
+            Profile.WriteElementString("Orientation_x", ch.Orientation.x.ToString());
+            Profile.WriteElementString("Orientation_y", ch.Orientation.y.ToString());
+            Profile.WriteElementString("Orientation_z", ch.Orientation.z.ToString());
+            Profile.WriteStartElement("Inventory");
+
+            foreach (DescribedProfile DP in ch.Inventory)
+            {
+                Profile.WriteStartElement("BLABLA");
+                Profile.WriteElementString("ProfileName", DP.ProfileName);
+                Profile.WriteElementString("IsEquipment", DP.IsEquipment.ToString());
+                Profile.WriteEndElement();
+            }
+
+            Profile.WriteEndElement();
+
+            ch.Statistics.WriteToFile(Profile);
+            Profile.WriteElementString("State", ((int)ch.State).ToString());
+            Profile.WriteElementString("MapName", CurrentLevel.Name);
+
+            Profile.WriteEndElement();
+            Profile.Flush();
+            Profile.Close();
+
+        }
+
+        public void CopyAll(DirectoryInfo source, DirectoryInfo target)
+        {
+            // Check if the target directory exists, if not, create it.
+            if (Directory.Exists(target.FullName) == false)
+            {
+                Directory.CreateDirectory(target.FullName);
+            }
+
+            // Copy each file into it’s new directory.
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                fi.CopyTo(Path.Combine(target.ToString(), fi.Name), true);
+            }
+
+            // Copy each subdirectory using recursion.
+            foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
+            {
+                DirectoryInfo nextTargetSubDir =
+                    target.CreateSubdirectory(diSourceSubDir.Name);
+                CopyAll(diSourceSubDir, nextTargetSubDir);
+            }
         }
     }
 }
