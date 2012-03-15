@@ -6,6 +6,7 @@ using Mogre;
 using MogreNewt;
 using System.IO;
 using System.Xml;
+using System.Threading;
 
 namespace Gra
 {
@@ -180,18 +181,25 @@ namespace Gra
 
             if (CurrentLevel.LoadNewMap)
             {
+				HumanController.HUD.ToggleLoadScreen();
+				Root.RenderOneFrame();
                 HumanController.Character.Contact = null;
                 CurrentLevel.DeleteLevel();
                 CurrentLevel.LoadLevel(CurrentLevel.NewMapName, CurrentLevel.NewMapNav, false);
                 CurrentLevel.LoadNewMap = false;
                 CurrentLevel.NewMapName = "";
                 CurrentLevel.NewMapNav = "";
-                Engine.Singleton.Load(null);
+                Load(null);
+				System.Threading.Thread.Sleep(1500);
+				HumanController.HUD.ToggleLoadScreen();
             }
         }
 
         public void Load(String Slot)
         {
+
+			
+
             if (Slot == null)
                 Slot = "AutoSave";
             bool WasSaved = System.IO.File.Exists("Saves\\" + Slot +"\\" + Engine.Singleton.CurrentLevel.Name + "\\Saved.xml");
@@ -420,6 +428,8 @@ namespace Gra
             }
 
             TriggerManager.Load();
+
+	
         }
 
         public bool IsKeyTyped(MOIS.KeyCode code)

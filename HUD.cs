@@ -37,6 +37,8 @@ namespace Gra
         TextLabel CompassLabel;
 		SimpleQuad Crosshair;
 
+		SimpleQuad LoadScreen;
+
 		SimpleQuad HPHero, HPEnemy, Log;
 		TextLabel HPHeroLabel, HPEnemyLabel, LogLabel;
 
@@ -68,6 +70,8 @@ namespace Gra
 			LogLabel = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
 
 
+			LoadScreen = Engine.Singleton.Labeler.NewSimpleQuad("Loading1", 0, 0, 1.0f, 1.0f, ColourValue.White, 4);
+
 			HPHeroLabel.SetPosition(0.055f, 0.055f);
 			HPEnemyLabel.SetPosition(0.455f, 0.055f);
 			LogLabel.SetPosition(0.82f, 0.82f);
@@ -81,6 +85,7 @@ namespace Gra
 			IsVisible = false;
 			DrawEnemyHP = false;
 			DrawLog = false;
+			LoadScreen.IsVisible = false;
 
 			
 
@@ -96,6 +101,11 @@ namespace Gra
 				HPEnemy.IsVisible = value;
 				HPEnemyLabel.IsVisible = value;
 			}
+		}
+
+		public void ToggleLoadScreen()
+		{
+			LoadScreen.IsVisible = !LoadScreen.IsVisible;
 		}
 
 		bool _drawLog;

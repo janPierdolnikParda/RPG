@@ -1,4 +1,44 @@
-﻿using System;
+﻿/*
+
+
+
+				\   |   /
+				 \  |  /
+				  \ | /
+		                _________
+			       /    	 \
+			      /           \
+			     /             \
+			    /  ___     ___  \
+			   |                 |
+			   |  |   |   |   |  |
+			   |  | - |   | - |  |
+			   |  |   |   |   |  |
+		\|/        |   ___     ___   |
+		 |         |                 |     \|/
+		  \	   |   \  /   \	 /   |      |
+		   \_______|    \/     \/    |     /
+			   |                 |____/
+			   |                 |
+			   \                 \
+			    \                 \ 
+                             \                 \
+                              \                	|
+	                       \_______________/
+				   /      \
+				  /        \
+				 /          \
+				 |           |
+			        _|           |_
+
+
+MR. Poryciak!!!
+
+
+*/
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -65,10 +105,12 @@ namespace Gra
             Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.MENU);
 
             //KONIEC MENUUUUUUUUUUUUUUUUUUUUUUUUUUUu
-
+			
+			Engine.Singleton.SoundManager.BGMPlaylist.Add("Folk Round.mp3");
 			Engine.Singleton.SoundManager.BGMPlaylist.Add("Achaidh Cheide.mp3");
 			Engine.Singleton.SoundManager.BGMPlaylist.Add("Thatched Villagers.mp3");
-            //Engine.Singleton.SoundManager.PlayBGM();
+			
+            Engine.Singleton.SoundManager.PlayBGM();
 
             Light light = Engine.Singleton.SceneManager.CreateLight();
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
@@ -139,6 +181,9 @@ namespace Gra
         {
             //Piotra ulubione tworzenie postaci :) @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+			Engine.Singleton.HumanController.HUD.ToggleLoadScreen();
+			Engine.Singleton.Root.RenderOneFrame();
+
             Engine.Singleton.GameCamera.Character = Engine.Singleton.HumanController.Character;
             Engine.Singleton.GameCamera.Distance = 4;
             Engine.Singleton.GameCamera.Angle = new Degree(20);
@@ -155,6 +200,7 @@ namespace Gra
 
             Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "KarczmaNav");
             Engine.Singleton.Load(null);
+			Engine.Singleton.HumanController.HUD.ToggleLoadScreen();
         }
 
         static void Load()

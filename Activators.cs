@@ -44,6 +44,12 @@ namespace Gra
             Engine.Singleton.HumanController.Character.Position = new Mogre.Vector3(9, 1, -12);
         }
 
+		public static void DajMieczZeSciany()
+		{
+			Engine.Singleton.ObjectManager.Destroy(Engine.Singleton.HumanController.FocusObject);
+			Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["sSword"]);
+		}
+
         public static void Null()
         {
         }

@@ -61,11 +61,6 @@ namespace Gra
 		public Slot[] Slots;
 		public Slot[] Slots2;
 
-		int _SelectIndex;
-		int _SelectIndex2;
-		int _ViewIndex;
-		int _ViewIndex2;
-
 		public int AktywnaStrona;
         public int SelectedOne;
         public int SelectedOneB4;

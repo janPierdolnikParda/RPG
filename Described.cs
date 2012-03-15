@@ -37,8 +37,6 @@ namespace Gra
 
             Vector3 scaledSize = Entity.BoundingBox.Size * Profile.BodyScaleFactor;
 
-			//string a = "soundOddawajPiec"; // tymczasowe
-
             IsContainer = profile.IsContainer;
 
             if (IsContainer)

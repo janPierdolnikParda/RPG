@@ -24,16 +24,16 @@ namespace Gra
             
             AddAble = addAble;
 
-            Name = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 4);
+            Name = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2 );
             Name.Caption = name;
             Name.SetPosition(left + 0.01f, top + 0.01f);
 
-            Value = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 4);
+            Value = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
             Value.Caption = value;
             Value.SetPosition(left + 0.22f, top + 0.01f);
 
-            AddPoint = Engine.Singleton.Labeler.NewSimpleQuad("AddPoint", left + 0.29f, top, Engine.Singleton.GetFloatFromPxWidth(32), Engine.Singleton.GetFloatFromPxHeight(32), new ColourValue(1, 1, 1), 2);
-            RemovePoint = Engine.Singleton.Labeler.NewSimpleQuad("RemovePoint", left + 0.3f + Engine.Singleton.GetFloatFromPxWidth(32), top, Engine.Singleton.GetFloatFromPxWidth(32), Engine.Singleton.GetFloatFromPxHeight(32), new ColourValue(1, 1, 1), 2);
+            AddPoint = Engine.Singleton.Labeler.NewSimpleQuad("AddPoint", left + 0.29f, top, Engine.Singleton.GetFloatFromPxWidth(32), Engine.Singleton.GetFloatFromPxHeight(32), new ColourValue(1, 1, 1), 1);
+            RemovePoint = Engine.Singleton.Labeler.NewSimpleQuad("RemovePoint", left + 0.3f + Engine.Singleton.GetFloatFromPxWidth(32), top, Engine.Singleton.GetFloatFromPxWidth(32), Engine.Singleton.GetFloatFromPxHeight(32), new ColourValue(1, 1, 1), 1);
 
             if (AddAble)
             {
@@ -41,9 +41,9 @@ namespace Gra
                 RemovePoint.IsVisible = false;
             }
 
-            NameBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", left, top, 0.2f, 0.05f, new ColourValue(1, 1, 1), 2);
+            NameBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", left, top, 0.2f, 0.05f, new ColourValue(1, 1, 1), 1);
 
-            ValueBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", left + 0.21f, top, 0.07f, 0.05f, new ColourValue(1, 1, 1), 2);
+            ValueBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", left + 0.21f, top, 0.07f, 0.05f, new ColourValue(1, 1, 1), 1);
         }
 
         public void SetAddPointAvailable()
@@ -170,8 +170,8 @@ namespace Gra
             Header = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.08f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
             Header.SetPosition(0.4f, 0.06f);
             Header.Caption = "Statystyki";
-            ExpBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0.25f, 0.2f, 0.5f, 0.06f, ColourValue.White, 1);
-            Exp = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
+            ExpBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0.25f, 0.2f, 0.5f, 0.06f, ColourValue.White, 2);
+            Exp = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 3);
             Exp.SetPosition(0.26f, 0.21f);
             MouseCursor = Engine.Singleton.Labeler.NewSimpleQuad("Kursor", 0.0f, 0.0f, Engine.Singleton.GetFloatFromPxWidth(32), Engine.Singleton.GetFloatFromPxHeight(32), new ColourValue(1, 1, 1), 4);
             Bg = Engine.Singleton.Labeler.NewSimpleQuad("InventoryBgMaterial", 0.01f, 0.01f, 0.98f, 0.98f, new ColourValue(1, 1, 1), 0);
@@ -179,7 +179,7 @@ namespace Gra
             Zmiany.SetPosition(0.42f, 0.71f);
             Zmiany.Caption = "Zatwierdz zmiany";
             ZmianyBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0.41f, 0.7f, 0.22f, 0.06f, ColourValue.White, 1);
-            RequiredBg = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0, 0, 0.3f, 0.05f, new ColourValue(1, 1, 1), 2);
+            RequiredBg = Engine.Singleton.Labeler.NewSimpleQuad("Black", 0, 0, 0.3f, 0.05f, new ColourValue(1, 1, 1), 3);
             Required = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.05f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 4);
 
             IsVisible = false;

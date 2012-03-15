@@ -34,7 +34,7 @@ namespace Gra
 		public float MouseSpeed = 1.0f;
 
         public Character Character;
-        SelectableObject FocusObject;
+        public SelectableObject FocusObject;
         TextLabel3D TargetLabel;
 
         SimpleQuad TalkBox;
@@ -411,7 +411,6 @@ namespace Gra
                 {
                     SwitchState(HumanControllerState.FREE);                    
                 }
-
                 else
                     Engine.Singleton.Menu = Engine.Singleton.Menu.SubMenus[IndexKlika];
 
@@ -1266,7 +1265,7 @@ namespace Gra
 				{
 					if (Character.Contact is ISomethingMoving)
 					{
-						if ((Character.Contact as ISomethingMoving).FriendlyType != Gra.Character.FriendType.FRIENDLY)
+						if ((Character.Contact as ISomethingMoving).FriendlyType != Gra.Character.FriendType.FRIENDLY && (Character.Contact as ISomethingMoving).State != Enemy.StateTypes.DEAD)
 						{
 							if (Character.Sword != null && Character.Sword.InUse)
 							{

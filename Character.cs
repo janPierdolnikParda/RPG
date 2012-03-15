@@ -39,6 +39,10 @@ namespace Gra
         public List<DescribedProfile> Inventory;
         ItemSword _Sword;
         Entity SwordEntity;
+
+		ItemShield _Shield;
+		Entity ShieldEntity;
+
         public CharacterAnimBlender AnimBlender;
 
         public QuestManager ActiveQuests;
@@ -331,7 +335,7 @@ namespace Gra
         public void SetContact()
         {
 
-			float length = 5.0f; //Engine.Singleton.GameCamera.DistanceNow + 1.0f;
+			float length = 8.0f; //Engine.Singleton.GameCamera.DistanceNow + 1.0f;
 
             Vector3 AimPosition = new Vector3();
             AimPosition.x = (float)System.Math.Sin((double)-getY().ValueRadians) * length;
@@ -380,6 +384,26 @@ namespace Gra
             }
             return false;
         }
+
+		public void UnequipShield()
+		{
+			Entity.DetachObjectFromBone(ShieldEntity);
+			Engine.Singleton.SceneManager.DestroyEntity(ShieldEntity);
+			_Shield.IsEquipment = false;
+			ShieldEntity = null;
+
+		}
+
+		public void EquipShieldToLeftArm(ItemShield value)
+		{
+
+			ShieldEntity = Engine.Singleton.SceneManager.CreateEntity(value.MeshName);
+			
+
+			Entity.AttachObjectToBone("Hand1.R", ShieldEntity, Quaternion.IDENTITY, Vector3.ZERO);
+				//value.HandleOffset);
+			//value.IsEquipment = true;
+		}
 
         public void UnequipSword()
         {
@@ -432,6 +456,27 @@ namespace Gra
                 _Sword = value;
             }
         }
+
+		public ItemShield Shield
+		{
+			get
+			{
+				return _Shield;
+			}
+			set
+			{
+				if (ShieldEntity != null)
+				{
+					UnequipShield();
+				}
+				if (value != null)
+				{
+					EquipShieldToLeftArm(value);
+
+				}
+				_Shield = value;
+			}
+		}
 
         public override Vector3 Position
         {
