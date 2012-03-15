@@ -306,12 +306,11 @@ namespace Gra
                 ExpBg.IsVisible = value;
                 Zmiany.IsVisible = value;
                 ZmianyBg.IsVisible = value;
-
-                if (!value)
-                {
+				
+				
                     Required.IsVisible = value;
                     RequiredBg.IsVisible = value;
-                }
+
 
                 foreach (Stat s in Stats)
                     s.IsVisible = value;

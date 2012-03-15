@@ -789,8 +789,7 @@ namespace Gra
         private void HandleStats()
         {
             HUDStats.Update();
-            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_C))
-                SwitchState(HumanControllerState.FREE);
+			
 
             bool kibel = false;
 
@@ -968,6 +967,12 @@ namespace Gra
             {
                 HUDStats.Zmiany.SetColor(new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f));
             }
+
+			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_C))
+			{
+				SwitchState(HumanControllerState.FREE);
+				HUDStats.IsVisible = false;
+			}
         }
 
         private void HandleContainer()      // @@ funkcja odpowiedzialna za obsługę kontenerów
