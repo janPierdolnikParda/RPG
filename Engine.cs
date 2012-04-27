@@ -190,7 +190,7 @@ namespace Gra
                 CurrentLevel.NewMapName = "";
                 CurrentLevel.NewMapNav = "";
                 Load(null);
-				System.Threading.Thread.Sleep(1500);
+				//System.Threading.Thread.Sleep(1500);
 				HumanController.HUD.ToggleLoadScreen();
             }
         }

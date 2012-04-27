@@ -10,7 +10,8 @@ namespace Gra
     public class ItemSword : DescribedProfile
     {
         public bool InUse;
-        public float Damage;
+        public int IloscRzutow;
+        public int JakoscRzutow;
         public Vector3 HandleOffset;
 
         public new ItemSword Clone()

@@ -201,7 +201,8 @@ namespace Gra
 
                     if (Character.Inventory[SelectIndex1] is ItemSword)
                         DescriptionLabel.Caption += "\nObrazenia: "
-                            + (Character.Inventory[SelectIndex1] as ItemSword).Damage.ToString();
+                        + (Character.Inventory[SelectIndex1] as ItemSword).IloscRzutow.ToString() + "k"
+                        + (Character.Inventory[SelectIndex1] as ItemSword).JakoscRzutow.ToString();
 
                     SelectedPicture.Panel.MaterialName = Character.Inventory[SelectIndex1].InventoryPictureMaterial;
                 }
@@ -222,7 +223,8 @@ namespace Gra
 
                     if (Container.Contains[SelectIndex2] is ItemSword)
                         DescriptionLabel.Caption += "\nObrazenia: "
-                            + (Container.Contains[SelectIndex2] as ItemSword).Damage.ToString();
+                        + (Character.Inventory[SelectIndex2] as ItemSword).IloscRzutow.ToString() + "k"
+                        + (Character.Inventory[SelectIndex2] as ItemSword).JakoscRzutow.ToString();
 
                     SelectedPicture.Panel.MaterialName = Container.Contains[SelectIndex2].InventoryPictureMaterial;
                 }

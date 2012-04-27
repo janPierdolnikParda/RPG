@@ -196,7 +196,8 @@ namespace Gra
 
                     if (Character.Inventory[SelectedOne] is ItemSword)
                         DescriptionLabel.Caption += "\nObrazenia: "
-                            + (Character.Inventory[SelectedOne] as ItemSword).Damage.ToString();
+                            + (Character.Inventory[SelectedOne] as ItemSword).IloscRzutow.ToString() + "k"
+                            + (Character.Inventory[SelectedOne] as ItemSword).JakoscRzutow.ToString();
 
                     
 
@@ -228,7 +229,8 @@ namespace Gra
 
                     if (Shop.Items[SelectedOne] is ItemSword)
                         DescriptionLabel.Caption += "\nObrazenia: "
-                            + (Shop.Items[SelectedOne] as ItemSword).Damage.ToString();
+                        + (Character.Inventory[SelectedOne] as ItemSword).IloscRzutow.ToString() + "k"
+                        + (Character.Inventory[SelectedOne] as ItemSword).JakoscRzutow.ToString();
 
                     DescriptionLabel.Caption += "\nMasa: " + Shop.Items[SelectedOne].Mass;
 

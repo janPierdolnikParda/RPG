@@ -65,6 +65,8 @@ namespace Gra
 					Kriper.HandleOffset.z = float.Parse(item["handleoffsetz"].InnerText);
                     Kriper.ProfileName = item["idstring"].InnerText;
                     Kriper.Price = int.Parse(item["price"].InnerText);
+                    Kriper.JakoscRzutow = int.Parse(item["jakoscrzutow"].InnerText);
+                    Kriper.IloscRzutow = int.Parse(item["iloscrzutow"].InnerText);
 
                     I.Add(item["idstring"].InnerText, Kriper);
                 }

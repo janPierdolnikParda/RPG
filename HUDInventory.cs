@@ -133,7 +133,8 @@ namespace Gra
 
                 if (Character.Inventory[SelectIndex] is ItemSword)
                     DescriptionLabel.Caption += "\nObrazenia: "
-                        + (Character.Inventory[SelectIndex] as ItemSword).Damage.ToString();
+                        + (Character.Inventory[SelectIndex] as ItemSword).IloscRzutow.ToString() + "k"
+                        + (Character.Inventory[SelectIndex] as ItemSword).JakoscRzutow.ToString();
 
                 SelectedPicture.Panel.MaterialName = Character.Inventory[SelectIndex].InventoryPictureMaterial;
             }

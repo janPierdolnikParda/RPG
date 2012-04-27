@@ -387,7 +387,7 @@ namespace Gra
 
                         if (BlokNieUdany && !Unikniety)
                         {
-                            int Obrazenia = Engine.Singleton.Kostka(1, 6);
+                            int Obrazenia = Engine.Singleton.Kostka(Engine.Singleton.HumanController.Character.Sword.IloscRzutow, Engine.Singleton.HumanController.Character.Sword.JakoscRzutow);
 
                             if (Engine.Singleton.Procenty(5))
                             {
