@@ -21,6 +21,9 @@ namespace Gra
         public Vector3 DisplayNameOffset;
         public String PictureMaterial;
 
+        public int IloscRzutow;
+        public int JakoscRzutow;
+
         public ulong Gold;
 		public int Exp;
         public Statistics Statistics;

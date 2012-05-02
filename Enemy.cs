@@ -353,7 +353,7 @@ namespace Gra
 
                         if (BlokNieUdany && !Unikniety)
                         {
-                            int Obrazenia = Engine.Singleton.Kostka(1, 6);
+                            int Obrazenia = Engine.Singleton.Kostka(Profile.IloscRzutow, Profile.JakoscRzutow);
 
                             if (Engine.Singleton.Procenty(5))
                             {

@@ -106,6 +106,8 @@ namespace Gra
                     Kriper.ZasiegOgolny = int.Parse(item["ZasiegOgolny"].InnerText);
                     Kriper.ZasiegWzroku = int.Parse(item["ZasiegWzroku"].InnerText);
                     Kriper.DropPrizeID = item["DropPrize"].InnerText;
+                    Kriper.IloscRzutow = int.Parse(item["IloscRzutow"].InnerText);
+                    Kriper.JakoscRzutow = int.Parse(item["JakoscRzutow"].InnerText);
 
                     E.Add(item["ProfileName"].InnerText, Kriper);
                 }
