@@ -192,6 +192,8 @@ namespace Gra
             }
         }
 
+        public ActivityManager Activities;
+
         public Character(CharacterProfile profile)
         {
             Profile = profile.Clone();
@@ -273,6 +275,8 @@ namespace Gra
             {
                 TalkRoot = Conversations.D[Profile.DialogRoot].Reactions.Values.ElementAt(0);
             }
+
+            Activities = new ActivityManager();
         }
 
         void BodyTransformCallback(Body sender, Quaternion orientation,
@@ -308,6 +312,35 @@ namespace Gra
             Contacts.Clear();
 
             ActiveQuests.Update();
+
+            if (!Activities.InProgress)
+            {
+                
+                if ((!Activities.Repeat && Activities.Index < Activities.Activities.Count) || Activities.Repeat)
+                {
+                    
+                    switch (Activities.Activities[Activities.Index].Type)
+                    {
+                        case ActivityType.WAIT:
+                            FollowPathOrder = false;
+                            break;
+                        case ActivityType.WALK:
+                            
+                            Engine.Singleton.CurrentLevel.navMesh.AStar(Position, Activities.Activities[Activities.Index].v3);
+                            if (Engine.Singleton.CurrentLevel.navMesh.TriPath.Count > 1)
+                            {
+                                Engine.Singleton.CurrentLevel.navMesh.GetPortals();
+                                WalkPath = Engine.Singleton.CurrentLevel.navMesh.Funnel();
+
+                                FollowPathOrder = true;
+                            }
+
+                            Activities.InProgress = true;
+
+                            break;
+                    }
+                }
+            }
         }
 
         public Radian getY()

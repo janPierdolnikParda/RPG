@@ -1051,6 +1051,16 @@ namespace Gra
 			Degree akt = Engine.Singleton.GameCamera.Angle;
 			Degree zmiana;
 
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_U))
+            {
+                Activity Walk = new Activity();
+                Walk.v3 = new Vector3(6.42f, -1.0f, 9);
+                Walk.Type = ActivityType.WALK;
+
+                if (FocusObject is Character)
+                    (FocusObject as Character).Activities.Activities.Add(Walk);
+            }
+
             if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F5))
             {
                 if (System.IO.Directory.Exists("Saves\\QuickSave"))
