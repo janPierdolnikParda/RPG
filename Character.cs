@@ -336,8 +336,8 @@ namespace Gra
                     switch (Activities.Activities[Activities.Index].Type)
                     {
                         case ActivityType.WAIT:
-                            Activities.Activities[Activities.Index].i2 = Engine.Singleton.Root.Timer.Milliseconds / 1000 + Activities.Activities[Activities.Index].i;
-                            Waiting = true;
+                            if (Waiting != true) Activities.Activities[Activities.Index].i2 = Engine.Singleton.Root.Timer.Milliseconds / 1000 + Activities.Activities[Activities.Index].i;
+							Waiting = true;
                             break;
                         case ActivityType.WALK:
                             
@@ -369,8 +369,8 @@ namespace Gra
                 c = Activities.Activities[Activities.Index].i;             
                 
                 Console.WriteLine(a.ToString() + " < " + b.ToString());// + " + " +c.ToString());
-                if (Engine.Singleton.Root.Timer.Milliseconds / 1000
-                    >= Activities.Activities[Activities.Index].i2)
+                if (a
+                    >= b)
                 {
                     Waiting = false;
                     Activities.EndActivity();

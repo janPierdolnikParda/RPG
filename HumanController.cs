@@ -1070,7 +1070,7 @@ namespace Gra
                 Walk2.Type = ActivityType.WALK;
 
                 Activity Wait = new Activity();
-                Wait.i = 10;
+                Wait.i = 5;
                 Wait.Type = ActivityType.WAIT;
 
                 if (FocusObject is Character)
