@@ -11,6 +11,7 @@ namespace Gra
         public int Index;
         public bool InProgress;
         public bool Repeat;
+        public bool Paused;
 
         public ActivityManager()
         {
@@ -18,11 +19,18 @@ namespace Gra
             Activities = new List<Activity>();
             InProgress = false;
             Repeat = false;
+            Paused = false;
         }
 
         public void Reset()
         {
             Index = 0;
+        }
+
+        public void EndActivity()
+        {
+            Index++;
+            InProgress = false;
         }
     }
 }

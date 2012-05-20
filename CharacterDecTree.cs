@@ -132,6 +132,11 @@ namespace Gra
                       if (ch.WalkPath.Count == 0)
                       {
                           ch.FollowPathOrder = false;
+
+                          if (ch.Activities.InProgress
+                                && ch.Activities.Activities[ch.Activities.Index].Type == ActivityType.WALK)
+                              ch.Activities.EndActivity();
+
                           return true;
                       }
                       else

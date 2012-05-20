@@ -17,7 +17,8 @@ namespace Gra
     {
         public Vector3 v3;
         public String s;
-        public int i;
+        public long i;
+        public long i2;
         public bool b;
 
         public ActivityType Type;

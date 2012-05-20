@@ -184,6 +184,12 @@ namespace Gra
                 {
                     HideTalkOverlay();
                     Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_SPACE);
+
+                    if ((FocusObject as Character).Activities.Paused)
+                    {
+                        (FocusObject as Character).Activities.Paused = false;
+                    }
+
                 }
             }
             else if (State == HumanControllerState.CONTAINER)
@@ -1053,12 +1059,27 @@ namespace Gra
 
             if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_U))
             {
+                long currentTime = Engine.Singleton.Root.Timer.Milliseconds / 1000;
+                Console.WriteLine(currentTime);
                 Activity Walk = new Activity();
                 Walk.v3 = new Vector3(6.42f, -1.0f, 9);
                 Walk.Type = ActivityType.WALK;
 
+                Activity Walk2 = new Activity();
+                Walk2.v3 = new Vector3(-9.3f, -1.07f, 8.94f);
+                Walk2.Type = ActivityType.WALK;
+
+                Activity Wait = new Activity();
+                Wait.i = 10;
+                Wait.Type = ActivityType.WAIT;
+
                 if (FocusObject is Character)
+                {
+                    (FocusObject as Character).Activities.Repeat = true;
                     (FocusObject as Character).Activities.Activities.Add(Walk);
+                    (FocusObject as Character).Activities.Activities.Add(Walk2);
+                    (FocusObject as Character).Activities.Activities.Add(Wait);
+                }
             }
 
             if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F5))
@@ -1174,6 +1195,14 @@ namespace Gra
                         {
                             FocusObject.TalkRoot.WhoSays = (FocusObject as Character);
                             (FocusObject as Character).TurnTo(Character.Position);
+
+                            if ((FocusObject as Character).Activities.InProgress)
+                            {
+                                (FocusObject as Character).Activities.Paused = true;
+                                (FocusObject as Character).Activities.InProgress = false;
+                                (FocusObject as Character).Waiting = false;
+                                (FocusObject as Character).FollowPathOrder = false;
+                            }
                         }
 
                         CurrentNode = FocusObject.TalkRoot.PickNode();

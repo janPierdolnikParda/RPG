@@ -193,6 +193,7 @@ namespace Gra
         }
 
         public ActivityManager Activities;
+        public bool Waiting;
 
         public Character(CharacterProfile profile)
         {
@@ -277,6 +278,7 @@ namespace Gra
             }
 
             Activities = new ActivityManager();
+            Waiting = false;
         }
 
         void BodyTransformCallback(Body sender, Quaternion orientation,
@@ -313,16 +315,29 @@ namespace Gra
 
             ActiveQuests.Update();
 
-            if (!Activities.InProgress)
+
+
+            //**********************************************************************************
+            //**********************************************************************************
+            //******                                                                     *******
+            //******                               ACTIVITIES                            *******
+            //******                                                                     *******
+            //**********************************************************************************
+            //**********************************************************************************
+
+            if (!Activities.InProgress && !Activities.Paused)
             {
                 
-                if ((!Activities.Repeat && Activities.Index < Activities.Activities.Count) || Activities.Repeat)
+                if ((!Activities.Repeat && Activities.Index < Activities.Activities.Count) || (Activities.Repeat && Activities.Activities.Count > 0))
                 {
-                    
+                    if (Activities.Repeat && Activities.Index >= Activities.Activities.Count)
+                        Activities.Reset();
+
                     switch (Activities.Activities[Activities.Index].Type)
                     {
                         case ActivityType.WAIT:
-                            FollowPathOrder = false;
+                            Activities.Activities[Activities.Index].i2 = Engine.Singleton.Root.Timer.Milliseconds / 1000 + Activities.Activities[Activities.Index].i;
+                            Waiting = true;
                             break;
                         case ActivityType.WALK:
                             
@@ -333,13 +348,34 @@ namespace Gra
                                 WalkPath = Engine.Singleton.CurrentLevel.navMesh.Funnel();
 
                                 FollowPathOrder = true;
+                                Activities.InProgress = true;
                             }
 
-                            Activities.InProgress = true;
+                            else
+                            {
+                                Activities.EndActivity();
+                            }                            
 
                             break;
                     }
                 }
+            }
+
+            if (Waiting)
+            {
+                long a, b, c;
+                a = Engine.Singleton.Root.Timer.Milliseconds / 1000;
+                b = Activities.Activities[Activities.Index].i2;
+                c = Activities.Activities[Activities.Index].i;             
+                
+                Console.WriteLine(a.ToString() + " < " + b.ToString());// + " + " +c.ToString());
+                if (Engine.Singleton.Root.Timer.Milliseconds / 1000
+                    >= Activities.Activities[Activities.Index].i2)
+                {
+                    Waiting = false;
+                    Activities.EndActivity();
+                }
+
             }
         }
 
