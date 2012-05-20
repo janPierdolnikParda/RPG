@@ -1082,7 +1082,7 @@ namespace Gra
                 }
             }
 
-            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F5))
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F5))  // quick save
             {
                 if (System.IO.Directory.Exists("Saves\\QuickSave"))
                     System.IO.Directory.Delete("Saves\\QuickSave", true);
@@ -1090,8 +1090,18 @@ namespace Gra
                 Engine.Singleton.AutoSave("QuickSave");
             }
 
-            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F9))
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F9)) // quick load
                 Engine.Singleton.Load("QuickSave");
+
+			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_J))
+			{
+				if (FocusObject is Character)
+				{
+					(FocusObject as Character).obejdz = true;
+
+				}
+
+			}
 	
 			if (!InvertMouse)																	// ruszanie kamerą (góra i dół)
 				zmiana = new Degree(Engine.Singleton.Mouse.MouseState.Y.rel * 0.1f * MouseSpeed);

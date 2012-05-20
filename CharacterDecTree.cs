@@ -129,6 +129,13 @@ namespace Gra
                       {
                           ch.WalkPath.RemoveAt(0);
                       }
+
+					  if (ch.obejdz)
+					  {
+						  ch.WalkPath.Insert(0, ch.Position + new Vector3(2, 0, 0));
+						  ch.obejdz = false;
+					  }
+
                       if (ch.WalkPath.Count == 0)
                       {
                           ch.FollowPathOrder = false;

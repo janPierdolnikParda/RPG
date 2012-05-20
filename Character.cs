@@ -16,6 +16,8 @@ namespace Gra
             ENEMY
         };
 
+		public bool obejdz;
+
         public Entity Entity;
         public SceneNode Node;
         public Body Body;
