@@ -239,12 +239,12 @@ namespace Gra
 
             collision.Dispose();
 
-            SensorNode = Node.CreateChildSceneNode(new Vector3(0, 0, System.Math.Min(scaledSize.x, scaledSize.z) * 2));
+            SensorNode = Node.CreateChildSceneNode(new Vector3(0, 0, System.Math.Min(scaledSize.x, scaledSize.z) * 1.5f));
 
             collision = new MogreNewt.CollisionPrimitives.Cylinder(
                 Engine.Singleton.NewtonWorld,
-                System.Math.Min(scaledSize.x, scaledSize.z) * 2,
-                scaledSize.y * 2,
+                System.Math.Min(scaledSize.x, scaledSize.z) * 1.5f,
+                scaledSize.y * 1,
                 Vector3.UNIT_X.GetRotationTo(Vector3.UNIT_Y),
                 Engine.Singleton.GetUniqueBodyId());
             ObjectSensor = new Body(Engine.Singleton.NewtonWorld, collision, true);
@@ -305,7 +305,7 @@ namespace Gra
                 State = Enemy.StateTypes.DEAD;
             }
 
-            ObjectSensor.SetPositionOrientation(SensorNode._getDerivedPosition(), Node.Orientation);
+            ObjectSensor.SetPositionOrientation(Node.Position, Node.Orientation);
             SetContact();
             AnimBlender.Update();
 

@@ -66,10 +66,15 @@ namespace Gra
 
         public bool AddedToKillList;
 
+		TextLabel ColLabel;
 
         public HumanController()
         {
             TargetLabel = Engine.Singleton.Labeler.NewTextLabel3D("Primitive", 0.04f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 0);
+			ColLabel = Engine.Singleton.Labeler.NewTextLabel("Primitive", 0.04f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 2);
+			ColLabel.Caption = "Kolizja";
+			ColLabel.SetColor(ColourValue.Green, ColourValue.Green);
+			ColLabel.SetPosition(0.4f, 0.1f);
 
             TalkBox = Engine.Singleton.Labeler.NewSimpleQuad("QuadMaterial", 0.05f, 0.85f, 0.9f, 0.1f, new ColourValue(1, 1, 1), 1);
             TalkBox.IsVisible = false;
@@ -1361,6 +1366,14 @@ namespace Gra
                 FocusObject = null;
                 TargetLabel.IsVisible = false;
             }
+
+			if (Character.Contacts.Count > 0)
+			{
+				ColLabel.SetColor(ColourValue.Red, ColourValue.Red);
+			}
+			else
+				ColLabel.SetColor(ColourValue.Green, ColourValue.Green);
+
         }
 
         public void ToggleHud()

@@ -48,7 +48,8 @@ namespace Gra
             SensorLevelPair = new MaterialPair(
                 Engine.Singleton.NewtonWorld,
                 LevelMaterialID, CharacterSensorMaterialID);
-            SensorLevelPair.SetContactCallback(new IgnoreCollisionCallback());
+            //SensorLevelPair.SetContactCallback(new IgnoreCollisionCallback());
+			SensorLevelPair.SetContactCallback(new SensorGameObjectCallback());
 
             SensorTriggerVolumePair = new MaterialPair(
                 Engine.Singleton.NewtonWorld,

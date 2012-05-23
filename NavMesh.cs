@@ -225,6 +225,36 @@ namespace Gra
             }
 
             path.Add(EndPt);
+
+			
+
+			Engine.Singleton.SceneManager.DestroyManualObject("line");
+
+			// destroy the SceneNode (or keep it to add other manual objects)
+			Engine.Singleton.SceneManager.DestroySceneNode("line_node");  
+
+			ManualObject manOb = Engine.Singleton.SceneManager.CreateManualObject("line");
+			manOb.Begin("line_material", RenderOperation.OperationTypes.OT_LINE_LIST);
+			
+			for (int i = 1; i < path.Count; i++)
+			{
+				Vector3 adam = path[i-1];
+				adam.y = 0.4f;
+				manOb.Position(adam);
+
+				Vector3 adam1 = path[i];
+				adam1.y = 0.4f;
+				manOb.Position(adam1);
+				
+			}
+
+			manOb.End();
+			SceneNode moNode = Engine.Singleton.SceneManager.RootSceneNode.CreateChildSceneNode("line_node");
+
+			moNode.SetPosition(0, 0, 0);
+			
+			moNode.AttachObject(manOb);
+
             return path;
         }
     }

@@ -139,6 +139,23 @@ namespace Gra
 			Engine.Singleton.GameCamera.Distance = 7;
             Engine.Singleton.GameCamera.Angle = new Degree(33);
 
+
+			String resourceGroupName = "debugger";
+			if (ResourceGroupManager.Singleton.ResourceGroupExists(resourceGroupName) == false)
+				ResourceGroupManager.Singleton.CreateResourceGroup(resourceGroupName);
+
+			// create material (colour)
+			MaterialPtr moMaterial = Mogre.MaterialManager.Singleton.Create("line_material", resourceGroupName);
+			moMaterial.ReceiveShadows = false;
+			moMaterial.GetTechnique(0).SetLightingEnabled(true);
+			moMaterial.GetTechnique(0).GetPass(0).SetDiffuse(0, 0, 1, 0);
+			moMaterial.GetTechnique(0).GetPass(0).SetAmbient(0, 0, 1);
+			moMaterial.GetTechnique(0).GetPass(0).SetSelfIllumination(0, 0, 1);
+			moMaterial.Dispose();
+
+			SceneNode moNode = Engine.Singleton.SceneManager.RootSceneNode.CreateChildSceneNode("line_node");
+			ManualObject manOb = Engine.Singleton.SceneManager.CreateManualObject("line");
+
             while (true)
             {
                 Engine.Singleton.Update();

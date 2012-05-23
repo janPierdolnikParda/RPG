@@ -125,15 +125,21 @@ namespace Gra
                   new DecTree.Assert(ch => ch.FollowPathOrder),
                   new DecTree.Job(ch =>
                   {
-                      if (Op2D.Dist(ch.Position, ch.WalkPath[0]) < 0.5f)
+                      if (Op2D.Dist(ch.Position, ch.WalkPath[0]) < 0.3f)
                       {
                           ch.WalkPath.RemoveAt(0);
                       }
 
 					  if (ch.obejdz)
 					  {
-						  ch.WalkPath.Insert(0, ch.Position + new Vector3(2, 0, 0));
+						  //ch.WalkPath.Insert(0, ch.Position + new Vector3(1, 0, 0));
 						  ch.obejdz = false;
+						  Engine.Singleton.CurrentLevel.navMesh.AStar(ch.Position + new Vector3(1, 0, 0), ch.Activities.Activities[ch.Activities.Index].v3);
+						  if (Engine.Singleton.CurrentLevel.navMesh.TriPath.Count > 1)
+						  {
+							  Engine.Singleton.CurrentLevel.navMesh.GetPortals();
+							  ch.WalkPath = Engine.Singleton.CurrentLevel.navMesh.Funnel();
+						  }
 					  }
 
                       if (ch.WalkPath.Count == 0)
@@ -146,6 +152,18 @@ namespace Gra
 
                           return true;
                       }
+					  else if (ch.Contacts.Count > 0)
+					  {
+						  Engine.Singleton.CurrentLevel.navMesh.AStar(ch.Position, ch.Activities.Activities[ch.Activities.Index].v3);
+						  if (Engine.Singleton.CurrentLevel.navMesh.TriPath.Count > 1)
+						  {
+							  Engine.Singleton.CurrentLevel.navMesh.GetPortals();
+							  ch.WalkPath = Engine.Singleton.CurrentLevel.navMesh.Funnel();
+
+							  ch.FollowPathOrder = true;
+							  ch.Activities.InProgress = true;
+						  }
+					  }
                       else
                       {
                           ch.Orientation = Quaternion.Slerp(
