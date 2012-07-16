@@ -41,6 +41,7 @@ namespace Gra
         public AnimationState walkAnim;
         public AnimationState idleAnim;
         public AnimationState attackAnim;
+		public AnimationState deadAnim;
 
         public bool TalkPerm;
         public bool InventoryPerm;
@@ -270,10 +271,11 @@ namespace Gra
 
             //PO DROPPRIZIE KUFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
-            walkAnim = Entity.GetAnimationState("WalkLegs");
-            idleAnim = Entity.GetAnimationState("IdleLegs");
-            attackAnim = Entity.GetAnimationState("DrawSwordTorso");
-			
+            walkAnim = Entity.GetAnimationState("WALK");
+            idleAnim = Entity.GetAnimationState("IDLE");
+            attackAnim = Entity.GetAnimationState("ATTACK");
+			deadAnim = Entity.GetAnimationState("DEAD");
+
 			//Animation("IdleLegs").Enabled = true;
 			//Animation("IdleLegs").Loop = true;
 			FriendlyType = Profile.FriendlyType;
@@ -385,9 +387,10 @@ namespace Gra
 
         public override void Update()
         {
-            walkAnim = Entity.GetAnimationState("WalkLegs");
-            idleAnim = Entity.GetAnimationState("IdleLegs");
-            attackAnim = Entity.GetAnimationState("DrawSwordTorso");
+            walkAnim = Entity.GetAnimationState("WALK");
+            idleAnim = Entity.GetAnimationState("IDLE");
+            attackAnim = Entity.GetAnimationState("ATTACK");
+			deadAnim = Entity.GetAnimationState("DEAD");
             Tree.e_Visit(this);
 
             if (Statistics.aktualnaZywotnosc <= 0)

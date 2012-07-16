@@ -396,7 +396,7 @@ namespace Gra
             HUDMenu.Update();
             bool Klik = false;
             int IndexKlika = 0;
-
+			
             for (int i = 0; i < 6; i++)
             {
                 TextLabel TL = HUDMenu.Options2Choose[i];
@@ -414,8 +414,9 @@ namespace Gra
 						IndexKlika = i;
 					}
 				}
+				
             }
-
+			Engine.Singleton.Mysza = false;
             if (Klik)
             {
                 if (Engine.Singleton.Menu.SubMenus[IndexKlika].Ending)
@@ -423,7 +424,7 @@ namespace Gra
                     SwitchState(HumanControllerState.FREE);                    
                 }
                 else
-                    Engine.Singleton.Menu = Engine.Singleton.Menu.SubMenus[IndexKlika];
+                    Engine.Singleton.Menu = Engine.Singleton.Menu.SubMenus[IndexKlika];  // fix z buta, to usunięcie tego całego elsa
 
                 Engine.Singleton.Menu.SubMenus[IndexKlika].CallActions();
                 Klik = false;
@@ -1078,12 +1079,14 @@ namespace Gra
                 Wait.i = 5;
                 Wait.Type = ActivityType.WAIT;
 
+
                 if (FocusObject is Character)
                 {
                     (FocusObject as Character).Activities.Repeat = true;
                     (FocusObject as Character).Activities.Activities.Add(Walk);
                     (FocusObject as Character).Activities.Activities.Add(Walk2);
                     (FocusObject as Character).Activities.Activities.Add(Wait);
+					
                 }
             }
 
@@ -1230,7 +1233,7 @@ namespace Gra
                 && Character.InventoryPerm)
                 SwitchState(HumanControllerState.INVENTORY);
 
-			if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_A))          // obrót postaci
+			if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_A))          //
 			{
 				Character.MoveRightOrder = false;
 				Character.MoveLeftOrder = true;

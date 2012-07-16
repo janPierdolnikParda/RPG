@@ -105,12 +105,13 @@ namespace Gra
             Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.MENU);
 
             //KONIEC MENUUUUUUUUUUUUUUUUUUUUUUUUUUUu
-			
+
+			Engine.Singleton.SoundManager.BGMPlaylist.Add("title.mp3");
 			Engine.Singleton.SoundManager.BGMPlaylist.Add("Folk Round.mp3");
 			Engine.Singleton.SoundManager.BGMPlaylist.Add("Achaidh Cheide.mp3");
 			Engine.Singleton.SoundManager.BGMPlaylist.Add("Thatched Villagers.mp3");
 			
-            //Engine.Singleton.SoundManager.PlayBGM();
+            Engine.Singleton.SoundManager.PlayBGM();
 
             Light light = Engine.Singleton.SceneManager.CreateLight();
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
@@ -216,6 +217,9 @@ namespace Gra
             Engine.Singleton.CurrentLevel.DeleteLevel();
 
             Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "KarczmaNav");
+			//Engine.Singleton.CurrentLevel.LoadLevel("LabWerter", "KarczmaNav", true);
+			//Engine.Singleton.HumanController.Character.Position = new Vector3(-23.13174f, 1 , -0.80251f);
+			
             Engine.Singleton.Load(null);
 			Engine.Singleton.HumanController.HUD.ToggleLoadScreen();
         }
