@@ -217,7 +217,7 @@ namespace Gra
           {
               foreach (DescribedProfile item in Engine.Singleton.HumanController.Character.Inventory)
               {
-                  if (item == prizeItem)
+                  if (item.ProfileName == prizeItem.ProfileName)
                   {
                       Items2Remove.Add(item);
                       break;

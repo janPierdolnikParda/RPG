@@ -207,11 +207,10 @@ namespace Gra
 
             Vector3 scaledSize = Entity.BoundingBox.HalfSize * Profile.BodyScaleFactor;
 
-            ConvexCollision collision = new MogreNewt.CollisionPrimitives.Capsule(
-                Engine.Singleton.NewtonWorld,
-                System.Math.Min(scaledSize.x, scaledSize.z),
-                scaledSize.y * 2,
-                Vector3.UNIT_X.GetRotationTo(Vector3.UNIT_Y),
+            ConvexCollision collision = new MogreNewt.CollisionPrimitives.ConvexHull(Engine.Singleton.NewtonWorld,
+                Node,
+                Quaternion.IDENTITY,
+                0.1f,
                 Engine.Singleton.GetUniqueBodyId());
 
             Vector3 inertia, offset;
@@ -287,7 +286,7 @@ namespace Gra
             Vector3 position, int threadIndex)
         {
             Node.Position = position;
-            Node.Orientation = Orientation;
+            Node.Orientation = orientation;
         }
 
         public void BodyForceCallback(Body body, float timeStep, int threadIndex)
@@ -304,7 +303,8 @@ namespace Gra
 
         public void TurnTo(Vector3 Vect)
         {
-            Orientation = Vector3.UNIT_Z.GetRotationTo((Vect - Position) * new Vector3(1, 0, 1));
+            //Orientation = Vector3.UNIT_Z.GetRotationTo((Vect - Position) * new Vector3(1, 0, 1));
+            Body.SetPositionOrientation(Position, Vector3.UNIT_Z.GetRotationTo((Vect - Position) * new Vector3(1, 0, 1)));
         }
 
         public void Attack()
@@ -423,7 +423,7 @@ namespace Gra
             else
                 isReachable = false;
 
-            if ((isReachable == true) && Distance > 1 && State != StateTypes.DEAD && FriendlyType == Character.FriendType.ENEMY)
+            if ((isReachable == true) && Distance > 1.5 && State != StateTypes.DEAD && FriendlyType == Character.FriendType.ENEMY)
             {
                 Engine.Singleton.CurrentLevel.navMesh.AStar(Position, Engine.Singleton.HumanController.Character.Position);
                 if (Engine.Singleton.CurrentLevel.navMesh.TriPath.Count > 1)
@@ -460,6 +460,12 @@ namespace Gra
                         idleAnim.AddTime(1.0f / 90.0f);
                         break;
                     case StateTypes.DEAD:
+                        walkAnim.Enabled = false;
+                        idleAnim.Enabled = false;
+                        attackAnim.Enabled = false;
+                        deadAnim.Enabled = true;
+                        deadAnim.AddTime(1.0f / 90.0f);
+                        deadAnim.Loop = false;
                         //Animacja deda.
                         break;
                     //Animacja ataku bedzie tam nizej w case StateTypes.Attack, nie tutaj!!
