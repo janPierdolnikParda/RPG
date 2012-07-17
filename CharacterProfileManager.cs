@@ -108,6 +108,7 @@ namespace Gra
                     Kriper.DropPrizeID = item["DropPrize"].InnerText;
                     Kriper.IloscRzutow = int.Parse(item["IloscRzutow"].InnerText);
                     Kriper.JakoscRzutow = int.Parse(item["JakoscRzutow"].InnerText);
+                    Kriper.DystansKontaktu = float.Parse(item["DystansKontaktu"].InnerText);
 
                     E.Add(item["ProfileName"].InnerText, Kriper);
                 }

@@ -423,7 +423,7 @@ namespace Gra
             else
                 isReachable = false;
 
-            if ((isReachable == true) && Distance > 1.5 && State != StateTypes.DEAD && FriendlyType == Character.FriendType.ENEMY)
+            if ((isReachable == true) && Distance > Profile.DystansKontaktu && State != StateTypes.DEAD && FriendlyType == Character.FriendType.ENEMY)
             {
                 Engine.Singleton.CurrentLevel.navMesh.AStar(Position, Engine.Singleton.HumanController.Character.Position);
                 if (Engine.Singleton.CurrentLevel.navMesh.TriPath.Count > 1)

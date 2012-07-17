@@ -30,6 +30,7 @@ namespace Gra
         public float ZasiegWzroku;
         public float ZasiegOgolny;
         public float MnoznikDlaShopa = 1.0f;
+        public float DystansKontaktu;
         public Character.FriendType FriendlyType;
         public string DropPrizeID;
         public List<DescribedProfile> Inventory;
@@ -47,6 +48,7 @@ namespace Gra
 			Exp = 0;
             ZasiegWzroku = 20;
             ZasiegOgolny = 20;
+            DystansKontaktu = 1.0f;
         }
 
     }
