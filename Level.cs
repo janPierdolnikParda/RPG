@@ -22,6 +22,7 @@ namespace Gra
         public NavMesh navMesh = new NavMesh();
 
         public bool LoadNewMap = false;
+        public bool DeleteWithAutoSave = true;
         public String NewMapName;
         public String NewMapNav;
 
@@ -74,7 +75,11 @@ namespace Gra
 
         public void DeleteLevel()
         {
-            Engine.Singleton.AutoSave(null);
+            if (DeleteWithAutoSave)
+                Engine.Singleton.AutoSave(null);
+            else
+                DeleteWithAutoSave = true;
+
             GraphicsNode.DetachAllObjects();
             CollisionNode.DetachAllObjects();
             Body.Dispose();

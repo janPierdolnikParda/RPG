@@ -216,6 +216,9 @@ namespace Gra
 			Engine.Singleton.HumanController.HUD.ToggleLoadScreen();
 			Engine.Singleton.Root.RenderOneFrame();
 
+            Engine.Singleton.HumanController.Character.Position = new Vector3(-3.5f, 0, 1);
+            Engine.Singleton.HumanController.Character.Orientation = new Quaternion(new Radian(new Degree(90)), Vector3.UNIT_Y);
+
             Engine.Singleton.GameCamera.Character = Engine.Singleton.HumanController.Character;
             Engine.Singleton.GameCamera.Distance = 4;
             Engine.Singleton.GameCamera.Angle = new Degree(20);
@@ -223,13 +226,17 @@ namespace Gra
 
 			Engine.Singleton.HumanController.Character.Sword = null;
 
+            while (Engine.Singleton.HumanController.Character.Inventory.Count > 0)
+                Engine.Singleton.HumanController.Character.Inventory.RemoveAt(0);
+
             Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["iSwieczka"]);
             Engine.Singleton.HumanController.ToggleHud();
             Engine.Singleton.HumanController.HUDNewCharacterStats = new HUDNewCharacterStats();
             //Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.CREATOR_STATS);
             Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.FREE);
-            Engine.Singleton.CreateNewChar();
+
             Engine.Singleton.CurrentLevel.DeleteLevel();
+            Engine.Singleton.CreateNewChar();
 
             Engine.Singleton.CurrentLevel.LoadLevel("Karczma", "KarczmaNav");
 			//Engine.Singleton.CurrentLevel.LoadLevel("LabWerter", "KarczmaNav", true);

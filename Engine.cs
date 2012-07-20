@@ -207,13 +207,15 @@ namespace Gra
             {
 				HumanController.HUD.ToggleLoadScreen();
 				Root.RenderOneFrame();
-                HumanController.Character.Contact = null;
+                HumanController.Character.Contact = null;                
                 CurrentLevel.DeleteLevel();
                 CurrentLevel.LoadLevel(CurrentLevel.NewMapName, CurrentLevel.NewMapNav, false);
                 CurrentLevel.LoadNewMap = false;
                 CurrentLevel.NewMapName = "";
                 CurrentLevel.NewMapNav = "";
-                Load(null);
+
+                if (CurrentLevel.DeleteWithAutoSave)
+                    Load(null);
 				
 				HumanController.HUD.ToggleLoadScreen();
             }
@@ -446,11 +448,17 @@ namespace Gra
                         ch.Sword = ch.Inventory[ch.Inventory.Count - 1] as ItemSword;
                     }
                 }
+
+                if (Slot != "AutoSave")
+                {
+                    CurrentLevel.DeleteWithAutoSave = false;
+                    CurrentLevel.LoadNewMap = true;
+                    CurrentLevel.NewMapName = Item["MapName"].InnerText;
+                    CurrentLevel.NewMapNav = "Karczmanav";
+                }
             }
 
-            TriggerManager.Load();
-
-	
+            TriggerManager.Load();	
         }
 
         public bool IsKeyTyped(MOIS.KeyCode code)
