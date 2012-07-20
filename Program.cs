@@ -60,6 +60,7 @@ namespace Gra
             //MENUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUu
 
             SubMenu MainMenu = new SubMenu();
+            SubMenu Continue = new SubMenu();
             SubMenu NewGame = new SubMenu();
             SubMenu LoadGame = new SubMenu();
             SubMenu SaveGame = new SubMenu();
@@ -69,11 +70,18 @@ namespace Gra
 
             MainMenu.MenuName = "MENU";
             MainMenu.AddSub(NewGame);
+            MainMenu.AddSub(Continue);
             MainMenu.AddSub(LoadGame);
             MainMenu.AddSub(SaveGame);
             MainMenu.AddSub(Options);
-            MainMenu.AddSub(Credits);
-            MainMenu.AddSub(End);            
+            //MainMenu.AddSub(Credits);
+            MainMenu.AddSub(End);
+
+            Continue.MenuName = "Kontynuuj";
+            Continue.Ending = true;
+            Continue.Enabled = false;
+            Continue.Parent = MainMenu;
+            Continue.AddAction(ContinueGame);
 
             NewGame.Ending = true;
             NewGame.MenuName = "Nowa gra";
@@ -99,6 +107,7 @@ namespace Gra
             End.MenuName = "Koniec";
             End.Enabled = true;
             End.Parent = MainMenu;
+            End.Ending = true;                  //CZASEM BYWA, ZE END NIE JEST ENDING .... POZDRO RABIS
             End.AddAction(Exit);
 
             Engine.Singleton.Menu = MainMenu;
@@ -111,7 +120,7 @@ namespace Gra
 			Engine.Singleton.SoundManager.BGMPlaylist.Add("Achaidh Cheide.mp3");
 			Engine.Singleton.SoundManager.BGMPlaylist.Add("Thatched Villagers.mp3");
 			
-            Engine.Singleton.SoundManager.PlayBGM();
+            //Engine.Singleton.SoundManager.PlayBGM();
 
             Light light = Engine.Singleton.SceneManager.CreateLight();
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
@@ -164,6 +173,11 @@ namespace Gra
                 if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_ESCAPE) || Engine.Singleton.GameEnder)
                     break;
 
+                if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_GRAVE))
+                {
+                    Engine.Singleton.Pause = !Engine.Singleton.Pause;
+                }
+
                 if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F3))
                 {
                     if (DebugMode)
@@ -209,10 +223,11 @@ namespace Gra
 
 			Engine.Singleton.HumanController.Character.Sword = null;
 
-            Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["iKufel"]);
+            Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["iSwieczka"]);
             Engine.Singleton.HumanController.ToggleHud();
             Engine.Singleton.HumanController.HUDNewCharacterStats = new HUDNewCharacterStats();
-            Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.CREATOR_STATS);
+            //Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.CREATOR_STATS);
+            Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.FREE);
             Engine.Singleton.CreateNewChar();
             Engine.Singleton.CurrentLevel.DeleteLevel();
 
@@ -222,6 +237,11 @@ namespace Gra
 			
             Engine.Singleton.Load(null);
 			Engine.Singleton.HumanController.HUD.ToggleLoadScreen();
+
+            Engine.Singleton.Menu.SubMenus[1].Enabled = true;
+
+            if (Engine.Singleton.Pause)
+                Engine.Singleton.Pause = false;
         }
 
         static void Load()
@@ -231,6 +251,11 @@ namespace Gra
         static void Save()
         {
 
+        }
+
+        static void ContinueGame()
+        {
+            Engine.Singleton.Pause = !Engine.Singleton.Pause;
         }
 
         static void Exit()

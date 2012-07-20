@@ -59,8 +59,27 @@ namespace Gra
         public SubMenu Menu;
 
         public bool GameEnder = false;
+        public bool pause = false;
 
-        public bool Mysza;
+        public bool Pause
+        {
+            get
+            {
+                return pause;
+            }
+
+            set
+            {
+                pause = value;
+
+                if (pause)
+                    HumanController.SwitchState(Gra.HumanController.HumanControllerState.MENU);
+                else
+                    HumanController.SwitchState(Gra.HumanController.HumanControllerState.FREE);
+            }
+        }
+
+        public bool Mysza;        
         public MOIS.MouseButtonID Przycisk;
 
         public void Initialise()
@@ -166,11 +185,16 @@ namespace Gra
             while (TimeAccumulator >= FixedTimeStep)
             {
                 TypedInput.Update();
+
+                if (!Pause)
+                {
+                    NewtonWorld.Update(FixedTimeStep);                    
+
+                    ObjectManager.Update();
+                    GameCamera.Update();
+                }
                 
-                NewtonWorld.Update(FixedTimeStep);
                 HumanController.Update();
-                ObjectManager.Update();
-                GameCamera.Update();
                 TimeAccumulator -= FixedTimeStep;
 
                         //// mjuzik status i ogarnięcie żeby przełączało na następną piosenkę z plejlisty po zakończeniu poprzedniej
@@ -196,10 +220,7 @@ namespace Gra
         }
 
         public void Load(String Slot)
-        {
-
-			
-
+        {	
             if (Slot == null)
                 Slot = "AutoSave";
             bool WasSaved = System.IO.File.Exists("Saves\\" + Slot +"\\" + Engine.Singleton.CurrentLevel.Name + "\\Saved.xml");

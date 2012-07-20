@@ -575,7 +575,6 @@ namespace Gra
                         HUDNewCharacterStats.KwadratyLosu[HUDNewCharacterStats.KtoryZaznaczony].Zaznaczony = false;
                         HUDNewCharacterStats.KwadratyLosu[HUDNewCharacterStats.KtoryZaznaczony].Uzyty = false;
                         HUDNewCharacterStats.KtoryZaznaczony++;
-
                         if (HUDNewCharacterStats.KtoryZaznaczony < 6)
                             HUDNewCharacterStats.KwadratyLosu[HUDNewCharacterStats.KtoryZaznaczony].Zaznaczony = true;
                         else

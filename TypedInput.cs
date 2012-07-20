@@ -22,7 +22,7 @@ namespace Gra
         {
             for (int keyCode = 0; keyCode < KeysCount; keyCode++)
             {
-                IsKeyTyped[keyCode] = false;
+                IsKeyTyped[keyCode] = false;                
 
                 if (Engine.Singleton.Keyboard.IsKeyDown((MOIS.KeyCode)keyCode))
                 {

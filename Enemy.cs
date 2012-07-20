@@ -96,6 +96,7 @@ namespace Gra
         bool isSeen;
         bool isReachable;
         float _ZasiegWzroku;
+        public bool recalculatedAfterDead = false;
         public float ZasiegWzroku
         {
             get
@@ -467,6 +468,13 @@ namespace Gra
                         deadAnim.AddTime(1.0f / 90.0f);
                         deadAnim.Loop = false;
                         //Animacja deda.
+
+                        if (deadAnim.HasEnded && !recalculatedAfterDead)
+                        {
+                            //recalculatedAfterDead = true;
+                            //RecalculateCollision();           //<- FIX THAT SHIET!
+                        }
+
                         break;
                     //Animacja ataku bedzie tam nizej w case StateTypes.Attack, nie tutaj!!
 
@@ -575,6 +583,49 @@ namespace Gra
             Body = null;
 
             base.Destroy();
+        }
+
+        public void RecalculateCollision()
+        { 
+            Vector3 pos = Position;
+            Quaternion orient = Orientation;
+            Node.DetachAllObjects();
+            Engine.Singleton.SceneManager.DestroySceneNode(Node);
+            Engine.Singleton.SceneManager.DestroyEntity(Entity);
+            Body.Dispose();
+            Body = null;           
+
+            Entity = Engine.Singleton.SceneManager.CreateEntity(Profile.MeshName);
+            Node = Engine.Singleton.SceneManager.RootSceneNode.CreateChildSceneNode();
+            Node.AttachObject(Entity);
+
+            ConvexCollision collision = new MogreNewt.CollisionPrimitives.ConvexHull(Engine.Singleton.NewtonWorld,
+                Node,
+                Quaternion.IDENTITY,
+                0.1f,
+                Engine.Singleton.GetUniqueBodyId());
+
+            Vector3 inertia, offset;
+            collision.CalculateInertialMatrix(out inertia, out offset);
+
+            inertia *= Profile.BodyMass;
+
+            Body = new Body(Engine.Singleton.NewtonWorld, collision, true);
+            Body.AttachNode(Node);
+            Body.SetMassMatrix(Profile.BodyMass, inertia);
+            Body.AutoSleep = false;
+
+            Body.Transformed += BodyTransformCallback;
+            Body.ForceCallback += BodyForceCallback;
+            Orientation = orient;
+            Position = pos;
+            Body.UserData = this;
+            Body.MaterialGroupID = Engine.Singleton.MaterialManager.EnemyMaterialID;
+
+            Joint upVector = new MogreNewt.BasicJoints.UpVector(
+            Engine.Singleton.NewtonWorld, Body, Vector3.UNIT_Y);
+
+            collision.Dispose();
         }
     }
 }
