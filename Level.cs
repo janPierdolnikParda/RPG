@@ -77,8 +77,6 @@ namespace Gra
         {
             if (DeleteWithAutoSave)
                 Engine.Singleton.AutoSave(null);
-            else
-                DeleteWithAutoSave = true;
 
             GraphicsNode.DetachAllObjects();
             CollisionNode.DetachAllObjects();

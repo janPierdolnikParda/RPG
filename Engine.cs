@@ -216,16 +216,37 @@ namespace Gra
 
                 if (CurrentLevel.DeleteWithAutoSave)
                     Load(null);
+                else
+                    CurrentLevel.DeleteWithAutoSave = true;
 				
 				HumanController.HUD.ToggleLoadScreen();
             }
         }
 
         public void Load(String Slot)
-        {	
+        {
             if (Slot == null)
                 Slot = "AutoSave";
-            bool WasSaved = System.IO.File.Exists("Saves\\" + Slot +"\\" + Engine.Singleton.CurrentLevel.Name + "\\Saved.xml");
+
+            bool WasSaved;
+
+            if (Slot != "AutoSave")
+            {
+                String fixer;
+                {
+                    XmlDocument File = new XmlDocument();
+                    File.Load("Saves\\" + Slot + "\\Profile.xml");
+
+                    XmlElement root = File.DocumentElement;
+                    XmlNode Item = root.SelectSingleNode("//Profile");
+                    fixer = Item["MapName"].InnerText;
+                }
+                WasSaved = System.IO.File.Exists("Saves\\" + Slot + "\\" + fixer + "\\Saved.xml");
+                Engine.Singleton.CurrentLevel.Name = fixer;
+            }
+
+            else
+                WasSaved = System.IO.File.Exists("Saves\\" + Slot + "\\" + Engine.Singleton.CurrentLevel.Name + "\\Saved.xml");
 
             TriggerManager.RemoveAll();
             while (Engine.Singleton.ObjectManager.Objects.Count > 0)
@@ -240,7 +261,7 @@ namespace Gra
                         break;
                 }
 
-               
+
                 Engine.Singleton.ObjectManager.Destroy(Engine.Singleton.ObjectManager.Objects[q]);
             }
 
@@ -250,10 +271,10 @@ namespace Gra
             //                                                             //
             //*************************************************************//
 
-            if (System.IO.File.Exists("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\Items.xml"))
+            if (System.IO.File.Exists("Saves\\" + Slot + "\\" + CurrentLevel.Name + "\\Items.xml"))
             {
                 XmlDocument File = new XmlDocument();
-                File.Load("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\Items.xml");
+                File.Load("Saves\\" + Slot + "\\" + CurrentLevel.Name + "\\Items.xml");
 
                 XmlElement root = File.DocumentElement;
                 XmlNodeList Items = root.SelectNodes("//items/item");
@@ -277,6 +298,7 @@ namespace Gra
 
                         if (newDescribed.IsContainer && WasSaved)
                         {
+                            Console.WriteLine(newDescribed.Profile.ProfileName);
                             newDescribed.Container.Gold = int.Parse(item["ContainerGold"].InnerText);
 
                             XmlNodeList No_oN = item["ContainerItems"].ChildNodes;
@@ -317,10 +339,10 @@ namespace Gra
             //                                                             //
             //*************************************************************//
 
-            if (System.IO.File.Exists("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\NPCs.xml"))
+            if (System.IO.File.Exists("Saves\\" + Slot + "\\" + CurrentLevel.Name + "\\NPCs.xml"))
             {
                 XmlDocument File = new XmlDocument();
-                File.Load("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\NPCs.xml");
+                File.Load("Saves\\" + Slot + "\\" + CurrentLevel.Name + "\\NPCs.xml");
 
                 XmlElement root = File.DocumentElement;
                 XmlNodeList Items = root.SelectNodes("//npcs//npc");
@@ -367,10 +389,10 @@ namespace Gra
             //                                                             //
             //*************************************************************//
 
-            if (System.IO.File.Exists("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\Enemies.xml"))
+            if (System.IO.File.Exists("Saves\\" + Slot + "\\" + CurrentLevel.Name + "\\Enemies.xml"))
             {
                 XmlDocument File = new XmlDocument();
-                File.Load("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\Enemies.xml");
+                File.Load("Saves\\" + Slot + "\\" + CurrentLevel.Name + "\\Enemies.xml");
 
                 XmlElement root = File.DocumentElement;
                 XmlNodeList Items = root.SelectNodes("//enemies//enemy");
@@ -412,7 +434,7 @@ namespace Gra
             if (WasSaved)
             {
                 XmlDocument File = new XmlDocument();
-                File.Load("Saves\\" + Slot +"\\Profile.xml");
+                File.Load("Saves\\" + Slot + "\\Profile.xml");
 
                 XmlElement root = File.DocumentElement;
                 XmlNode Item = root.SelectSingleNode("//Profile");
@@ -458,7 +480,7 @@ namespace Gra
                 }
             }
 
-            TriggerManager.Load();	
+            TriggerManager.Load();
         }
 
         public bool IsKeyTyped(MOIS.KeyCode code)
