@@ -594,6 +594,8 @@ namespace Gra
         {
             if (Slot == null)
                 Slot = "AutoSave";
+            if (CurrentLevel.Name == "MenuLevel")
+                return;
             XmlTextWriter Saved = new XmlTextWriter("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\Saved.xml", (Encoding)null);
             Saved.WriteStartElement("Saved");
             Saved.WriteStartElement("IsSaved");
