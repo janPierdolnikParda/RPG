@@ -26,6 +26,8 @@ namespace Gra
         FMOD.Sound SoundBGM = null;
 		FMOD.Sound SoundDialog = null;
 
+        public string LastDialog;
+
 
         // czy dany dźwięk jest odtwarzany
         bool IsBGMPlaying = false;
@@ -127,23 +129,34 @@ namespace Gra
 
 		public void PlayDialog(string path)
 		{
-			if (path != null)
-			{
-				string play;
+            if (path != null)
+            {
+                string play;
 
-				play = "Media/Sounds/Dialogs/" + path;
+                play = "Media/Sounds/Dialogs/" + path;
 
-				Result = System.createStream(play, FMOD.MODE.DEFAULT, ref SoundDialog);
+                LastDialog = play;
 
-				Result = System.playSound(FMOD.CHANNELINDEX.REUSE, SoundDialog, false, ref ChannelDialog);
-				Volume = _volume;
-			}
+                Result = System.createStream(play, FMOD.MODE.DEFAULT, ref SoundDialog);
+
+                Result = System.playSound(FMOD.CHANNELINDEX.REUSE, SoundDialog, false, ref ChannelDialog);
+                Volume = _volume;
+            }
+            else
+            {
+                Result = ChannelDialog.setPaused(false);
+            }
 		}
 
 		public void StopDialog()
 		{
             Result = ChannelDialog.stop();
 		}
+
+        public void PauseDialog()
+        {
+            Result = ChannelDialog.setPaused(true);
+        }
 
 		public void PlaySound(string path)
 		{

@@ -73,9 +73,15 @@ namespace Gra
                 pause = value;
 
                 if (pause)
-                    HumanController.SwitchState(Gra.HumanController.HumanControllerState.MENU);
-                else
+                {
                     HumanController.SwitchState(Gra.HumanController.HumanControllerState.FREE);
+                    HumanController.SwitchState(Gra.HumanController.HumanControllerState.MENU);
+
+                }
+                else
+                {
+                    HumanController.SwitchState(Gra.HumanController.HumanControllerState.FREE);
+                }
             }
         }
 

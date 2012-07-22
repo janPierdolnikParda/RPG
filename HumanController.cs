@@ -40,8 +40,8 @@ namespace Gra
         SimpleQuad TalkBox;
         List<TextLabel> TalkLabels;
 
-        HumanControllerState State;
-        HumanTalkState TalkState;
+        public HumanControllerState State;
+        public HumanTalkState TalkState;
 
         List<TalkReply> ValidReplies;
         int SelectedReply = 0;

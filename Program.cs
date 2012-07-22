@@ -175,15 +175,15 @@ namespace Gra
 
                 if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_GRAVE))
                 {
+                    if (Engine.Singleton.HumanController.State == Gra.HumanController.HumanControllerState.TALK)
+                        continue ; 
+                    
                     Engine.Singleton.Pause = !Engine.Singleton.Pause;
                 }
 
                 if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F3))
                 {
-                    if (DebugMode)
-                        DebugMode = false;
-                    else
-                        DebugMode = true;
+                    DebugMode = !DebugMode;
                 }
 
                 if (DebugMode)
