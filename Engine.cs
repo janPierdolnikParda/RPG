@@ -782,6 +782,32 @@ namespace Gra
             Profile.WriteElementString("State", ((int)ch.State).ToString());
             Profile.WriteElementString("MapName", CurrentLevel.Name);
 
+            Profile.WriteStartElement("Quests");
+
+            foreach (Quest q in ch.ActiveQuests.Quests)
+            {
+                Profile.WriteStartElement("BLABLA");
+                Profile.WriteElementString("QuestName", q.Name);
+
+                Profile.WriteStartElement("KilledEnemies");
+
+                List<string> keys = new List<string>(q.KilledEnemies.Keys.ToList());
+                List<int> values = new List<int>(q.KilledEnemies.Values.ToList());
+
+                for (int i = 0; i < keys.Count; i++)
+                {
+                    Profile.WriteStartElement("BLABLA");
+                    
+                    Profile.WriteElementString("EnemyName", keys[i]);
+                    Profile.WriteElementString("Amount", values[i].ToString());
+                    Profile.WriteEndElement();
+                }
+
+                Profile.WriteEndElement();
+            }
+
+            Profile.WriteEndElement();
+
             Profile.WriteEndElement();
             Profile.Flush();
             Profile.Close();
