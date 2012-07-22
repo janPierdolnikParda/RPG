@@ -227,7 +227,14 @@ namespace Gra
           }
 
           foreach (DescribedProfile item2remove in Items2Remove)
+          {
+              if (item2remove.IsEquipment && item2remove is ItemSword)
+              {
+                  Engine.Singleton.HumanController.Character.UnequipSword();
+                  Engine.Singleton.HumanController.Character.Sword = null;
+              }
               Engine.Singleton.HumanController.Character.Inventory.Remove(item2remove);
+          }
 
           if (Engine.Singleton.HumanController.Character.Profile.Gold >= (ulong)PrizePlayerRemove.AmountGold)
               Engine.Singleton.HumanController.Character.Profile.Gold -= (ulong)PrizePlayerRemove.AmountGold;

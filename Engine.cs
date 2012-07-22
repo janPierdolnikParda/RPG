@@ -298,7 +298,6 @@ namespace Gra
 
                         if (newDescribed.IsContainer && WasSaved)
                         {
-                            Console.WriteLine(newDescribed.Profile.ProfileName);
                             newDescribed.Container.Gold = int.Parse(item["ContainerGold"].InnerText);
 
                             XmlNodeList No_oN = item["ContainerItems"].ChildNodes;

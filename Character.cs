@@ -48,7 +48,7 @@ namespace Gra
         public CharacterAnimBlender AnimBlender;
 
         public QuestManager ActiveQuests;
-        public List<Quest> Quests;
+        //public List<Quest> Quests;
 		public ISomethingMoving FocusedEnemy;
 
         // Rozkazy
@@ -262,7 +262,7 @@ namespace Gra
             AnimBlender.SetEntity(Entity);
 
             ActiveQuests = new QuestManager();
-            Quests = new List<Quest>();
+            //Quests = new List<Quest>();
             //QuestsDone = new List<Quest>();
 
             _Statistics = Profile.Statistics.statistics_Clone();
@@ -481,7 +481,6 @@ namespace Gra
             Engine.Singleton.SceneManager.DestroyEntity(SwordEntity);
             _Sword.IsEquipment = false;
             SwordEntity = null;
-
         }
 
         public void EquipSwordToLongswordSheath(ItemSword value)

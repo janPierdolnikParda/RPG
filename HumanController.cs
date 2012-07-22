@@ -1188,7 +1188,7 @@ namespace Gra
                 Console.WriteLine(Character.Position.z);
             }
 
-            if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_B))           // wypisanie w konsoli aktywnych kłestów
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_B))           // wypisanie w konsoli aktywnych kłestów
             {
                 Console.WriteLine("Aktywne Questy: ");
                 foreach (Quest Q in Engine.Singleton.HumanController.Character.ActiveQuests.Quests)
@@ -1200,6 +1200,7 @@ namespace Gra
                     }
 
                 }
+                //Console.WriteLine(Engine.Singleton.HumanController.Character.Quests.Count);
             }
 
             if (Engine.Singleton.Keyboard.IsKeyDown(MOIS.KeyCode.KC_SPACE))       // @@ rozpoczęcie rozmowy

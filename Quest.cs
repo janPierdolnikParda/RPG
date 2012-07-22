@@ -129,7 +129,9 @@ namespace Gra
             }
 
             foreach (DescribedProfile Ajtem in Ajtemy)
+            {                
                 Engine.Singleton.HumanController.Character.Inventory.Remove(Ajtem);
+            }
         }
 
     }
