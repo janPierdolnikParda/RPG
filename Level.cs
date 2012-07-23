@@ -31,7 +31,7 @@ namespace Gra
             GraphicsNode = Engine.Singleton.SceneManager.RootSceneNode.CreateChildSceneNode();
             GraphicsEntity = Engine.Singleton.SceneManager.CreateEntity(meshFile);
             GraphicsNode.AttachObject(GraphicsEntity);
-            GraphicsEntity.CastShadows = false;
+            GraphicsEntity.CastShadows = true;
         }
 
         void SetCollisionMesh(String meshFile)

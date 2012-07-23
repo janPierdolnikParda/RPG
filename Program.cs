@@ -122,10 +122,12 @@ namespace Gra
 			
             //Engine.Singleton.SoundManager.PlayBGM();
 
-            Light light = Engine.Singleton.SceneManager.CreateLight();
-            light.Type = Light.LightTypes.LT_DIRECTIONAL;
-            light.Direction = new Vector3(1, -3, 1).NormalisedCopy;
-            light.DiffuseColour = new ColourValue(0.2f, 0.2f, 0.2f);
+           // Light light = Engine.Singleton.SceneManager.CreateLight();
+           // light.Type = Light.LightTypes.LT_DIRECTIONAL;
+           // light.Direction = new Vector3(1, -3, 1).NormalisedCopy;
+           // light.DiffuseColour = new ColourValue(0.2f, 0.2f, 0.2f);
+
+            Engine.Singleton.SceneManager.AmbientLight = new ColourValue(0.24f, 0.24f, 0.24f);
 
             Engine.Singleton.SceneManager.ShadowTechnique = ShadowTechnique.SHADOWTYPE_STENCIL_MODULATIVE;
 
@@ -149,6 +151,7 @@ namespace Gra
 			Engine.Singleton.GameCamera.Distance = 7;
             Engine.Singleton.GameCamera.Angle = new Degree(33);
 
+            
 
 			String resourceGroupName = "debugger";
 			if (ResourceGroupManager.Singleton.ResourceGroupExists(resourceGroupName) == false)

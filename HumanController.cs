@@ -68,6 +68,19 @@ namespace Gra
 
 		TextLabel ColLabel;
 
+        public bool WIXA_W_KARCZMIE_MODE = false;
+
+        float l1l = 0;
+
+        Light light = Engine.Singleton.SceneManager.CreateLight("hero");
+        Light l1 = Engine.Singleton.SceneManager.CreateLight();
+        Light l2 = Engine.Singleton.SceneManager.CreateLight();
+        Light l3 = Engine.Singleton.SceneManager.CreateLight();
+        Light l4 = Engine.Singleton.SceneManager.CreateLight();
+        Light l5 = Engine.Singleton.SceneManager.CreateLight();
+        Light l6 = Engine.Singleton.SceneManager.CreateLight();
+        Light l7 = Engine.Singleton.SceneManager.CreateLight();
+
         public HumanController()
         {
             TargetLabel = Engine.Singleton.Labeler.NewTextLabel3D("Primitive", 0.04f, new ColourValue(0.7f, 0.4f, 0), new ColourValue(1, 1.0f, 0.6f), 0);
@@ -94,6 +107,58 @@ namespace Gra
             HUDMenu = new HUDMenu();
 
             Mysz = new MOIS.MouseState_NativePtr();
+
+
+            light.Type = Light.LightTypes.LT_POINT;
+            light.Direction = new Vector3(0, -1, 0).NormalisedCopy;
+            light.DiffuseColour = new ColourValue(0.2f, 0.2f, 0.8f);
+            light.SpecularColour = new ColourValue(0.3f, 0.3f, 0.9f);
+           // light.SetAttenuation(10.0f, 0, 5.0f, 10.0f);
+            light.PowerScale = 1.0f;
+
+            l1.Type = Light.LightTypes.LT_POINT;
+            l1.DiffuseColour = new ColourValue(1,0,0);
+            l1.SpecularColour = new ColourValue(1,0,0);
+            l1.PowerScale = 1.0f;
+            l1.Visible = false;
+
+
+            l2.Type = Light.LightTypes.LT_POINT;
+            l2.DiffuseColour = new ColourValue(0, 1, 0);
+            l2.SpecularColour = new ColourValue(0, 1, 0);
+            l2.PowerScale = 1.0f;
+            l2.Visible = false;
+
+            l3.Type = Light.LightTypes.LT_POINT;
+            l3.DiffuseColour = new ColourValue(0, 0, 1);
+            l3.SpecularColour = new ColourValue(0, 0, 1);
+            l3.PowerScale = 1.0f;
+            l3.Visible = false;
+
+            l4.Type = Light.LightTypes.LT_POINT;
+            l4.DiffuseColour = new ColourValue(1, 1, 0);
+            l4.SpecularColour = new ColourValue(1, 1, 0);
+            l4.PowerScale = 1.0f;
+            l4.Visible = false;
+
+            l5.Type = Light.LightTypes.LT_POINT;
+            l5.DiffuseColour = new ColourValue(1, 1, 1);
+            l5.SpecularColour = new ColourValue(1, 1, 1);
+            l5.PowerScale = 1.0f;
+            l5.Visible = false;
+
+            l6.Type = Light.LightTypes.LT_POINT;
+            l6.DiffuseColour = new ColourValue(1, 0, 1);
+            l6.SpecularColour = new ColourValue(1, 0, 1);
+            l6.PowerScale = 1.0f;
+            l6.Visible = false;
+
+            l7.Type = Light.LightTypes.LT_POINT;
+            l7.DiffuseColour = new ColourValue(0, 1, 1);
+            l7.SpecularColour = new ColourValue(0, 1, 1);
+            l7.PowerScale = 1.0f;
+            l7.Visible = false;
+
         }
 
 
@@ -525,6 +590,213 @@ namespace Gra
 					HUDShop.IsVisible = true;
 					HUDShop.UpdateViewAll();
 				}
+
+                light.Position = Character.Position;
+                light.Position *= new Vector3(1, 0, 1);
+                light.Position += new Vector3(0, 2, 0);
+
+                l1.Position = Character.Position;
+                l1.Position *= new Vector3(1, 0, 1);
+                l1.Position += new Vector3(2, 2, 0);
+
+                l2.Position = Character.Position;
+                l2.Position *= new Vector3(1, 0, 1);
+                l2.Position += new Vector3(3, 2, 0);
+
+                l3.Position = Character.Position;
+                l3.Position *= new Vector3(1, 0, 1);
+                l3.Position += new Vector3(0, 2, 3);
+
+                l4.Position = Character.Position;
+                l4.Position *= new Vector3(1, 0, 1);
+                l4.Position += new Vector3(0, 2, 2);
+
+                l5.Position = Character.Position;
+                l5.Position *= new Vector3(1, 0, 1);
+                l5.Position += new Vector3(0, 2, 2);
+
+                l6.Position = Character.Position;
+                l6.Position *= new Vector3(1, 0, 1);
+                l6.Position += new Vector3(1, 2, 2);
+
+                l7.Position = Character.Position;
+                l7.Position *= new Vector3(1, 0, 1);
+                l7.Position += new Vector3(3, 2, 1);
+
+                if (WIXA_W_KARCZMIE_MODE)
+                {
+                    if (l1l < 10)
+                    {
+                        l1.Visible = true;
+                        l2.Visible = false;
+                        l3.Visible = false;
+                        l4.Visible = true;
+                        l5.Visible = true;
+                        l6.Visible = false;
+                        l7.Visible = false;
+                        l1l++;
+                    }
+                    else if (l1l < 20)
+                    {
+                        l1.Visible = false;
+                        l2.Visible = true;
+                        l3.Visible = true;
+                        l4.Visible = false;
+                        l5.Visible = true;
+                        l6.Visible = false;
+                        l7.Visible = true;
+                        l1l++;
+                    }
+                    else if (l1l < 30)
+                    {
+                        l1.Visible = false;
+                        l2.Visible = false;
+                        l3.Visible = true;
+                        l4.Visible = true;
+                        l5.Visible = true;
+                        l6.Visible = true;
+                        l7.Visible = false;
+                        l1l++;
+                    }
+                    else if (l1l < 40)
+                    {
+                        l1.Visible = true;
+                        l2.Visible = false;
+                        l3.Visible = false;
+                        l4.Visible = true;
+                        l5.Visible = false;
+                        l6.Visible = true;
+                        l7.Visible = true;
+                        l1l++;
+                    }
+                    else if (l1l < 45)
+                    {
+                        l1.Visible = true;
+                        l2.Visible = false;
+                        l3.Visible = false;
+                        l4.Visible = false;
+                        l5.Visible = false;
+                        l6.Visible = false;
+                        l7.Visible = false;
+                        l1l++;
+                    }
+                    else if (l1l < 60)
+                    {
+                        l1.Visible = false;
+                        l2.Visible = true;
+                        l3.Visible = false;
+                        l4.Visible = false;
+                        l5.Visible = false;
+                        l6.Visible = false;
+                        l7.Visible = false;
+                        l1l++;
+                    }
+                    else if (l1l < 75)
+                    {
+                        l1.Visible = false;
+                        l2.Visible = false;
+                        l3.Visible = true;
+                        l4.Visible = false;
+                        l5.Visible = false;
+                        l6.Visible = false;
+                        l7.Visible = false;
+                        l1l++;
+                    }
+                    else if (l1l < 90)
+                    {
+                        l1.Visible = false;
+                        l2.Visible = false;
+                        l3.Visible = false;
+                        l4.Visible = true;
+                        l5.Visible = false;
+                        l6.Visible = false;
+                        l7.Visible = false;
+                        l1l++;
+                    }
+                    else if (l1l < 105)
+                    {
+                        l1.Visible = false;
+                        l2.Visible = false;
+                        l3.Visible = false;
+                        l4.Visible = false;
+                        l5.Visible = true;
+                        l6.Visible = false;
+                        l7.Visible = false;
+                        l1l++;
+                    }
+                    else if (l1l < 120)
+                    {
+                        l1.Visible = false;
+                        l2.Visible = false;
+                        l3.Visible = false;
+                        l4.Visible = false;
+                        l5.Visible = false;
+                        l6.Visible = true;
+                        l7.Visible = false;
+                        l1l++;
+                    }
+                    else if (l1l < 135)
+                    {
+                        l1.Visible = false;
+                        l2.Visible = false;
+                        l3.Visible = false;
+                        l4.Visible = false;
+                        l5.Visible = false;
+                        l6.Visible = false;
+                        l7.Visible = true;
+                        l1l++;
+                    }
+                    else if (l1l < 150)
+                    {
+                        l1.Visible = false;
+                        l2.Visible = false;
+                        l3.Visible = true;
+                        l4.Visible = true;
+                        l5.Visible = false;
+                        l6.Visible = false;
+                        l7.Visible = true;
+                        l1l++;
+                    }
+                    else if (l1l < 160)
+                    {
+                        l1.Visible = false;
+                        l2.Visible = false;
+                        l3.Visible = true;
+                        l4.Visible = true;
+                        l5.Visible = true;
+                        l6.Visible = false;
+                        l7.Visible = false;
+                        l1l++;
+                    }
+                    else if (l1l < 170)
+                    {
+                        l1.Visible = false;
+                        l2.Visible = true;
+                        l3.Visible = true;
+                        l4.Visible = false;
+                        l5.Visible = true;
+                        l6.Visible = false;
+                        l7.Visible = false;
+                        l1l++;
+                    }
+                    else
+                    {
+                        l1l = 0;
+                    }
+                    
+                }
+                else
+                {
+                    l1.Visible = false;
+                    l2.Visible = false;
+                    l3.Visible = false;
+                    l4.Visible = false;
+                    l5.Visible = false;
+                    l6.Visible = false;
+                    l7.Visible = false;
+                }
+
+
             }
         }
 
@@ -1109,6 +1381,9 @@ namespace Gra
 				}
 
 			}
+
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_I))
+                WIXA_W_KARCZMIE_MODE = !WIXA_W_KARCZMIE_MODE;
 	
 			if (!InvertMouse)																	// ruszanie kamerą (góra i dół)
 				zmiana = new Degree(Engine.Singleton.Mouse.MouseState.Y.rel * 0.1f * MouseSpeed);
