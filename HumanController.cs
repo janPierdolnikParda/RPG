@@ -851,7 +851,7 @@ namespace Gra
 					object[] args = new object[parameters.Count];
 
 					for (int i = 0; i < parameters.Count; i++)
-						args[i] = parameters.Count;
+						args[i] = parameters[i];
 
 					try
 					{
@@ -861,6 +861,8 @@ namespace Gra
 					catch
 					{
 						Engine.Singleton.IngameConsole.Print("Nie udalo sie wykonac polecenia: " + Engine.Singleton.IngameConsole.Prompt);
+						foreach (object o in args)
+							Engine.Singleton.IngameConsole.Print(o.ToString());
 					}
 					
 				}

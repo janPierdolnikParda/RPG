@@ -12,6 +12,11 @@ namespace Gra
 			Engine.Singleton.SoundManager.PlayDialog("oddawaj_moj_piec.mp3");
 		}
 
+		public static void playSound(string play)
+		{
+			Engine.Singleton.SoundManager.PlaySound(play);
+		}
+
         public static void ZejscieDoPiwnicy()
         {
             Engine.Singleton.CurrentLevel.LoadNewMap = true;

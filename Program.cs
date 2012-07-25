@@ -115,12 +115,12 @@ namespace Gra
 
             //KONIEC MENUUUUUUUUUUUUUUUUUUUUUUUUUUUu
 
-			Engine.Singleton.SoundManager.BGMPlaylist.Add("title.mp3");
-			Engine.Singleton.SoundManager.BGMPlaylist.Add("Folk Round.mp3");
-			Engine.Singleton.SoundManager.BGMPlaylist.Add("Achaidh Cheide.mp3");
-			Engine.Singleton.SoundManager.BGMPlaylist.Add("Thatched Villagers.mp3");
-			
-            //Engine.Singleton.SoundManager.PlayBGM();
+			//Engine.Singleton.SoundManager.BGMPlaylist.Add("title.mp3");
+			//Engine.Singleton.SoundManager.BGMPlaylist.Add("Folk Round.mp3");
+			//Engine.Singleton.SoundManager.BGMPlaylist.Add("Achaidh Cheide.mp3");
+			//Engine.Singleton.SoundManager.BGMPlaylist.Add("Thatched Villagers.mp3");
+
+            // Engine.Singleton.SoundManager.PlayBGM();
 
            // Light light = Engine.Singleton.SceneManager.CreateLight();
            // light.Type = Light.LightTypes.LT_DIRECTIONAL;

@@ -20,11 +20,13 @@ namespace Gra
         // czanele
         FMOD.Channel ChannelBGM = null;
 		FMOD.Channel ChannelDialog = null;
+		FMOD.Channel ChannelSound = null;
 
 
         // aktualnie wybrane do odtwarzania dźwięki
         FMOD.Sound SoundBGM = null;
 		FMOD.Sound SoundDialog = null;
+		FMOD.Sound SoundSound = null;
 
         public string LastDialog;
 
@@ -45,6 +47,7 @@ namespace Gra
 
 			ChannelBGM = new FMOD.Channel();
 			ChannelDialog = new FMOD.Channel();
+			ChannelSound = new FMOD.Channel();
 			
         }
 
@@ -166,10 +169,23 @@ namespace Gra
 
 				play = "Media/Sounds/" + path;
 
-				Result = System.createStream(play, FMOD.MODE.DEFAULT, ref SoundDialog);
+				Result = System.createStream(play, FMOD.MODE.DEFAULT, ref SoundSound);
 
-				Result = System.playSound(FMOD.CHANNELINDEX.REUSE, SoundDialog, false, ref ChannelDialog);
+				Result = System.playSound(FMOD.CHANNELINDEX.REUSE, SoundSound, false, ref ChannelSound);
 				Volume = _volume;
+			}
+		}
+
+		public void CheckPlaylist()
+		{
+			if (IsBGMPlaying)
+			{
+				uint len = 0, pos = 0;
+				SoundBGM.getLength(ref len, FMOD.TIMEUNIT.MS);
+				ChannelBGM.getPosition(ref pos, FMOD.TIMEUNIT.MS);
+
+				if (len == pos)
+					NextBGM();
 			}
 		}
 

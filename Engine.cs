@@ -171,6 +171,7 @@ namespace Gra
 			IngameConsole.AddCommand("dupa", "soundOddawajPiec");
 			IngameConsole.AddCommand("tp", "ZejscieDoPiwnicy");
 			IngameConsole.AddCommand("exit", "Exit");
+			IngameConsole.AddCommand("play", "playSound");
 
         }
 
@@ -198,6 +199,8 @@ namespace Gra
             Labeler.Update();
 			IngameConsole.Update();
 
+			SoundManager.CheckPlaylist();
+
             while (TimeAccumulator >= FixedTimeStep)
             {
                 TypedInput.Update();
@@ -212,11 +215,8 @@ namespace Gra
                 
                 HumanController.Update();
                 TimeAccumulator -= FixedTimeStep;
-
-                        //// mjuzik status i ogarnięcie żeby przełączało na następną piosenkę z plejlisty po zakończeniu poprzedniej
-
-
             }
+
             WindowEventUtilities.MessagePump();
 
             if (CurrentLevel.LoadNewMap)
