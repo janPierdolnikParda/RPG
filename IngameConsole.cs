@@ -25,6 +25,8 @@ namespace Gra
         public List<string> Lines = new List<string>();
         public string Prompt;
 
+		public List<string> Used = new List<string>();
+		public int UsedId = -1;
 
         public Dictionary<string, string> Commands = new Dictionary<string,string>();
 
@@ -40,6 +42,8 @@ namespace Gra
 
 			Bg = Engine.Singleton.Labeler.NewSimpleQuad("ConsoleMat", 0, 0, 1, 0.5f, ColourValue.ZERO, 3);
 			Textbox = Engine.Singleton.Labeler.NewTextLabel("Console", 0.03f, ColourValue.Black, ColourValue.Black, 4);
+
+			LogManager.Singleton.DefaultLog.MessageLogged += new LogListener.MessageLoggedHandler(MessageLogged);
 
             Initialized = true; 
         }

@@ -170,6 +170,7 @@ namespace Gra
 			IngameConsole.Init();
 			IngameConsole.AddCommand("dupa", "soundOddawajPiec");
 			IngameConsole.AddCommand("tp", "ZejscieDoPiwnicy");
+			IngameConsole.AddCommand("exit", "Exit");
 
         }
 

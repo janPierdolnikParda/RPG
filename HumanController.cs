@@ -253,7 +253,6 @@ namespace Gra
 				if (newState == HumanControllerState.CONSOLE)
 				{
 					Engine.Singleton.IngameConsole.Visible = true;
-					Console.WriteLine(Engine.Singleton.IngameConsole.Visible.ToString());
 				}
             }
             else if (State == HumanControllerState.TALK)
@@ -861,7 +860,7 @@ namespace Gra
 					}
 					catch
 					{
-						Engine.Singleton.IngameConsole.Print("Nie udalo sie wykonac polecenia");
+						Engine.Singleton.IngameConsole.Print("Nie udalo sie wykonac polecenia: " + Engine.Singleton.IngameConsole.Prompt);
 					}
 					
 				}
@@ -869,12 +868,54 @@ namespace Gra
 				{
 					Engine.Singleton.IngameConsole.Print("Nie ma takiej funkcji: " + Engine.Singleton.IngameConsole.Prompt);
 				}
-				
+
+				Engine.Singleton.IngameConsole.Used.Add(Engine.Singleton.IngameConsole.Prompt);
+
+				Engine.Singleton.IngameConsole.UsedId = -1;
 				Engine.Singleton.IngameConsole.Prompt = "";
 			}
 
 			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_BACK))
-				Engine.Singleton.IngameConsole.Prompt.Remove(Engine.Singleton.IngameConsole.Prompt.Length - 1, 1);
+			{
+				string s = "";
+				for (int i = 0; i < Engine.Singleton.IngameConsole.Prompt.Length - 1; i++)
+				{
+					s += Engine.Singleton.IngameConsole.Prompt[i];
+				}
+				Engine.Singleton.IngameConsole.Prompt = s;
+
+			}
+
+			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_UP))
+			{
+				if (Engine.Singleton.IngameConsole.UsedId < Engine.Singleton.IngameConsole.Used.Count - 1)
+				{
+					Engine.Singleton.IngameConsole.UsedId++;
+				}
+
+				if (Engine.Singleton.IngameConsole.UsedId < 0)
+					Engine.Singleton.IngameConsole.UsedId = 0;
+				else if (Engine.Singleton.IngameConsole.UsedId > Engine.Singleton.IngameConsole.Used.Count - 1)
+					Engine.Singleton.IngameConsole.UsedId = Engine.Singleton.IngameConsole.Used.Count - 1;
+
+				Engine.Singleton.IngameConsole.Prompt = Engine.Singleton.IngameConsole.Used[Engine.Singleton.IngameConsole.Used.Count - 1 - Engine.Singleton.IngameConsole.UsedId];
+			}
+
+			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_DOWN))
+			{
+				Engine.Singleton.IngameConsole.UsedId--;
+
+				if (Engine.Singleton.IngameConsole.UsedId == -1)
+				{
+					Engine.Singleton.IngameConsole.Prompt = "";
+				}
+				else if (Engine.Singleton.IngameConsole.UsedId >= 0)
+				{
+					Engine.Singleton.IngameConsole.Prompt = Engine.Singleton.IngameConsole.Used[Engine.Singleton.IngameConsole.Used.Count - 1 - Engine.Singleton.IngameConsole.UsedId];
+				}
+				
+				
+			}
 
 			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_PGUP))
 				if (Engine.Singleton.IngameConsole.Start_line > 0)

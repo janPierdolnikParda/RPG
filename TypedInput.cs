@@ -22,8 +22,6 @@ namespace Gra
 		{
 			Text = (char)arg.text;
 			last = arg.key;
-			Console.WriteLine(Text);
-
 			return true;
 		}
         public void Update()

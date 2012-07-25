@@ -50,6 +50,11 @@ namespace Gra
 			Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["sSword"]);
 		}
 
+		public static void Exit()
+		{
+			Engine.Singleton.GameEnder = true;
+		}
+
         public static void Null()
         {
         }
