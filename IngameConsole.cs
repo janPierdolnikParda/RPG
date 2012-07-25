@@ -13,7 +13,7 @@ namespace Gra
         public bool Visible;
         bool Initialized;
 
-		const int CONSOLE_LINE_LENGTH = 85;
+		const int CONSOLE_LINE_LENGTH = 90;
 		const int CONSOLE_LINE_COUNT = 15;
 
 		SimpleQuad Bg;

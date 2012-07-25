@@ -861,8 +861,6 @@ namespace Gra
 					catch
 					{
 						Engine.Singleton.IngameConsole.Print("Nie udalo sie wykonac polecenia: " + Engine.Singleton.IngameConsole.Prompt);
-						foreach (object o in args)
-							Engine.Singleton.IngameConsole.Print(o.ToString());
 					}
 					
 				}
