@@ -208,6 +208,7 @@ namespace Gra
 				*/
             }
 
+			Engine.Singleton.IngameConsole.Exit();
             Engine.Singleton.Root.Dispose();
 
         }

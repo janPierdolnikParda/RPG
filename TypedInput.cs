@@ -10,14 +10,22 @@ namespace Gra
         int KeysCount;
         public bool[] IsKeyTyped;
         float[] KeyDownTime;
-
+		public char Text;
+		public MOIS.KeyCode last;
         public TypedInput()
         {
             KeysCount = (int)(Enum.GetValues(typeof(MOIS.KeyCode)) as MOIS.KeyCode[]).Max();
             IsKeyTyped = new bool[KeysCount];
             KeyDownTime = new float[KeysCount];
         }
+		public bool onKeyPressed(MOIS.KeyEvent arg)
+		{
+			Text = (char)arg.text;
+			last = arg.key;
+			Console.WriteLine(Text);
 
+			return true;
+		}
         public void Update()
         {
             for (int keyCode = 0; keyCode < KeysCount; keyCode++)

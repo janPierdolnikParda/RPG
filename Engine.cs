@@ -88,6 +88,8 @@ namespace Gra
         public bool Mysza;        
         public MOIS.MouseButtonID Przycisk;
 
+		public IngameConsole IngameConsole;
+
         public void Initialise()
         {
             Root = new Root();
@@ -126,8 +128,8 @@ namespace Gra
 
             InputManager = MOIS.InputManager.CreateInputSystem(pl);
 
-            Keyboard = (MOIS.Keyboard)InputManager.CreateInputObject(MOIS.Type.OISKeyboard, false);
-            Mouse = (MOIS.Mouse)InputManager.CreateInputObject(MOIS.Type.OISMouse, true);
+            Keyboard = (MOIS.Keyboard)InputManager.CreateInputObject(MOIS.Type.OISKeyboard, true);
+			Mouse = (MOIS.Mouse)InputManager.CreateInputObject(MOIS.Type.OISMouse, true);
 
 			NewtonWorld = new World();
             NewtonDebugger = new Debugger(NewtonWorld);
@@ -156,13 +158,19 @@ namespace Gra
             SoundManager = new SoundManager();
 
             Dialog = new Dialog();
-
             Mysz = new MOIS.MouseState_NativePtr();
 			Conversations = new Conversations();
             
             TriggerManager = new TriggerManager();
 
+			Engine.Singleton.Keyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(TypedInput.onKeyPressed);
             Mouse.MouseReleased += new MOIS.MouseListener.MouseReleasedHandler(MouseReleased);
+
+			IngameConsole = new IngameConsole();
+			IngameConsole.Init();
+			IngameConsole.AddCommand("dupa", "soundOddawajPiec");
+			IngameConsole.AddCommand("tp", "ZejscieDoPiwnicy");
+
         }
 
         public bool MouseReleased(MOIS.MouseEvent e, MOIS.MouseButtonID button)
@@ -187,6 +195,7 @@ namespace Gra
             Mouse.Capture();
             Root.RenderOneFrame();
             Labeler.Update();
+			IngameConsole.Update();
 
             while (TimeAccumulator >= FixedTimeStep)
             {

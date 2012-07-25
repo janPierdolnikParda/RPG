@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 using Mogre;
 
 namespace Gra
@@ -18,7 +19,8 @@ namespace Gra
             ATTACK,
             MENU,
             STATS,
-            CREATOR_STATS
+            CREATOR_STATS,
+			CONSOLE
         }
 
         public enum HumanTalkState
@@ -247,6 +249,12 @@ namespace Gra
                 {
                     HUDShop.IsVisible = true;
                 }
+
+				if (newState == HumanControllerState.CONSOLE)
+				{
+					Engine.Singleton.IngameConsole.Visible = true;
+					Console.WriteLine(Engine.Singleton.IngameConsole.Visible.ToString());
+				}
             }
             else if (State == HumanControllerState.TALK)
             {
@@ -298,6 +306,11 @@ namespace Gra
             {
                 HUDNewCharacterStats.IsVisible = false;
             }
+			else if (State == HumanControllerState.CONSOLE)
+			{
+				if (newState == HumanControllerState.FREE)
+					Engine.Singleton.IngameConsole.Visible = false;
+			}
 
 
             State = newState;
@@ -547,37 +560,39 @@ namespace Gra
 
 
 
-                if (State == HumanControllerState.FREE)
-                {
-                    HandleMovement();
-                    HUD.IsVisible = true;
-                }
-                else if (State == HumanControllerState.TALK)
-                    HandleConversation();
-                else if (State == HumanControllerState.INVENTORY)
-                    HandleInventory();
-                else if (State == HumanControllerState.CONTAINER)
-                    HandleContainer();
-                else if (State == HumanControllerState.SHOP)
-                    HandleShop();
-                else if (State == HumanControllerState.ATTACK)
-                {
-                    //FightInterface show!
-                    HUD.IsVisible = true;
-                    HUD.DrawEnemyHP = true;
-                    HUD.DrawLog = true;
-                    HandleAttack();
+				if (State == HumanControllerState.FREE)
+				{
+					HandleMovement();
+					HUD.IsVisible = true;
+				}
+				else if (State == HumanControllerState.TALK)
+					HandleConversation();
+				else if (State == HumanControllerState.INVENTORY)
+					HandleInventory();
+				else if (State == HumanControllerState.CONTAINER)
+					HandleContainer();
+				else if (State == HumanControllerState.SHOP)
+					HandleShop();
+				else if (State == HumanControllerState.ATTACK)
+				{
+					//FightInterface show!
+					HUD.IsVisible = true;
+					HUD.DrawEnemyHP = true;
+					HUD.DrawLog = true;
+					HandleAttack();
 
-                }
+				}
 
-                else if (State == HumanControllerState.STATS)
-                    HandleStats();
+				else if (State == HumanControllerState.STATS)
+					HandleStats();
 
-                else if (State == HumanControllerState.MENU)
-                    HandleMenu();
+				else if (State == HumanControllerState.MENU)
+					HandleMenu();
 
-                else if (State == HumanControllerState.CREATOR_STATS)
-                    HandleCreatorStats();
+				else if (State == HumanControllerState.CREATOR_STATS)
+					HandleCreatorStats();
+				else if (State == HumanControllerState.CONSOLE)
+					HandleConsole();
 
 				if (InitShop)
 				{
@@ -799,6 +814,91 @@ namespace Gra
 
             }
         }
+
+		void HandleConsole()
+		{
+			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F12))
+				SwitchState(HumanControllerState.FREE);
+
+			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_RETURN) && Engine.Singleton.IngameConsole.Prompt.Length > 0)
+			{
+				string str = Engine.Singleton.IngameConsole.Prompt;
+				List<string> parameters = new List<string>();
+				string param = "";
+
+				for (int i = 0; i < str.Length; i++)
+				{
+					if (str[i] == ' ')
+					{
+						if (param.Length > 0)
+							parameters.Add(param);
+						param = "";
+					}
+					else
+						param += str[i];
+				}
+
+				if (param.Length > 0)
+					parameters.Add(param);
+
+				if (Engine.Singleton.IngameConsole.Commands.ContainsKey(parameters[0]))
+				{
+					System.Type type = System.Type.GetType("Gra.Activators");
+					object instance = Activator.CreateInstance(type);
+					MethodInfo mi = type.GetMethod(Engine.Singleton.IngameConsole.Commands[parameters[0]]);
+
+					parameters.RemoveAt(0);
+
+					object[] args = new object[parameters.Count];
+
+					for (int i = 0; i < parameters.Count; i++)
+						args[i] = parameters.Count;
+
+					try
+					{
+						mi.Invoke(instance, args);
+						Engine.Singleton.IngameConsole.Print("Wykonano: " + Engine.Singleton.IngameConsole.Prompt);
+					}
+					catch
+					{
+						Engine.Singleton.IngameConsole.Print("Nie udalo sie wykonac polecenia");
+					}
+					
+				}
+				else
+				{
+					Engine.Singleton.IngameConsole.Print("Nie ma takiej funkcji: " + Engine.Singleton.IngameConsole.Prompt);
+				}
+				
+				Engine.Singleton.IngameConsole.Prompt = "";
+			}
+
+			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_BACK))
+				Engine.Singleton.IngameConsole.Prompt.Remove(Engine.Singleton.IngameConsole.Prompt.Length - 1, 1);
+
+			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_PGUP))
+				if (Engine.Singleton.IngameConsole.Start_line > 0)
+					Engine.Singleton.IngameConsole.Start_line--;
+
+			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_PGDOWN))
+			{
+				if (Engine.Singleton.IngameConsole.Start_line < Engine.Singleton.IngameConsole.Lines.Count)
+					Engine.Singleton.IngameConsole.Start_line++;
+			}
+			if (Engine.Singleton.IsKeyTyped(Engine.Singleton.TypedInput.last))
+			{
+				string legalchars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890+!\"#%&/()=?[]\\*-_.:,; ";
+				for (int i = 0; i < legalchars.Length; i++)
+				{
+					if (legalchars[i] == Engine.Singleton.TypedInput.Text)
+					{
+						Engine.Singleton.IngameConsole.Prompt += Engine.Singleton.TypedInput.Text;
+						break;
+					}
+				}
+			}
+			Engine.Singleton.IngameConsole.Update_overlay = true;
+		}
 
         private void HandleCreatorStats()
         {
@@ -1562,6 +1662,9 @@ namespace Gra
             }
             else
                 Character.MoveOrderBack = false;
+
+			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F12))
+				SwitchState(HumanControllerState.CONSOLE);
 
             if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_COMMA))     // poprzednia piosenka
                 Engine.Singleton.SoundManager.PreviousBGM();
