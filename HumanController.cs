@@ -609,6 +609,8 @@ namespace Gra
                 light.Position *= new Vector3(1, 0, 1);
                 light.Position += new Vector3(0, 2, 0);
 
+				light.Visible = false;
+
                 l1.Position = Character.Position;
                 l1.Position *= new Vector3(1, 0, 1);
                 l1.Position += new Vector3(2, 2, 0);
@@ -858,9 +860,10 @@ namespace Gra
 						mi.Invoke(instance, args);
 						Engine.Singleton.IngameConsole.Print("Wykonano: " + Engine.Singleton.IngameConsole.Prompt);
 					}
-					catch
+					catch (Exception e)
 					{
 						Engine.Singleton.IngameConsole.Print("Nie udalo sie wykonac polecenia: " + Engine.Singleton.IngameConsole.Prompt);
+						Engine.Singleton.IngameConsole.Print(" !!: " + e.Message);
 					}
 					
 				}

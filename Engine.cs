@@ -172,7 +172,7 @@ namespace Gra
 			IngameConsole.AddCommand("tp", "ZejscieDoPiwnicy");
 			IngameConsole.AddCommand("exit", "Exit");
 			IngameConsole.AddCommand("play", "playSound");
-
+			IngameConsole.AddCommand("map", "ChangeMap");
         }
 
         public bool MouseReleased(MOIS.MouseEvent e, MOIS.MouseButtonID button)
@@ -221,6 +221,7 @@ namespace Gra
 
             if (CurrentLevel.LoadNewMap)
             {
+				Engine.Singleton.IngameConsole.Print("Ladowanie mapy: " + CurrentLevel.NewMapName);
 				HumanController.HUD.ToggleLoadScreen();
 				Root.RenderOneFrame();
                 HumanController.Character.Contact = null;                

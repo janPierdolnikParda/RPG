@@ -12,6 +12,15 @@ namespace Gra
 			Engine.Singleton.SoundManager.PlayDialog("oddawaj_moj_piec.mp3");
 		}
 
+		public static void ChangeMap(string name = "Karczma", string nav = "Karczmanav", string x = "0", string y = "0", string z = "0")
+		{
+			Engine.Singleton.CurrentLevel.LoadNewMap = true;
+            Engine.Singleton.CurrentLevel.NewMapName = name;
+            Engine.Singleton.CurrentLevel.NewMapNav = nav;
+            Engine.Singleton.HumanController.Character.Position = new Mogre.Vector3(float.Parse(x), float.Parse(y), float.Parse(z));
+		}
+
+
 		public static void playSound(string play)
 		{
 			Engine.Singleton.SoundManager.PlaySound(play);
