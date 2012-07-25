@@ -38,27 +38,7 @@ namespace Gra
 			Start_line = 0;
             Height = 1;
 
-           // Rect = new Rectangle2D(true);
-          //  Rect.SetCorners(-1, 1, 1, 1 - Height);
-          //  Rect.SetMaterial("ConsoleMat");
-          //  Rect.RenderQueueGroup = 1;
-         //   Rect.BoundingBox = new AxisAlignedBox(-100000.0f * Vector3.UNIT_SCALE, 100000.0f * Vector3.UNIT_SCALE);
-           
-		//	Node = Engine.Singleton.SceneManager.RootSceneNode.CreateChildSceneNode("#Console");
-           // Node.AttachObject(Rect);
-
-           // Textbox = OverlayManager.Singleton.CreateOverlayElement("TextArea", "ConsoleText");
-          //  Textbox.Caption = "Tu mozemy wpisac cokolwiek...";
-          //  Textbox.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-         //   Textbox.SetPosition(0, 0);
-          //  Textbox.SetParameter("font_name", "Console");
-         //   Textbox.SetParameter("colour_top", "1 1 1");
-          //  Textbox.SetParameter("colour_bottom", "1 1 1");
-          //  Textbox.SetParameter("char_height", "0.03");
-            
-			//Textbox.Hide();
-
-			Bg = Engine.Singleton.Labeler.NewSimpleQuad("ConsoleMat", 0, 0, 1, 0.5f, ColourValue.White, 3);
+			Bg = Engine.Singleton.Labeler.NewSimpleQuad("ConsoleMat", 0, 0, 1, 0.5f, ColourValue.ZERO, 3);
 			Textbox = Engine.Singleton.Labeler.NewTextLabel("Console", 0.03f, ColourValue.Black, ColourValue.Black, 4);
 
             Initialized = true; 
@@ -103,12 +83,6 @@ namespace Gra
 			Update_overlay = true;
         }
 
-		public virtual bool FrameStarted(FrameEvent evt) 
-		{
-			//Update(evt);
-			return true;
-		}
-
 		public void Update()
 		{
 			if (Visible && Height < 1)
@@ -130,7 +104,6 @@ namespace Gra
 			if (Visible)
 			{
 				Textbox.SetPosition(0, (Height - 1) * 0.5f);
-				//Rect.SetCorners(-1, 1 + Height, 1, 1 - Height);
 
 				if (Update_overlay)
 				{
@@ -160,17 +133,10 @@ namespace Gra
 
 					text += "] " + Prompt;
 					Textbox.Caption = text;
-					Console.WriteLine(">" + text + "<");
+
 					Update_overlay = false;
 				}
 			}
-		}
-
-		
-
-		public virtual bool FrameEnded(FrameEvent evt)
-		{
-			return true;
 		}
 
         public void AddCommand(string command, string func)
