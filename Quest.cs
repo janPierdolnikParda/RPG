@@ -26,6 +26,8 @@ namespace Gra
 
         public bool isDone;
 
+        public String questID;
+
         public Quest()
         {
             BringItems = new Dictionary<String, int>();
@@ -133,6 +135,5 @@ namespace Gra
                 Engine.Singleton.HumanController.Character.Inventory.Remove(Ajtem);
             }
         }
-
     }
 }

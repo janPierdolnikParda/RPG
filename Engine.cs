@@ -493,6 +493,58 @@ namespace Gra
                     CurrentLevel.LoadNewMap = true;
                     CurrentLevel.NewMapName = Item["MapName"].InnerText;
                     CurrentLevel.NewMapNav = "Karczmanav";
+
+                    Gra.Quests.Reload();
+
+                    XmlNodeList quests = Item["Quests"].ChildNodes;
+
+                    foreach (XmlNode quest in quests)
+                    {
+                        Quest q = Gra.Quests.Q[quest["QuestName"].InnerText];
+                        q.IsFinished = bool.Parse(quest["IsFinished"].InnerText);
+                        q.KilledEnemies.Clear();
+
+                        XmlNodeList killedEnemies = quest["KilledEnemies"].ChildNodes;
+
+                        foreach (XmlNode killedEnemy in killedEnemies)
+                        {
+                            q.KilledEnemies.Add(killedEnemy["EnemyName"].InnerText, int.Parse(killedEnemy["Amount"].InnerText));
+                        }
+
+                        ch.ActiveQuests.Add(Gra.Quests.Q[quest["QuestName"].InnerText]);
+                    }
+                }
+            }
+
+            //*************************************************************//
+            //                                                             //
+            //                           DIALOGI                           //
+            //                                                             //
+            //*************************************************************//
+
+            if (Slot != "AutoSave")
+            {
+                XmlDocument File = new XmlDocument();
+                File.Load("Saves\\" + Slot + "\\Dialogi.xml");
+
+                XmlElement root = File.DocumentElement;
+                XmlNodeList Items = root.SelectNodes("//Dialogi//Dialog");
+
+                foreach (XmlNode Item in Items)
+                {
+                    String id = Item["DialogID"].InnerText;
+                    Dialog d = Conversations.D[id];
+
+                    XmlNodeList talkEdges = Item["TalkEdges"].ChildNodes;
+
+                    foreach (XmlNode talkEdge in talkEdges)
+                    {
+                        String edgeid = talkEdge["EdgeID"].InnerText;
+                        TalkEdge e = d.Edges[edgeid];
+
+                        e.FirstTalk = bool.Parse(talkEdge["FirstTalk"].InnerText);
+                        e.Other = bool.Parse(talkEdge["Other"].InnerText);
+                    }
                 }
             }
 
@@ -806,7 +858,8 @@ namespace Gra
             foreach (Quest q in ch.ActiveQuests.Quests)
             {
                 Profile.WriteStartElement("BLABLA");
-                Profile.WriteElementString("QuestName", q.Name);
+                Profile.WriteElementString("QuestName", q.questID);
+                Profile.WriteElementString("IsFinished", q.IsFinished.ToString());
 
                 Profile.WriteStartElement("KilledEnemies");
 
@@ -831,6 +884,39 @@ namespace Gra
             Profile.Flush();
             Profile.Close();
 
+
+            //*************************************************************//
+            //                                                             //
+            //                           DIALOGI                           //
+            //                                                             //
+            //*************************************************************//
+
+            XmlTextWriter Dialogi = new XmlTextWriter("Saves\\" + Slot + "\\Dialogi.xml", (Encoding)null);
+
+            Dialogi.WriteStartElement("Dialogi");
+
+            foreach (Dialog d in Conversations.D.Values)
+            {
+                Dialogi.WriteStartElement("Dialog");
+                Dialogi.WriteElementString("DialogID", d.ID);
+
+                Dialogi.WriteStartElement("TalkEdges");
+                foreach (TalkEdge e in d.Edges.Values)
+                {
+                    Dialogi.WriteStartElement("BLABLA_XD");
+                    Dialogi.WriteElementString("EdgeID", e.ID);
+                    Dialogi.WriteElementString("FirstTalk", e.FirstTalk.ToString());
+                    Dialogi.WriteElementString("Other", e.Other.ToString());
+                    Dialogi.WriteEndElement();
+                }
+                Dialogi.WriteEndElement();
+
+                Dialogi.WriteEndElement();
+            }
+
+            Dialogi.WriteEndElement();
+            Dialogi.Flush();
+            Dialogi.Close();
         }
 
         public void CopyAll(DirectoryInfo source, DirectoryInfo target)

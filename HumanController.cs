@@ -1615,7 +1615,13 @@ namespace Gra
                     if (!Q.IsFinished)
                     {
                         Console.Write("- ");
-                        Console.Write(Q.Name + "\n");
+                        Console.Write(Q.Name);
+
+                        if (Q.isDone)                        
+                            Console.Write(" DONE \n");                        
+
+                        else
+                            Console.Write(" NOTdone \n");
                     }
 
                 }

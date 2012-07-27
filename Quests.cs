@@ -13,6 +13,11 @@ namespace Gra
 
         public Quests()
         {
+            Reload();
+        }
+
+        public static void Reload()
+        {
             Q = new Dictionary<String, Quest>();
 
             if (File.Exists("Media\\Others\\Quests.xml"))
@@ -30,7 +35,7 @@ namespace Gra
 
                     XmlNodeList Enemies = item["Enemies"].ChildNodes;
 
-                    foreach(XmlNode e in Enemies)
+                    foreach (XmlNode e in Enemies)
                     {
                         justQuest.KillEnemies.Add(e["EnemyID"].InnerText, int.Parse(e["EnemyAmount"].InnerText));
                         justQuest.KilledEnemies.Add(e["EnemyID"].InnerText, 0);
@@ -42,6 +47,8 @@ namespace Gra
                     {
                         justQuest.BringItems.Add(i["ItemID"].InnerText, int.Parse(i["ItemAmount"].InnerText));
                     }
+
+                    justQuest.questID = item["QuestID"].InnerText;
 
                     Q.Add(item["QuestID"].InnerText, justQuest);
                 }
