@@ -170,11 +170,13 @@ namespace Gra
 			IngameConsole.Init();
 			IngameConsole.AddCommand("dupa", "soundOddawajPiec");
 			IngameConsole.AddCommand("tp", "ZejscieDoPiwnicy");
-			IngameConsole.AddCommand("exit", "Exit");
-			IngameConsole.AddCommand("play", "playSound");
+			IngameConsole.AddCommand("exit", "Exit", "Wychodzi z gry. Ale odkrywcze. Super. Musze sprawdzic jak sie zachowa konsola przy duzej dlugosci linii xD llllllllllllllllllllllllllllllllllllllllllllmmmmmmmmmmmmmmmmmmmmmiiiiiiiiiiiiiiii");
+			IngameConsole.AddCommand("play", "playSound", "Odtwarza dzwiek. Skladnia: play <sciezka do pliku>. Np. play other/haa.mp3");
 			IngameConsole.AddCommand("map", "ChangeMap");
             IngameConsole.AddCommand("save", "SaveGame");
             IngameConsole.AddCommand("load", "LoadGame");
+			IngameConsole.AddCommand("help", "ConsoleHelp");
+			IngameConsole.AddCommand("h", "CommandHelp");
         }
 
         public bool MouseReleased(MOIS.MouseEvent e, MOIS.MouseButtonID button)

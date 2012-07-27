@@ -24,11 +24,15 @@ namespace Gra
         public int Start_line;
         public List<string> Lines = new List<string>();
         public string Prompt;
+		public string LastCommand;
 
 		public List<string> Used = new List<string>();
 		public int UsedId = -1;
 
         public Dictionary<string, string> Commands = new Dictionary<string,string>();
+		public Dictionary<string, string> Help = new Dictionary<string, string>();
+
+		public List<string> Keys;
 
 		public IngameConsole()
 		{
@@ -68,7 +72,7 @@ namespace Gra
 				else if (line.Length >= CONSOLE_LINE_LENGTH)
 				{
 					Lines.Add(line);
-					line = " >";
+					line = " >" + text[i];
 				}
 				else if (text[i] != '\n')
 					line += text[i];
@@ -143,14 +147,20 @@ namespace Gra
 			}
 		}
 
-        public void AddCommand(string command, string func)
+        public void AddCommand(string command, string func, string help = "")
         {
 			Commands.Add(command, func);
+			Help.Add(command, help);
+
+			Keys = Commands.Keys.ToList();
+			Keys.Sort();
+
         }
 
         public void RemoveCommand(string command)
         {
 			Commands.Remove(command);
+			Help.Remove(command);
         }
 
         public void MessageLogged(string message, LogMessageLevel lml, bool maskDebug, string logName)

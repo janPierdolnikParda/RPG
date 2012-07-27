@@ -858,7 +858,8 @@ namespace Gra
 					try
 					{
 						mi.Invoke(instance, args);
-						Engine.Singleton.IngameConsole.Print("Wykonano: " + Engine.Singleton.IngameConsole.Prompt);
+						Engine.Singleton.IngameConsole.LastCommand = Engine.Singleton.IngameConsole.Prompt;
+						//Engine.Singleton.IngameConsole.Print("Wykonano: " + Engine.Singleton.IngameConsole.Prompt);
 					}
 					catch (Exception e)
 					{

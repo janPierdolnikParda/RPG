@@ -20,19 +20,59 @@ namespace Gra
             Engine.Singleton.HumanController.Character.Position = new Mogre.Vector3(float.Parse(x), float.Parse(y), float.Parse(z));
 		}
 
+		public static void ConsoleHelp()
+		{
+			
+			string text = "Dostepne komendy: ";
+			
+			foreach (string s in Engine.Singleton.IngameConsole.Keys)
+				text += s + ", ";
+
+			string t = "";
+			for (int i = 0; i < text.Length - 2; i++)
+				t += text[i];
+
+			Engine.Singleton.IngameConsole.Print(t+"\nAby uzyskac szczegolowe informacje o ktorejs z komend wpisz: h <komenda>");
+
+			
+		}
+
+		public static void CommandHelp(string c)
+		{
+			if (c == "" || c == null)
+			{
+				Engine.Singleton.IngameConsole.Print("= help: Brak pomocy dla danej komendy (" + c + ").");
+			}
+			else if (Engine.Singleton.IngameConsole.Commands.Keys.Contains(c) && Engine.Singleton.IngameConsole.Help[c] != "")
+			{
+
+				string text = "Rozszerzona pomoc dla komendy (" + c + "): " + Engine.Singleton.IngameConsole.Help[c];
+
+
+				Engine.Singleton.IngameConsole.Print(text);
+			}
+			else
+			{
+				Engine.Singleton.IngameConsole.Print("= help: Brak pomocy dla danej komendy (" + c + ").");
+			}
+		}
+
         public static void SaveGame(string SlotName = "QuickSave")
         {
             Engine.Singleton.AutoSave(SlotName);
+			Engine.Singleton.IngameConsole.Print("Zapisano gre (" + SlotName + ")");
         }
 
         public static void LoadGame(string SlotName = "QuickSave")
         {
             Engine.Singleton.Load(SlotName);
+			Engine.Singleton.IngameConsole.Print("Wczytano gre (" + SlotName + ")");
         }
 
 		public static void playSound(string play)
 		{
 			Engine.Singleton.SoundManager.PlaySound(play);
+			Engine.Singleton.IngameConsole.Print("Odtworzono dzwiek (" + play + ")");
 		}
 
         public static void ZejscieDoPiwnicy()
