@@ -173,6 +173,8 @@ namespace Gra
 			IngameConsole.AddCommand("exit", "Exit");
 			IngameConsole.AddCommand("play", "playSound");
 			IngameConsole.AddCommand("map", "ChangeMap");
+            IngameConsole.AddCommand("save", "SaveGame");
+            IngameConsole.AddCommand("load", "LoadGame");
         }
 
         public bool MouseReleased(MOIS.MouseEvent e, MOIS.MouseButtonID button)
@@ -665,6 +667,12 @@ namespace Gra
                 Slot = "AutoSave";
             if (CurrentLevel.Name == "MenuLevel")
                 return;
+            if (!Directory.Exists("Saves\\" + Slot))
+            {
+                Directory.CreateDirectory("Saves\\" + Slot);
+                CopyAll(new DirectoryInfo("Media\\Maps"), new DirectoryInfo("Saves\\" + Slot));                
+            }
+
             XmlTextWriter Saved = new XmlTextWriter("Saves\\" + Slot +"\\" + CurrentLevel.Name + "\\Saved.xml", (Encoding)null);
             Saved.WriteStartElement("Saved");
             Saved.WriteStartElement("IsSaved");

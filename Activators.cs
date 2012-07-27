@@ -20,6 +20,15 @@ namespace Gra
             Engine.Singleton.HumanController.Character.Position = new Mogre.Vector3(float.Parse(x), float.Parse(y), float.Parse(z));
 		}
 
+        public static void SaveGame(string SlotName = "QuickSave")
+        {
+            Engine.Singleton.AutoSave(SlotName);
+        }
+
+        public static void LoadGame(string SlotName = "QuickSave")
+        {
+            Engine.Singleton.Load(SlotName);
+        }
 
 		public static void playSound(string play)
 		{
