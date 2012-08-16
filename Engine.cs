@@ -552,6 +552,36 @@ namespace Gra
                 }
             }
 
+            //*************************************************************//
+            //                                                             //
+            //                         WAYPOINTS                           //
+            //                                                             //
+            //*************************************************************//
+
+            Engine.Singleton.CurrentLevel.WayPoints.Clear();
+
+            if (System.IO.File.Exists("Media\\Maps\\" + CurrentLevel.Name + "\\Waypoints.xml"))
+            {
+                XmlDocument File = new XmlDocument();
+                File.Load("Media\\Maps\\" + CurrentLevel.Name + "\\Waypoints.xml");
+
+                XmlElement root = File.DocumentElement;
+                XmlNodeList Items = root.SelectNodes("//waypoints//waypoint");
+
+                foreach (XmlNode item in Items)
+                {
+                    WayPoint newWP = new WayPoint();
+                    newWP.DisplayName = item["DisplayName"].InnerText;
+                    Vector3 pos = new Vector3(float.Parse(item["Position_x"].InnerText),
+                                              float.Parse(item["Position_y"].InnerText),
+                                              float.Parse(item["Position_z"].InnerText));
+                    newWP.Position = pos;
+
+                    Engine.Singleton.CurrentLevel.WayPoints.Add(newWP);
+                    Engine.Singleton.ObjectManager.Add(newWP);
+                }
+            }
+
             TriggerManager.Load();
         }
 

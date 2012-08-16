@@ -15,6 +15,7 @@ namespace Gra
         public MaterialID DescribedMaterialID;
         public MaterialID CharacterSensorMaterialID;
         public MaterialID EnemyMaterialID;
+        public MaterialID WaypointMaterialID;
 
         MaterialPair TriggerVolumeCharacterPair;
         MaterialPair CharacterSensorPair;
@@ -24,7 +25,11 @@ namespace Gra
         MaterialPair DescribedTriggerVolumePair;
         MaterialPair EnemyTriggerVolumePair;
 		MaterialPair EnemySensorPair;
-
+        MaterialPair WaypointCharacterPair;
+        MaterialPair WaypointTriggerPair;
+        MaterialPair WaypointDescribedPair;
+        MaterialPair WaypointEnemyPair;
+        MaterialPair WaypointSensorPair;
 
         public void Initialise()
         {
@@ -34,6 +39,7 @@ namespace Gra
             DescribedMaterialID = new MaterialID(Engine.Singleton.NewtonWorld);
             CharacterSensorMaterialID = new MaterialID(Engine.Singleton.NewtonWorld);
             EnemyMaterialID = new MaterialID(Engine.Singleton.NewtonWorld);
+            WaypointMaterialID = new MaterialID(Engine.Singleton.NewtonWorld);
 
             TriggerVolumeCharacterPair = new MaterialPair(
                 Engine.Singleton.NewtonWorld,
@@ -75,6 +81,31 @@ namespace Gra
 				Engine.Singleton.NewtonWorld,
 				EnemyMaterialID, CharacterSensorMaterialID);
 			EnemySensorPair.SetContactCallback(new SensorGameObjectCallback());
+
+            WaypointCharacterPair = new MaterialPair(
+                Engine.Singleton.NewtonWorld,
+                WaypointMaterialID, CharacterMaterialID);
+            WaypointCharacterPair.SetContactCallback(new IgnoreCollisionCallback());
+
+            WaypointTriggerPair = new MaterialPair(
+                Engine.Singleton.NewtonWorld,
+                WaypointMaterialID, TriggerVolumeMaterialID);
+            WaypointTriggerPair.SetContactCallback(new IgnoreCollisionCallback());
+
+            WaypointEnemyPair = new MaterialPair(
+                Engine.Singleton.NewtonWorld,
+                WaypointMaterialID, EnemyMaterialID);
+            WaypointEnemyPair.SetContactCallback(new IgnoreCollisionCallback());
+
+            WaypointDescribedPair = new MaterialPair(
+                Engine.Singleton.NewtonWorld,
+                WaypointMaterialID, DescribedMaterialID);
+            WaypointDescribedPair.SetContactCallback(new IgnoreCollisionCallback());
+
+            WaypointSensorPair = new MaterialPair(
+                Engine.Singleton.NewtonWorld,
+                WaypointMaterialID, CharacterSensorMaterialID);
+            WaypointSensorPair.SetContactCallback(new IgnoreCollisionCallback());
 
         }
 

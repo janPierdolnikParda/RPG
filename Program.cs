@@ -145,6 +145,7 @@ namespace Gra
             Engine.Singleton.HumanController.Character = player;
 
             Engine.Singleton.CurrentLevel = new Level();
+            Engine.Singleton.CurrentLevel.WayPoints = new List<WayPoint>();
             Engine.Singleton.CurrentLevel.LoadLevel("MenuLevel", "KarczmaNav", true); // MENU LVL
 
             Engine.Singleton.GameCamera.Character = player;

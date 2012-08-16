@@ -26,6 +26,8 @@ namespace Gra
         public String NewMapName;
         public String NewMapNav;
 
+        public List<WayPoint> WayPoints;
+
         void SetGraphicsMesh(String meshFile)
         {
             GraphicsNode = Engine.Singleton.SceneManager.RootSceneNode.CreateChildSceneNode();
