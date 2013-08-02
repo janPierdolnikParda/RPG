@@ -1,0 +1,6 @@
+C:\Users\Lenovo\Documents\GitHub\RPG\obj\x86\Debug\FirstApp.csprojResolveAssemblyReference.cache
+C:\Users\Lenovo\Documents\GitHub\RPG\bin\Debug\FirstApp.exe.config
+C:\Users\Lenovo\Documents\GitHub\RPG\bin\Debug\FirstApp.exe
+C:\Users\Lenovo\Documents\GitHub\RPG\bin\Debug\FirstApp.pdb
+C:\Users\Lenovo\Documents\GitHub\RPG\obj\x86\Debug\FirstApp.exe
+C:\Users\Lenovo\Documents\GitHub\RPG\obj\x86\Debug\FirstApp.pdb

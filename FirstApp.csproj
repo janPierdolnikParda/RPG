@@ -150,6 +150,7 @@
     <Compile Include="TriggerManager.cs" />
     <Compile Include="TriggerVolume.cs" />
     <Compile Include="TypedInput.cs" />
+    <Compile Include="WayPoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
