@@ -211,7 +211,10 @@ namespace Gra
 
                 if (!Pause)
                 {
-                    NewtonWorld.Update(FixedTimeStep);                    
+                    for (int i = 0; i < 4; i++)
+                    {
+                        NewtonWorld.Update(FixedTimeStep / 4.0f);
+                    }                  
 
                     ObjectManager.Update();
                     GameCamera.Update();
