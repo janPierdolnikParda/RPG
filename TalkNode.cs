@@ -198,14 +198,14 @@ namespace Gra
       public void GivePrizeNPC()
       {
           foreach (DescribedProfile item in PrizeNPC.ItemsList)
-              WhoSays.Inventory.Add(item);
+              WhoSays.Inventory.Add(item.Clone());
           WhoSays.Profile.Gold += (ulong)PrizeNPC.AmountGold;
       }
 
       public void GivePrizePlayer()
       {
           foreach (DescribedProfile item in PrizePlayer.ItemsList)
-              Engine.Singleton.HumanController.Character.Inventory.Add(item);
+              Engine.Singleton.HumanController.Character.Inventory.Add(item.Clone());
           Engine.Singleton.HumanController.Character.Profile.Gold += (ulong)PrizePlayer.AmountGold;
           Engine.Singleton.HumanController.Character.Profile.Exp += PrizePlayer.AmountExp;
       }

@@ -234,7 +234,7 @@ namespace Gra
             while (Engine.Singleton.HumanController.Character.Inventory.Count > 0)
                 Engine.Singleton.HumanController.Character.Inventory.RemoveAt(0);
 
-            Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["iSwieczka"]);
+            Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["iSwieczka"].Clone());
             Engine.Singleton.HumanController.ToggleHud();
             Engine.Singleton.HumanController.HUDNewCharacterStats = new HUDNewCharacterStats();
             //Engine.Singleton.HumanController.SwitchState(HumanController.HumanControllerState.CREATOR_STATS);

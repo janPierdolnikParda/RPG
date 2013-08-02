@@ -394,7 +394,7 @@ namespace Gra
                         XmlNodeList inv = item["Inventory"].ChildNodes;
                         foreach (XmlNode invItem in inv)
                         {
-                            Inventory.Add(Gra.Items.I[invItem["InventoryItem"].InnerText]);
+                            Inventory.Add(Gra.Items.I[invItem["InventoryItem"].InnerText].Clone());
                         }
                         newCharacter.Inventory = Inventory;
                     }
@@ -482,7 +482,7 @@ namespace Gra
 
                 foreach (XmlNode invItem in invItems)
                 {
-                    ch.Inventory.Add(Gra.Items.I[invItem["ProfileName"].InnerText]);
+                    ch.Inventory.Add(Gra.Items.I[invItem["ProfileName"].InnerText].Clone());
 
                     if (bool.Parse(invItem["IsEquipment"].InnerText))
                     {

@@ -110,7 +110,7 @@ namespace Gra
 		public static void DajMieczZeSciany()
 		{
 			Engine.Singleton.ObjectManager.Destroy(Engine.Singleton.HumanController.FocusObject);
-			Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["sSword"]);
+			Engine.Singleton.HumanController.Character.Inventory.Add(Items.I["sSword"].Clone());
 		}
 
 		public static void Exit()

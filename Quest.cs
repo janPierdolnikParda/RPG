@@ -106,7 +106,7 @@ namespace Gra
             Engine.Singleton.HumanController.Character.Profile.Exp += QuestPrize.AmountExp;
 
             foreach (DescribedProfile I in QuestPrize.ItemsList)
-                Engine.Singleton.HumanController.Character.Inventory.Add(I);
+                Engine.Singleton.HumanController.Character.Inventory.Add(I.Clone());
         }
 
         public void RemoveItems()

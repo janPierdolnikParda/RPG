@@ -1098,7 +1098,7 @@ namespace Gra
                                     HUDShop.Shop.Gold -= (int)CenaSprzedazy;
                                     Character.Profile.Gold += (ulong)CenaSprzedazy;
                                     HUDShop.Shop.Items.Add(Character.Inventory[HUDShop.SelectedOne]);
-                                    HUDShop.Shop.WhoSays.Inventory.Add(Character.Inventory[HUDShop.SelectedOne]);
+                                    HUDShop.Shop.WhoSays.Inventory.Add(Character.Inventory[HUDShop.SelectedOne].Clone());
                                     HUDShop.Shop.WhoSays.Profile.Gold -= (ulong)CenaSprzedazy;
                                     Character.Inventory.RemoveAt(HUDShop.SelectedOne);
                                     HUDShop.AktywnaStrona = 0;
@@ -1144,7 +1144,7 @@ namespace Gra
                                     Character.Profile.Gold -= (ulong)CenaKupna;
                                     HUDShop.Shop.Gold += (int)CenaKupna;
                                     HUDShop.Shop.WhoSays.Profile.Gold += (ulong)CenaKupna;
-                                    Character.Inventory.Add(HUDShop.Shop.Items[HUDShop.SelectedOne]);
+                                    Character.Inventory.Add(HUDShop.Shop.Items[HUDShop.SelectedOne].Clone());
                                     HUDShop.Shop.Items.RemoveAt(HUDShop.SelectedOne);
                                     HUDShop.Shop.WhoSays.Inventory.RemoveAt(HUDShop.SelectedOne);
                                     HUDShop.AktywnaStrona = 0;
@@ -1448,7 +1448,7 @@ namespace Gra
             {
                 if (HUDContainer.ActiveEq == 1 && HUDContainer.SelectIndex2 != -1)
                 {
-                    Character.Inventory.Add(HUDContainer.Container.Contains[HUDContainer.SelectIndex2]);
+                    Character.Inventory.Add(HUDContainer.Container.Contains[HUDContainer.SelectIndex2].Clone());
                     HUDContainer.Container.Contains.RemoveAt(HUDContainer.SelectIndex2);
                     HUDContainer.SelectIndex2 = 0;
                 }

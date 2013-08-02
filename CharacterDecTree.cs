@@ -44,7 +44,7 @@ namespace Gra
               new DecTree.Assert(ch => ch.PickingTarget == null || !ch.PickingTarget.Exists),
               new DecTree.Job(ch =>
               {
-                  ch.Inventory.Add(ch.PickingTarget.Profile);
+                  ch.Inventory.Add(ch.PickingTarget.Profile.Clone());
                   Engine.Singleton.ObjectManager.Destroy(ch.PickingTarget);
                   ch.PickingTarget = null;
                   return true; // #3.1
