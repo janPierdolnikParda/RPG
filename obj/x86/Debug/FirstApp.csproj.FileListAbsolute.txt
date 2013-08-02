@@ -4,3 +4,9 @@ C:\Users\Lenovo\Documents\GitHub\RPG\bin\Debug\FirstApp.exe
 C:\Users\Lenovo\Documents\GitHub\RPG\bin\Debug\FirstApp.pdb
 C:\Users\Lenovo\Documents\GitHub\RPG\obj\x86\Debug\FirstApp.exe
 C:\Users\Lenovo\Documents\GitHub\RPG\obj\x86\Debug\FirstApp.pdb
+H:\Documents and Settings\Dominik\Moje dokumenty\GitHub\RPG\bin\Debug\FirstApp.exe.config
+H:\Documents and Settings\Dominik\Moje dokumenty\GitHub\RPG\obj\x86\Debug\FirstApp.exe
+H:\Documents and Settings\Dominik\Moje dokumenty\GitHub\RPG\obj\x86\Debug\FirstApp.pdb
+H:\Documents and Settings\Dominik\Moje dokumenty\GitHub\RPG\bin\Debug\FirstApp.exe
+H:\Documents and Settings\Dominik\Moje dokumenty\GitHub\RPG\bin\Debug\FirstApp.pdb
+H:\Documents and Settings\Dominik\Moje dokumenty\GitHub\RPG\obj\x86\Debug\ResolveAssemblyReference.cache
