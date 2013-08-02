@@ -11,7 +11,7 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <StartWorkingDirectory>H:\Documents and Settings\Dominik\Pulpit\c#\c#\GAME!\Srodowisko\</StartWorkingDirectory>
+    <StartWorkingDirectory>C:\Users\Lenovo\Desktop\c#\c#\GAME!\Srodowisko\</StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <StartWorkingDirectory>H:\Documents and Settings\Dominik\Pulpit\c#\c#\GAME!\Srodowisko\</StartWorkingDirectory>
