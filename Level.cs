@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Mogre;
 using MogreNewt;
+using System.Xml;
 
 namespace Gra
 {
@@ -27,6 +28,7 @@ namespace Gra
         public String NewMapNav;
 
         public List<WayPoint> WayPoints;
+        public bool ShowWayPoints = true;
 
         void SetGraphicsMesh(String meshFile)
         {
@@ -85,6 +87,17 @@ namespace Gra
             Body.Dispose();
             Engine.Singleton.SceneManager.RootSceneNode.RemoveChild(GraphicsNode);
             Engine.Singleton.SceneManager.RootSceneNode.RemoveChild(CollisionNode);
+        }
+
+        public void ToggleWaypoints()
+        {
+            ShowWayPoints = !ShowWayPoints;
+
+            foreach (WayPoint WP in WayPoints)
+            {
+                WP.Entity.Visible = ShowWayPoints;
+                WP.Exists = ShowWayPoints;
+            }
         }
     }
 }

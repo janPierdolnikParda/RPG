@@ -1506,6 +1506,11 @@ namespace Gra
                 }
             }
 
+            if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F4))
+            {
+                Engine.Singleton.CurrentLevel.ToggleWaypoints();
+            }
+
             if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_F5))  // quick save
             {
                 if (System.IO.Directory.Exists("Saves\\QuickSave"))
