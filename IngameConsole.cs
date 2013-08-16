@@ -58,7 +58,7 @@ namespace Gra
                 return;
         }
 
-		public void Print(string text)
+		public void Print(string text, bool ogre = false)
         {
 			string line = "";
 
@@ -89,6 +89,9 @@ namespace Gra
 				Start_line = 0;
 
 			Update_overlay = true;
+
+			if (!ogre)
+				Mogre.LogManager.Singleton.LogMessage("CON: " + text);
         }
 
 		public void Update()
@@ -165,7 +168,8 @@ namespace Gra
 
         public void MessageLogged(string message, LogMessageLevel lml, bool maskDebug, string logName)
         {
-            Print(logName + ": " + message);
+            if (!message.StartsWith("CON: "))
+				Print(logName + ": " + message, true);
         }
 
         public void LoadCommands()

@@ -823,6 +823,8 @@ namespace Gra
 
 			if (Engine.Singleton.IsKeyTyped(MOIS.KeyCode.KC_RETURN) && Engine.Singleton.IngameConsole.Prompt.Length > 0)
 			{
+				Mogre.LogManager.Singleton.LogMessage("CON: >" + Engine.Singleton.IngameConsole.Prompt);
+
 				string str = Engine.Singleton.IngameConsole.Prompt;
 				List<string> parameters = new List<string>();
 				string param = "";
